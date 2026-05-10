@@ -1,0 +1,102 @@
+{
+  "id": "INS-1778413653479",
+  "projectName": "",
+  "building": "2",
+  "room": "101",
+  "inspectionTime": "2026-05-10T11:44",
+  "safety": [
+    {
+      "name": "临时用电",
+      "result": "无隐患",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "临边防护",
+      "result": "无隐患",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "灭火器",
+      "result": "不涉及",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "水枪水带",
+      "result": "不涉及",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "登高作业",
+      "result": "存在问题",
+      "photos": [
+        "INS-1778413653479_safety5_1.png"
+      ],
+      "description": ""
+    },
+    {
+      "name": "动火作业",
+      "result": "不涉及",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "卫生情况",
+      "result": "不涉及",
+      "photos": [],
+      "description": ""
+    }
+  ],
+  "progress": {},
+  "inspections": {
+    "lightSteel": {
+      "inspector": "罗钰弘",
+      "result": "不合格",
+      "photos": []
+    },
+    "waterproof": {
+      "inspector": "罗钰弘",
+      "result": "合格",
+      "photos": []
+    },
+    "waterStore": {
+      "inspector": "罗钰弘",
+      "result": "合格",
+      "photos": []
+    },
+    "wallBase": {
+      "inspector": "罗钰弘",
+      "result": "合格",
+      "photos": []
+    }
+  },
+  "inspectionPhotos": [],
+  "tile": {
+    "person": "",
+    "time": "",
+    "hollow": "",
+    "height": "",
+    "vertical": "",
+    "flatness": "",
+    "corner": ""
+  },
+  "putty": {
+    "person": "",
+    "time": "",
+    "ceiling": "",
+    "corner": "",
+    "vertical": "",
+    "flatness": "",
+    "lines": "",
+    "straightness": ""
+  },
+  "bathroom": {
+    "inspector": "",
+    "result": "合格",
+    "photos": []
+  },
+  "createdAt": "2026/5/10 19:47:33"
+}
