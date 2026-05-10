@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>装修巡检验收系统</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Sans SC',sans-serif;background:#f5f6f8;color:#111827;line-height:1.6;padding-bottom:80px}
@@ -587,10 +588,20 @@ body{font-family:'Noto Sans SC',sans-serif;background:#f5f6f8;color:#111827;line
 <label class="form-label">活码名称</label>
 <input type="text" class="form-input" id="qrName" placeholder="如：A栋巡检">
 </div>
-<div class="qr-box">
-<canvas id="qrCanvas" width="150" height="150" style="border-radius:8px;background:white"></canvas>
+<div class="form-group">
+<label class="form-label">网站地址（GitHub Pages）</label>
+<input type="text" class="form-input" id="qrUrl" placeholder="https://用户名.github.io/仓库名">
+</div>
+<div class="qr-box" id="qrbox">
+<div id="qrcode"></div>
 </div>
 <button class="download-btn" onclick="downloadQR()">下载二维码</button>
+<div style="margin-top:12px;padding:10px;background:#f0f9ff;border-radius:6px;font-size:12px;color:#0369a1">
+<strong>使用说明：</strong><br>
+1. 将网站部署到 GitHub Pages<br>
+2. 打印二维码贴在巡查点<br>
+3. 巡查人员扫码即可填写表单
+</div>
 </div>
 </div>
 </div>
@@ -844,22 +855,33 @@ container.innerHTML=html;
 }
 
 function drawQR(){
-var canvas=document.getElementById('qrCanvas');
-var ctx=canvas.getContext('2d');
-ctx.fillStyle='white';
-ctx.fillRect(0,0,150,150);
-ctx.fillStyle='#2563eb';
-ctx.fillRect(10,10,40,40);ctx.fillRect(100,10,40,40);ctx.fillRect(10,100,40,40);
-ctx.fillStyle='white';
-ctx.fillRect(17,17,26,26);ctx.fillRect(107,17,26,26);ctx.fillRect(17,107,26,26);
-ctx.fillStyle='#2563eb';
-ctx.fillRect(22,22,16,16);ctx.fillRect(112,22,16,16);ctx.fillRect(22,112,16,16);
-ctx.fillStyle='#2563eb';
-ctx.fillRect(55,55,40,40);
+var qrUrl=document.getElementById('qrUrl').value.trim();
+if(!qrUrl){
+document.getElementById('qrcode').innerHTML='<div style="padding:40px;text-align:center;color:#9ca3af;font-size:13px">请输入网站地址<br>生成二维码</div>';
+return;
+}
+document.getElementById('qrcode').innerHTML='';
+new QRCode(document.getElementById('qrcode'),{
+text:qrUrl,
+width:180,
+height:180,
+colorDark:'#2563eb',
+colorLight:'#ffffff',
+correctLevel:QRCode.CorrectLevel.H
+});
 }
 
 function downloadQR(){
-var canvas=document.getElementById('qrCanvas');
+var qrUrl=document.getElementById('qrUrl').value.trim();
+if(!qrUrl){
+showToast('请先输入网站地址','error');
+return;
+}
+var canvas=document.querySelector('#qrcode canvas');
+if(!canvas){
+showToast('请先生成二维码','error');
+return;
+}
 var link=document.createElement('a');
 link.download=(document.getElementById('qrName').value||'巡检二维码')+'.png';
 link.href=canvas.toDataURL('image/png');
