@@ -1,0 +1,126 @@
+{
+  "id": "INS-1778417415125",
+  "projectName": "中能建装饰",
+  "building": "1",
+  "room": "2501",
+  "inspectionTime": "2026-05-10T12:38",
+  "safety": [
+    {
+      "name": "临时用电",
+      "result": "存在问题",
+      "photos": [
+        "INS-1778417415125_safety1_1.png"
+      ],
+      "description": "私拉乱接"
+    },
+    {
+      "name": "临边防护",
+      "result": "不涉及",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "灭火器",
+      "result": "不涉及",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "水枪水带",
+      "result": "不涉及",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "登高作业",
+      "result": "不涉及",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "动火作业",
+      "result": "存在问题",
+      "photos": [
+        "INS-1778417415125_safety6_1.png"
+      ],
+      "description": ""
+    },
+    {
+      "name": "卫生情况",
+      "result": "无隐患",
+      "photos": [],
+      "description": ""
+    }
+  ],
+  "progress": {
+    "轻钢龙骨": "40",
+    "石膏板封板": "30",
+    "防水施工": "50",
+    "地砖施工": "30",
+    "墙砖施工": "50",
+    "一遍腻子": "40",
+    "二遍腻子": "50",
+    "腻子打磨": "30",
+    "涂料施工": "50",
+    "自流平": "30",
+    "地板施工": "50",
+    "户内门施工": "40",
+    "墙布施工": "60",
+    "橱柜施工": "30",
+    "淋浴屏施工": "40",
+    "台面施工": "30",
+    "五金洁具施工": "30"
+  },
+  "inspections": {
+    "lightSteel": {
+      "inspector": "罗钰弘",
+      "result": "合格",
+      "photos": [
+        "INS-1778417415125_lightSteel_1.png"
+      ]
+    },
+    "waterproof": {
+      "inspector": "罗钰弘",
+      "result": "",
+      "photos": []
+    },
+    "waterStore": {
+      "inspector": "罗钰弘",
+      "result": "",
+      "photos": []
+    },
+    "wallBase": {
+      "inspector": "",
+      "result": "",
+      "photos": []
+    }
+  },
+  "inspectionPhotos": [],
+  "tile": {
+    "person": "罗钰弘",
+    "time": "",
+    "hollow": "90%",
+    "height": "+3",
+    "vertical": "-4",
+    "flatness": "3",
+    "corner": "2"
+  },
+  "putty": {
+    "person": "罗钰弘",
+    "time": "",
+    "ceiling": "2",
+    "corner": "3",
+    "vertical": "2",
+    "flatness": "3",
+    "lines": "4",
+    "straightness": "2"
+  },
+  "bathroom": {
+    "inspector": "罗钰弘",
+    "result": "不合格",
+    "photos": [
+      "INS-1778417415125_bathroom_1.png"
+    ]
+  },
+  "createdAt": "2026/5/10 20:50:15"
+}
