@@ -1,0 +1,14 @@
+# Excel reports (auto-generated)
+*.xlsx
+*.xls
+
+# Temporary files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
