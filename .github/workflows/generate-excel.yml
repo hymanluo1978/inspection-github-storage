@@ -11,10 +11,14 @@ on:
 jobs:
   generate-report:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
         
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -28,9 +32,11 @@ jobs:
         run: python scripts/generate_report.py
           
       - name: Commit and push report
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add -A
           git diff --staged --quiet || git commit -m "Auto-update: Excel report $(date +'%Y-%m-%d %H:%M')"
-          git push
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:main
