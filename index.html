@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>施工质检巡检系统</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <style>
+        :root {
+            --primary: #0f4c81;
+            --success: #10b981;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans SC', sans-serif; background: var(--bg); min-height: 100vh; }
+        .container { max-width: 480px; margin: 0 auto; padding: 16px 12px 100px; }
+        .header { text-align: center; padding: 20px; background: linear-gradient(135deg, var(--primary) 0%, #1a6aa5 100%); margin: -16px -12px 16px; border-radius: 0 0 20px 20px; color: white; }
+        .header h1 { font-size: 20px; margin-bottom: 6px; }
+        .header p { font-size: 12px; opacity: 0.8; }
+        .card { background: var(--card-bg); border-radius: 16px; padding: 20px; margin-bottom: 12px; border: 1px solid var(--border); }
+        .card-title { font-size: 14px; font-weight: 600; margin-bottom: 16px; color: var(--text); }
+        .form-group { margin-bottom: 16px; }
+        .form-label { display: block; font-size: 12px; color: var(--text-light); margin-bottom: 6px; }
+        .form-input { width: 100%; padding: 12px; font-size: 14px; border: 2px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text); font-family: inherit; }
+        .form-input:focus { outline: none; border-color: var(--primary); }
+        select.form-input { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 36px; }
+        textarea.form-input { min-height: 80px; resize: vertical; }
+        .upload-area { border: 2px dashed var(--border); border-radius: 12px; padding: 24px; text-align: center; cursor: pointer; margin-bottom: 12px; }
+        .upload-area:hover { border-color: var(--primary); }
+        .upload-text { font-size: 14px; color: var(--text); }
+        .preview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .preview-item { aspect-ratio: 1; border-radius: 8px; overflow: hidden; position: relative; }
+        .preview-item img { width: 100%; height: 100%; object-fit: cover; }
+        .preview-item .remove-btn { position: absolute; top: 2px; right: 2px; width: 20px; height: 20px; background: rgba(0,0,0,0.6); border: none; border-radius: 50%; color: white; font-size: 12px; }
+        .nav-tabs { display: flex; gap: 4px; background: var(--bg); border-radius: 10px; padding: 4px; margin-bottom: 16px; }
+        .nav-tab { flex: 1; padding: 10px; font-size: 12px; border: none; border-radius: 8px; background: transparent; color: var(--text-light); }
+        .nav-tab.active { background: white; color: var(--primary); font-weight: 600; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .submit-btn { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); width: calc(100% - 24px); padding: 14px; font-size: 15px; font-weight: 600; color: white; background: linear-gradient(135deg, var(--primary) 0%, #1a6aa5 100%); border: none; border-radius: 12px; cursor: pointer; }
+        .submit-btn:disabled { background: #94a3b8; }
+        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 12px 20px; border-radius: 10px; color: white; font-size: 13px; z-index: 1000; opacity: 0; transition: all 0.3s; }
+        .toast.show { opacity: 1; }
+        .toast.success { background: var(--success); }
+        .toast.error { background: var(--danger); }
+        .config-section { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+        .config-toggle { display: flex; justify-content: space-between; cursor: pointer; padding: 10px 0; font-size: 12px; color: var(--text-light); }
+        .config-content { display: none; margin-top: 12px; }
+        .config-content.show { display: block; }
+        .data-table { width: 100%; font-size: 12px; border-collapse: collapse; }
+        .data-table th, .data-table td { padding: 8px; border-bottom: 1px solid var(--border); }
+        .data-table th { background: var(--bg); font-weight: 600; }
+        .empty-state { text-align: center; padding: 30px; color: var(--text-light); }
+        .qrcode-preview { text-align: center; padding: 20px; }
+        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.9); display: none; align-items: center; justify-content: center; z-index: 999; }
+        .loading-overlay.show { display: flex; }
+        .spinner { width: 40px; height: 40px; border: 4px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .required { color: var(--danger); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>施工质检巡检系统</h1>
+            <p>扫码填写 · 自动存储</p>
+        </header>
+
+        <nav class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('form')">填写表单</button>
+            <button class="nav-tab" onclick="showTab('records')">历史记录</button>
+            <button class="nav-tab" onclick="showTab('qrcode')">活码生成</button>
+        </nav>
+
+        <div id="tab-form" class="tab-content active">
+            <div class="card">
+                <div class="card-title">基本信息</div>
+                <div class="form-group"><label class="form-label">巡检日期<span class="required">*</span></label><input type="date" id="inspectionDate" class="form-input"></div>
+                <div class="form-group"><label class="form-label">巡检地点<span class="required">*</span></label><input type="text" id="location" class="form-input" placeholder="请输入巡检地点"></div>
+                <div class="form-group"><label class="form-label">巡检人员<span class="required">*</span></label><input type="text" id="inspector" class="form-input" placeholder="请输入巡检人员"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">施工质量检查</div>
+                <div class="form-group"><label class="form-label">检查项目<span class="required">*</span></label><select id="checkItem" class="form-input"><option value="">请选择</option><option value="主体结构">主体结构</option><option value="二次结构">二次结构</option><option value="装饰装修">装饰装修</option><option value="机电安装">机电安装</option><option value="给排水">给排水</option><option value="消防设施">消防设施</option></select></div>
+                <div class="form-group"><label class="form-label">检查结果<span class="required">*</span></label><select id="checkResult" class="form-input"><option value="">请选择</option><option value="合格">✓ 合格</option><option value="待整改">⚠ 待整改</option><option value="不合格">✗ 不合格</option></select></div>
+                <div class="form-group"><label class="form-label">问题描述</label><textarea id="issueDesc" class="form-input" placeholder="请描述问题"></textarea></div>
+                <div class="form-group"><label class="form-label">整改要求</label><textarea id="rectifyReq" class="form-input" placeholder="请填写整改要求"></textarea></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">现场照片</div>
+                <div class="upload-area" onclick="document.getElementById('fileInput').click()"><div class="upload-text">点击上传照片</div></div>
+                <input type="file" id="fileInput" accept="image/*" multiple hidden onchange="handleFiles(this.files)">
+                <div class="preview-grid" id="previewGrid"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">备注信息</div>
+                <textarea id="remarks" class="form-input" placeholder="其他说明"></textarea>
+            </div>
+
+            <div class="card config-section">
+                <div class="config-toggle" onclick="toggleConfig()">GitHub 配置</div>
+                <div class="config-content" id="configContent">
+                    <div class="form-group"><label class="form-label">仓库 Owner</label><input type="text" id="configOwner" class="form-input" placeholder="GitHub 用户名"></div>
+                    <div class="form-group"><label class="form-label">仓库名称</label><input type="text" id="configRepo" class="form-input" placeholder="仓库名"></div>
+                    <div class="form-group"><label class="form-label">GitHub Token</label><input type="password" id="configToken" class="form-input" placeholder="ghp_xxx"></div>
+                    <button class="submit-btn" style="position:static;transform:none;width:100%;margin-top:8px;" onclick="saveConfig()">保存配置</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-records" class="tab-content">
+            <div class="card">
+                <div class="card-title">历史记录</div>
+                <div id="recordsList"><div class="empty-state">暂无记录</div></div>
+                <button class="submit-btn" style="position:static;transform:none;width:100%;margin-top:12px;background:linear-gradient(135deg, #10b981, #059669);" onclick="exportToExcel()">导出 Excel</button>
+            </div>
+        </div>
+
+        <div id="tab-qrcode" class="tab-content">
+            <div class="card">
+                <div class="card-title">活码生成</div>
+                <div class="form-group"><label class="form-label">活码名称</label><input type="text" id="qrName" class="form-input" placeholder="如: A栋巡检"></div>
+                <div class="qrcode-preview"><canvas id="qrcodeCanvas" width="200" height="200"></canvas></div>
+                <button class="submit-btn" style="position:static;transform:none;width:100%;margin-top:12px;background:linear-gradient(135deg, #f59e0b, #d97706);" onclick="downloadQRCode()">下载二维码</button>
+            </div>
+        </div>
+    </div>
+
+    <button class="submit-btn" id="submitBtn" onclick="submitForm()">提交巡检记录</button>
+    <div class="toast" id="toast"></div>
+    <div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div></div>
+
+    <script>
+        let uploadedFiles = [];
+        let localRecords = JSON.parse(localStorage.getItem('inspectionRecords') || '[]');
+        let config = JSON.parse(localStorage.getItem('githubConfig') || '{}');
+
+        document.getElementById('inspectionDate').valueAsDate = new Date();
+        if (config.owner) document.getElementById('configOwner').value = config.owner;
+        if (config.repo) document.getElementById('configRepo').value = config.repo;
+        if (config.token) document.getElementById('configToken').value = config.token;
+
+        function showTab(tab) {
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelector(`[onclick="showTab('${tab}')"]`).classList.add('active');
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            if (tab === 'records') loadRecords();
+            if (tab === 'qrcode') generateQRCode();
+        }
+
+        function handleFiles(files) {
+            Array.from(files).forEach(file => {
+                if (uploadedFiles.length >= 9) return;
+                uploadedFiles.push(file);
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const div = document.createElement('div');
+                    div.className = 'preview-item';
+                    div.innerHTML = `<img src="${e.target.result}"><button class="remove-btn" onclick="removeFile(${uploadedFiles.length - 1})">×</button>`;
+                    document.getElementById('previewGrid').appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function removeFile(index) {
+            uploadedFiles.splice(index, 1);
+            renderPreviews();
+        }
+
+        function renderPreviews() {
+            const grid = document.getElementById('previewGrid');
+            grid.innerHTML = '';
+            uploadedFiles.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const div = document.createElement('div');
+                    div.className = 'preview-item';
+                    div.innerHTML = `<img src="${e.target.result}"><button class="remove-btn" onclick="removeFile(${index})">×</button>`;
+                    grid.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function toggleConfig() {
+            document.getElementById('configContent').classList.toggle('show');
+        }
+
+        function saveConfig() {
+            config = {
+                owner: document.getElementById('configOwner').value.trim(),
+                repo: document.getElementById('configRepo').value.trim(),
+                token: document.getElementById('configToken').value.trim()
+            };
+            localStorage.setItem('githubConfig', JSON.stringify(config));
+            showToast('配置已保存', 'success');
+            document.getElementById('configContent').classList.remove('show');
+        }
+
+        function b64EncodeUnicode(str) {
+            return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => 
+                String.fromCharCode('0x' + p1)));
+        }
+
+        async function uploadToGitHub(path, content) {
+            const apiUrl = `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${path}`;
+            const body = {
+                message: `Add ${path}`,
+                content: typeof content === 'string' ? b64EncodeUnicode(content) : content
+            };
+            
+            try {
+                const checkRes = await fetch(apiUrl, {
+                    headers: { 'Authorization': `token ${config.token}` }
+                });
+                if (checkRes.ok) {
+                    const data = await checkRes.json();
+                    body.sha = data.sha;
+                }
+            } catch (e) {}
+
+            const res = await fetch(apiUrl, {
+                method: 'PUT',
+                headers: { 
+                    'Authorization': `token ${config.token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
+
+            if (!res.ok) {
+                const errorText = await res.text();
+                throw new Error(`GitHub API error: ${res.status} - ${errorText}`);
+            }
+            return true;
+        }
+
+        async function submitForm() {
+            if (!config.token) {
+                showToast('请先配置 GitHub 信息', 'error');
+                return;
+            }
+
+            const date = document.getElementById('inspectionDate').value;
+            const location = document.getElementById('location').value.trim();
+            const inspector = document.getElementById('inspector').value.trim();
+            const checkItem = document.getElementById('checkItem').value;
+            const checkResult = document.getElementById('checkResult').value;
+
+            if (!date || !location || !inspector || !checkItem || !checkResult) {
+                showToast('请填写必填项', 'error');
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            document.getElementById('loadingOverlay').classList.add('show');
+
+            try {
+                const recordId = `INS-${Date.now()}`;
+                const record = {
+                    id: recordId, date, location, inspector, checkItem, checkResult,
+                    issueDesc: document.getElementById('issueDesc').value.trim() || '无',
+                    rectifyReq: document.getElementById('rectifyReq').value.trim() || '无',
+                    remarks: document.getElementById('remarks').value.trim(),
+                    images: [],
+                    createdAt: new Date().toLocaleString('zh-CN')
+                };
+
+                for (let i = 0; i < uploadedFiles.length; i++) {
+                    const file = uploadedFiles[i];
+                    const ext = file.name.split('.').pop();
+                    const imageName = `${recordId}_${i + 1}.${ext}`;
+                    const reader = new FileReader();
+                    const base64 = await new Promise(resolve => {
+                        reader.onload = () => resolve(reader.result);
+                        reader.readAsDataURL(file);
+                    });
+                    const base64Data = base64.split(',')[1];
+                    await uploadToGitHub(`images/${imageName}`, base64Data);
+                    record.images.push(`images/${imageName}`);
+                }
+
+                await uploadToGitHub(`data/${recordId}.json`, JSON.stringify(record, null, 2));
+                localRecords.unshift(record);
+                localStorage.setItem('inspectionRecords', JSON.stringify(localRecords));
+
+                showToast('提交成功！', 'success');
+                setTimeout(() => {
+                    resetForm();
+                    showTab('records');
+                }, 1500);
+
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('提交失败: ' + error.message, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                document.getElementById('loadingOverlay').classList.remove('show');
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('inspectionDate').valueAsDate = new Date();
+            document.getElementById('location').value = '';
+            document.getElementById('inspector').value = '';
+            document.getElementById('checkItem').value = '';
+            document.getElementById('checkResult').value = '';
+            document.getElementById('issueDesc').value = '';
+            document.getElementById('rectifyReq').value = '';
+            document.getElementById('remarks').value = '';
+            uploadedFiles = [];
+            document.getElementById('previewGrid').innerHTML = '';
+        }
+
+        function loadRecords() {
+            const container = document.getElementById('recordsList');
+            if (localRecords.length === 0) {
+                container.innerHTML = '<div class="empty-state">暂无记录</div>';
+                return;
+            }
+            let html = '<table class="data-table"><tr><th>编号</th><th>日期</th><th>地点</th><th>结果</th></tr>';
+            localRecords.forEach(r => {
+                html += `<tr><td>${r.id.split('-')[1]}</td><td>${r.date}</td><td>${r.location}</td><td>${r.checkResult}</td></tr>`;
+            });
+            html += '</table>';
+            container.innerHTML = html;
+        }
+
+        function exportToExcel() {
+            if (localRecords.length === 0) {
+                showToast('暂无数据', 'error');
+                return;
+            }
+            const data = localRecords.map(r => ({
+                '编号': r.id, '日期': r.date, '地点': r.location, '人员': r.inspector,
+                '项目': r.checkItem, '结果': r.checkResult, '问题': r.issueDesc, '整改': r.rectifyReq
+            }));
+            const ws = XLSX.utils.json_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, '巡检记录');
+            XLSX.writeFile(wb, `巡检记录_${new Date().toLocaleDateString()}.xlsx`);
+            showToast('导出成功', 'success');
+        }
+
+        function generateQRCode() {
+            const canvas = document.getElementById('qrcodeCanvas');
+            const url = window.location.origin + window.location.pathname;
+            drawQRCode(canvas, url);
+        }
+
+        function drawQRCode(canvas, text) {
+            const ctx = canvas.getContext('2d');
+            const size = 200;
+            const modules = qrCodeEncode(text);
+            const moduleSize = size / modules.length;
+            ctx.fillStyle = '#0f4c81';
+            modules.forEach((row, y) => {
+                row.forEach((cell, x) => {
+                    if (cell) ctx.fillRect(x * moduleSize, y * moduleSize, moduleSize, moduleSize);
+                });
+            });
+        }
+
+        function qrCodeEncode(text) {
+            const version = 1;
+            const size = 21 + (version - 1) * 4;
+            const modules = Array(size).fill(null).map(() => Array(size).fill(false));
+            
+            for (let i = 0; i < 7; i++) {
+                for (let j = 0; j < 7; j++) {
+                    if (i < 7 && j < 7) modules[i][j] = true;
+                    if (i < 7 && j >= size - 7) modules[i][j] = true;
+                    if (i >= size - 7 && j < 7) modules[i][j] = true;
+                }
+            }
+
+            const data = text.split('').map(c => c.charCodeAt(0));
+            let idx = 0;
+            for (let y = 0; y < size; y++) {
+                for (let x = (y % 2 === 0 ? 0 : size - 1); y % 2 === 0 ? x < size : x >= 0; y % 2 === 0 ? x++ : x--) {
+                    if (modules[y][x]) continue;
+                    modules[y][x] = (data[idx % data.length] + idx) % 2 === 0;
+                    idx++;
+                }
+            }
+            return modules;
+        }
+
+        function downloadQRCode() {
+            const canvas = document.getElementById('qrcodeCanvas');
+            const link = document.createElement('a');
+            link.download = `${document.getElementById('qrName').value || 'qrcode'}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('下载成功', 'success');
+        }
+
+        function showToast(msg, type) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = `toast ${type} show`;
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>
