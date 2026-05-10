@@ -1,0 +1,118 @@
+{
+  "id": "INS-1778418486412",
+  "projectName": "中能建装饰",
+  "building": "1",
+  "room": "201",
+  "inspectionTime": "2026-05-10T13:04",
+  "safety": [
+    {
+      "name": "临时用电",
+      "result": "",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "临边防护",
+      "result": "",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "灭火器",
+      "result": "",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "水枪水带",
+      "result": "",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "登高作业",
+      "result": "",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "动火作业",
+      "result": "",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "卫生情况",
+      "result": "",
+      "photos": [],
+      "description": ""
+    }
+  ],
+  "progress": {
+    "轻钢龙骨": "0",
+    "石膏板封板": "0",
+    "防水施工": "0",
+    "地砖施工": "0",
+    "墙砖施工": "0",
+    "一遍腻子": "0",
+    "二遍腻子": "0",
+    "腻子打磨": "0",
+    "涂料施工": "0",
+    "自流平": "0",
+    "地板施工": "0",
+    "户内门施工": "0",
+    "墙布施工": "0",
+    "橱柜施工": "0",
+    "淋浴屏施工": "0",
+    "台面施工": "0",
+    "五金洁具施工": "0"
+  },
+  "inspections": {
+    "lightSteel": {
+      "inspector": "",
+      "result": "",
+      "photos": []
+    },
+    "waterproof": {
+      "inspector": "",
+      "result": "",
+      "photos": []
+    },
+    "waterStore": {
+      "inspector": "",
+      "result": "",
+      "photos": []
+    },
+    "wallBase": {
+      "inspector": "",
+      "result": "",
+      "photos": []
+    }
+  },
+  "inspectionPhotos": [],
+  "tile": {
+    "person": "",
+    "time": "",
+    "hollow": "",
+    "height": "",
+    "vertical": "",
+    "flatness": "",
+    "corner": ""
+  },
+  "putty": {
+    "person": "",
+    "time": "",
+    "ceiling": "",
+    "corner": "",
+    "vertical": "",
+    "flatness": "",
+    "lines": "",
+    "straightness": ""
+  },
+  "bathroom": {
+    "inspector": "",
+    "result": "",
+    "photos": []
+  },
+  "createdAt": "2026/5/10 21:08:06"
+}
