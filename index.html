@@ -990,15 +990,19 @@
         }
 
         async function uploadToGitHub(path, content) {
-            const url = `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${path}`;
+            const corsProxy = config.proxy || 'https://api.allorigins.win/raw';
+            const apiUrl = `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${path}`;
+            const url = corsProxy ? `${corsProxy}?url=${encodeURIComponent(apiUrl)}` : apiUrl;
             
             let sha = null;
             try {
-                const checkRes = await fetch(url, {
+                const checkUrl = corsProxy ? `${corsProxy}?url=${encodeURIComponent(apiUrl)}` : apiUrl;
+                const checkRes = await fetch(checkUrl, {
                     headers: {
                         'Authorization': `token ${config.token}`,
                         'Accept': 'application/vnd.github.v3+json'
-                    }
+                    },
+                    mode: 'cors'
                 });
                 if (checkRes.ok) {
                     const data = await checkRes.json();
@@ -1006,20 +1010,30 @@
                 }
             } catch (e) {}
 
+            function base64Encode(str) {
+                try {
+                    return btoa(str);
+                } catch (e) {
+                    return btoa(unescape(encodeURIComponent(str)));
+                }
+            }
+
             const body = {
                 message: `Add ${path}`,
-                content: content.length > 1000 ? content : btoa(content)
+                content: content.length > 1000 ? content : base64Encode(content)
             };
             if (sha) body.sha = sha;
 
-            const res = await fetch(url, {
+            const putUrl = corsProxy ? `${corsProxy}?url=${encodeURIComponent(apiUrl)}` : apiUrl;
+            const res = await fetch(putUrl, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `token ${config.token}`,
                     'Content-Type': 'application/json',
                     'Accept': 'application/vnd.github.v3+json'
                 },
-                body: JSON.stringify(body)
+                body: JSON.stringify(body),
+                mode: 'cors'
             });
 
             if (!res.ok && res.status !== 200 && res.status !== 201) {
