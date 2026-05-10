@@ -1,1111 +1,880 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>装修巡检验收系统</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --bg: #f5f6f8;
-            --card-bg: #ffffff;
-            --text: #111827;
-            --gray-500: #6b7280;
-            --border: #e5e7eb;
-            --radius: 12px;
-        }
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        body {
-            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            min-height: 100vh;
-            padding-bottom: 120px;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 20px 16px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header h1 { font-size: 18px; font-weight: 600; }
-        .header p { font-size: 12px; opacity: 0.8; margin-top: 2px; }
-        
-        .location-bar {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 12px;
-            padding: 10px 12px;
-            background: rgba(255,255,255,0.15);
-            border-radius: 10px;
-        }
-        
-        .location-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 15px;
-            font-weight: 500;
-            font-family: inherit;
-            text-align: center;
-        }
-        
-        .location-input::placeholder { color: rgba(255,255,255,0.6); }
-        
-        .location-sep { font-size: 16px; opacity: 0.5; }
-        
-        .container { max-width: 600px; margin: 0 auto; padding: 12px; }
-        
-        .section {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            margin-bottom: 12px;
-            border: 1px solid var(--border);
-            overflow: hidden;
-        }
-        
-        .section-header {
-            padding: 14px 16px;
-            border-bottom: 1px solid #f0f0f0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .section-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-        
-        .section-icon.info { background: #dbeafe; }
-        .section-icon.warning { background: #fef3c7; }
-        .section-icon.check { background: #d1fae5; }
-        .section-icon.photo { background: #fee2e2; }
-        
-        .section-title { font-size: 14px; font-weight: 600; }
-        .section-desc { font-size: 11px; color: var(--gray-500); margin-top: 1px; }
-        
-        .section-body { padding: 14px 16px; }
-        
-        .field { margin-bottom: 14px; }
-        .field:last-child { margin-bottom: 0; }
-        
-        .label {
-            font-size: 12px;
-            color: var(--gray-500);
-            margin-bottom: 6px;
-            display: block;
-        }
-        
-        .label .required { color: var(--danger); margin-left: 2px; }
-        
-        .input {
-            width: 100%;
-            padding: 12px;
-            font-size: 14px;
-            border: 1.5px solid var(--border);
-            border-radius: 8px;
-            background: #fafafa;
-            color: var(--text);
-            font-family: inherit;
-        }
-        
-        .input:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: white;
-        }
-        
-        .input::placeholder { color: #aaa; }
-        
-        textarea.input { min-height: 70px; resize: vertical; }
-        
-        select.input {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            padding-right: 36px;
-        }
-        
-        .check-list { display: flex; flex-direction: column; gap: 8px; }
-        
-        .check-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            background: #fafafa;
-            border-radius: 8px;
-            cursor: pointer;
-            border: 1.5px solid transparent;
-            transition: all 0.2s;
-        }
-        
-        .check-item:hover { background: #f0f0f0; }
-        .check-item.selected { background: #ecfdf5; border-color: var(--success); }
-        
-        .check-box {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ccc;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: all 0.2s;
-        }
-        
-        .check-item.selected .check-box {
-            background: var(--success);
-            border-color: var(--success);
-        }
-        
-        .check-box svg { width: 12px; height: 12px; stroke: white; stroke-width: 3; opacity: 0; }
-        .check-item.selected .check-box svg { opacity: 1; }
-        
-        .check-text { font-size: 13px; color: var(--text); }
-        
-        .progress-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        
-        .progress-item { background: #fafafa; border-radius: 8px; padding: 10px; }
-        
-        .progress-label { font-size: 11px; color: var(--gray-500); margin-bottom: 6px; }
-        
-        .progress-row { display: flex; align-items: center; gap: 4px; }
-        
-        .progress-input {
-            width: 45px;
-            padding: 6px;
-            font-size: 13px;
-            text-align: center;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            background: white;
-        }
-        
-        .progress-input:focus { outline: none; border-color: var(--primary); }
-        
-        .progress-unit { font-size: 12px; color: var(--gray-500); }
-        
-        .upload-zone {
-            border: 2px dashed #ddd;
-            border-radius: 10px;
-            padding: 24px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: #fafafa;
-        }
-        
-        .upload-zone:hover { border-color: var(--primary); background: #f0f7ff; }
-        .upload-zone.has-photos { border-color: var(--success); background: #ecfdf5; }
-        
-        .upload-icon {
-            width: 44px;
-            height: 44px;
-            background: var(--primary);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 10px;
-        }
-        
-        .upload-icon svg { width: 22px; height: 22px; stroke: white; }
-        
-        .upload-text { font-size: 13px; color: var(--text); font-weight: 500; }
-        .upload-hint { font-size: 11px; color: var(--gray-500); margin-top: 4px; }
-        
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-top: 10px;
-        }
-        
-        .photo-item {
-            aspect-ratio: 1;
-            border-radius: 8px;
-            overflow: hidden;
-            position: relative;
-            background: #f0f0f0;
-        }
-        
-        .photo-item img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .photo-remove {
-            position: absolute;
-            top: 4px;
-            right: 4px;
-            width: 22px;
-            height: 22px;
-            background: rgba(0,0,0,0.6);
-            border: none;
-            border-radius: 50%;
-            color: white;
-            font-size: 14px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .input-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-        .input-row:last-child { margin-bottom: 0; }
-        
-        .input-label { width: 65px; font-size: 12px; color: var(--gray-500); flex-shrink: 0; }
-        
-        .input-field {
-            flex: 1;
-            padding: 8px 10px;
-            font-size: 13px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            background: #fafafa;
-        }
-        
-        .input-field:focus { outline: none; border-color: var(--primary); background: white; }
-        
-        .nav-bar {
-            display: flex;
-            background: white;
-            border-top: 1px solid var(--border);
-            padding: 6px 12px;
-            position: fixed;
-            bottom: 70px;
-            left: 0;
-            right: 0;
-            z-index: 99;
-        }
-        
-        .nav-btn {
-            flex: 1;
-            padding: 8px;
-            text-align: center;
-            font-size: 11px;
-            color: var(--gray-500);
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-        }
-        
-        .nav-btn.active { color: var(--primary); }
-        .nav-btn svg { width: 20px; height: 20px; }
-        
-        .submit-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 12px 16px;
-            background: white;
-            border-top: 1px solid var(--border);
-            z-index: 100;
-        }
-        
-        .submit-btn {
-            width: 100%;
-            padding: 14px;
-            font-size: 15px;
-            font-weight: 600;
-            color: white;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(37,99,235,0.3);
-        }
-        
-        .submit-btn:active { transform: scale(0.98); }
-        .submit-btn:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; }
-        
-        .toast {
-            position: fixed;
-            top: 70px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-20px);
-            padding: 10px 20px;
-            border-radius: 8px;
-            color: white;
-            font-size: 13px;
-            z-index: 1000;
-            opacity: 0;
-            transition: all 0.3s;
-        }
-        
-        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-        .toast.success { background: var(--success); }
-        .toast.error { background: var(--danger); }
-        
-        .loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255,255,255,0.95);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 999;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .loading.show { display: flex; }
-        
-        .spinner {
-            width: 36px;
-            height: 36px;
-            border: 3px solid #eee;
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-        
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .loading-text { font-size: 13px; color: var(--gray-500); }
-        
-        .config-box {
-            margin-top: 12px;
-            padding: 12px;
-            background: #fffbeb;
-            border-radius: 8px;
-            border: 1px dashed var(--warning);
-        }
-        
-        .config-toggle {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            font-size: 12px;
-            color: var(--gray-500);
-        }
-        
-        .config-content { display: none; margin-top: 12px; }
-        .config-content.show { display: block; }
-        
-        .empty { text-align: center; padding: 40px; color: var(--gray-500); font-size: 13px; }
-        
-        .record-item { padding: 12px; border-bottom: 1px solid #f0f0f0; }
-        .record-item:last-child { border-bottom: none; }
-        .record-title { font-size: 14px; font-weight: 500; }
-        .record-time { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
-        
-        .qr-section { text-align: center; padding: 20px; }
-        .qr-canvas { border-radius: 12px; background: white; display: inline-block; }
-        
-        .download-btn {
-            width: 100%;
-            padding: 12px;
-            margin-top: 16px;
-            font-size: 14px;
-            font-weight: 500;
-            color: white;
-            background: linear-gradient(135deg, var(--warning) 0%, #d97706 100%);
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        
-        .qr-name-input { margin-bottom: 16px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>装修巡检验收系统</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans SC',sans-serif;background:#f5f6f8;color:#111827;line-height:1.6;padding-bottom:80px}
+.header{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:white;padding:16px}
+.header h1{font-size:18px;font-weight:600}
+.header p{font-size:12px;opacity:0.8;margin-top:2px}
+.location-bar{display:flex;align-items:center;gap:8px;margin-top:12px;background:rgba(255,255,255,0.15);padding:10px;border-radius:8px}
+.location-bar input{flex:1;background:transparent;border:none;color:white;font-size:15px;text-align:center;font-family:inherit;padding:0}
+.location-bar input::placeholder{color:rgba(255,255,255,0.6)}
+.container{max-width:600px;margin:0 auto;padding:12px}
+.card{background:white;border-radius:12px;margin-bottom:12px;border:1px solid #e5e7eb;overflow:hidden}
+.card-header{padding:12px 16px;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;gap:10px}
+.card-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.card-icon.blue{background:#dbeafe}
+.card-icon.yellow{background:#fef3c7}
+.card-icon.green{background:#d1fae5}
+.card-icon.red{background:#fee2e2}
+.card-title{font-size:14px;font-weight:600}
+.card-body{padding:12px 16px}
+.form-group{margin-bottom:14px}
+.form-group:last-child{margin-bottom:0}
+.form-label{font-size:12px;color:#6b7280;margin-bottom:6px;display:block}
+.form-label .red{color:#ef4444}
+.form-input{width:100%;padding:10px 12px;font-size:14px;border:1.5px solid #e5e7eb;border-radius:8px;background:#fafafa;color:#111827;font-family:inherit}
+.form-input:focus{outline:none;border-color:#2563eb;background:white}
+.form-input::placeholder{color:#bbb}
+.form-textarea{min-height:60px;resize:vertical}
+.progress-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.progress-item{background:#fafafa;padding:10px;border-radius:8px}
+.progress-label{font-size:12px;color:#6b7280;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
+.progress-value{font-size:12px;color:#2563eb;font-weight:600;min-width:35px;text-align:right}
+.progress-slider{width:100%;height:6px;-webkit-appearance:none;background:#e5e7eb;border-radius:3px;outline:none;cursor:pointer}
+.progress-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;background:#2563eb;border-radius:50%;cursor:pointer;border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,0.2)}
+.progress-slider::-moz-range-thumb{width:18px;height:18px;background:#2563eb;border-radius:50%;cursor:pointer;border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,0.2)}
+.input-list{display:flex;flex-direction:column;gap:6px}
+.input-row{display:flex;align-items:center;gap:8px}
+.input-label{width:65px;font-size:12px;color:#6b7280;flex-shrink:0}
+.input-field{flex:1;padding:6px 8px;font-size:13px;border:1px solid #e5e7eb;border-radius:4px;background:#fafafa}
+.input-field:focus{outline:none;border-color:#2563eb;background:white}
+.upload-box{border:2px dashed #d1d5db;border-radius:8px;padding:16px;text-align:center;background:#fafafa;cursor:pointer}
+.upload-box:hover{border-color:#2563eb;background:#eff6ff}
+.upload-box.active{border-color:#10b981;background:#ecfdf5}
+.upload-icon{width:36px;height:36px;background:#2563eb;border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px}
+.upload-icon svg{width:18px;height:18px;stroke:white}
+.upload-text{font-size:13px;color:#374151;font-weight:500}
+.upload-hint{font-size:11px;color:#9ca3af;margin-top:2px}
+.photo-list{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.photo-thumb{aspect-ratio:1;border-radius:6px;overflow:hidden;position:relative;background:#f0f0f0}
+.photo-thumb img{width:100%;height:100%;object-fit:cover}
+.photo-thumb button{position:absolute;top:2px;right:2px;width:18px;height:18px;background:rgba(0,0,0,0.5);border:none;border-radius:50%;color:white;font-size:10px;cursor:pointer}
+.tab-bar{display:flex;background:white;border-top:1px solid #e5e7eb;position:fixed;bottom:60px;left:0;right:0;z-index:99}
+.tab-btn{flex:1;padding:8px;text-align:center;font-size:11px;color:#6b7280;background:none;border:none;cursor:pointer}
+.tab-btn.active{color:#2563eb}
+.tab-btn svg{width:18px;height:18px;display:block;margin:0 auto 2px}
+.submit-bar{position:fixed;bottom:0;left:0;right:0;padding:10px 16px;background:white;border-top:1px solid #e5e7eb;z-index:100}
+.submit-btn{width:100%;padding:12px;font-size:15px;font-weight:600;color:white;background:linear-gradient(135deg,#2563eb,#1d4ed8);border:none;border-radius:8px;cursor:pointer}
+.submit-btn:disabled{background:#9ca3af;cursor:not-allowed}
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-20px);padding:10px 20px;background:#374151;color:white;font-size:13px;border-radius:8px;opacity:0;transition:all 0.3s;z-index:1000}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.success{background:#10b981}
+.toast.error{background:#ef4444}
+.loading{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.95);display:none;align-items:center;justify-content:center;z-index:999;flex-direction:column;gap:10px}
+.loading.show{display:flex}
+.spinner{width:32px;height:32px;border:3px solid #e5e7eb;border-top-color:#2563eb;border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.config-section{background:#fffbeb;border:1px dashed #f59e0b;border-radius:8px;padding:12px;margin-top:12px}
+.config-title{font-size:12px;color:#92400e;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.config-content{display:none;margin-top:10px}
+.config-content.show{display:block}
+.empty{text-align:center;padding:30px;color:#9ca3af;font-size:13px}
+.record-item{padding:10px 16px;border-bottom:1px solid #f0f0f0}
+.record-title{font-size:14px;font-weight:500}
+.record-time{font-size:11px;color:#9ca3af;margin-top:2px}
+.qr-box{text-align:center;padding:16px}
+.qr-name{margin-bottom:12px}
+.download-btn{width:100%;padding:10px;margin-top:12px;font-size:14px;font-weight:500;color:white;background:linear-gradient(135deg,#f59e0b,#d97706);border:none;border-radius:6px;cursor:pointer}
+.safety-item{border-bottom:1px solid #f0f0f0;padding:12px 0}
+.safety-item:last-child{border-bottom:none}
+.safety-title{font-size:13px;font-weight:500;color:#374151;margin-bottom:10px}
+.safety-options{display:flex;gap:10px;flex-wrap:wrap}
+.safety-option{display:flex;align-items:center;cursor:pointer;user-select:none}
+.safety-option input[type="checkbox"]{display:none}
+.safety-checkbox{width:18px;height:18px;border:2px solid #d1d5db;border-radius:4px;margin-right:6px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;background:white}
+.safety-checkbox svg{width:12px;height:12px;stroke:white;stroke-width:3;opacity:0;transition:opacity 0.2s}
+.safety-option:hover .safety-checkbox{border-color:#9ca3af}
+.safety-option.checked .safety-checkbox{border-color:#10b981;background:#10b981}
+.safety-option.checked .safety-checkbox svg{opacity:1}
+.safety-option.checked .safety-label{color:#059669}
+.safety-option.warning.checked .safety-checkbox{border-color:#ef4444;background:#ef4444}
+.safety-option.warning.checked .safety-label{color:#dc2626}
+.safety-label{font-size:13px;color:#6b7280;transition:color 0.2s}
+.safety-detail{margin-top:12px;padding-top:12px;border-top:1px dashed #e5e7eb;display:none}
+.safety-detail.show{display:block}
+</style>
 </head>
 <body>
-    <header class="header">
-        <h1>🏠 装修巡检验收系统</h1>
-        <p>现场填写 · 自动存档</p>
-        <div class="location-bar">
-            <input type="text" class="location-input" id="building" placeholder="楼号">
-            <span class="location-sep">-</span>
-            <input type="text" class="location-input" id="room" placeholder="房号">
-        </div>
-    </header>
 
-    <nav class="nav-bar">
-        <button class="nav-btn active" data-tab="form">
-            <svg fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-            填写表单
-        </button>
-        <button class="nav-btn" data-tab="records">
-            <svg fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-            历史记录
-        </button>
-        <button class="nav-btn" data-tab="qrcode">
-            <svg fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h2M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
-            二维码
-        </button>
-    </nav>
+<header class="header">
+<h1>🏠 精装修巡检验收系统</h1>
+<p>项目名称: <input type="text" id="projectName" placeholder="请输入项目名称" style="background:transparent;border:none;color:white;font-size:13px;width:150px;font-family:inherit"></p>
+<div class="location-bar">
+<input type="text" id="building" placeholder="楼号">
+<span style="color:rgba(255, 255, 255, 0.5)">-</span>
+<input type="text" id="room" placeholder="房号">
+</div>
+</header>
 
-    <div class="container" id="tab-form">
-        <!-- 基本信息 -->
-        <div class="section">
-            <div class="section-header">
-                <div class="section-icon info">📋</div>
-                <div>
-                    <div class="section-title">基本信息</div>
-                    <div class="section-desc">巡查时间自动记录</div>
-                </div>
-            </div>
-            <div class="section-body">
-                <div class="field">
-                    <label class="label">巡查时间 <span class="required">*</span></label>
-                    <input type="datetime-local" class="input" id="inspectionTime">
-                </div>
-            </div>
-        </div>
+<nav class="tab-bar">
+<button class="tab-btn active" onclick="switchTab('form')">
+<svg fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+填写表单
+</button>
+<button class="tab-btn" onclick="switchTab('records')">
+<svg fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+历史记录
+</button>
+<button class="tab-btn" onclick="switchTab('qrcode')">
+<svg fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h2M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
+二维码
+</button>
+</nav>
 
-        <!-- 安全文明巡查 -->
-        <div class="section">
-            <div class="section-header">
-                <div class="section-icon warning">⚠️</div>
-                <div>
-                    <div class="section-title">现场安全文明巡查</div>
-                    <div class="section-desc">有问题写问题，无问题写无</div>
-                </div>
-            </div>
-            <div class="section-body">
-                <div class="check-list" id="safetyList"></div>
-                <div class="field" style="margin-top:12px;">
-                    <label class="label">巡查说明</label>
-                    <textarea class="input" id="safetyNote" placeholder="有问题写问题，无问题写无"></textarea>
-                </div>
-            </div>
-        </div>
+<div class="container" id="tab-form">
 
-        <!-- 工序完成情况 -->
-        <div class="section">
-            <div class="section-header">
-                <div class="section-icon check">✅</div>
-                <div>
-                    <div class="section-title">工序完成情况</div>
-                    <div class="section-desc">按百分比填写</div>
-                </div>
-            </div>
-            <div class="section-body">
-                <div class="progress-grid" id="progressGrid"></div>
-            </div>
-        </div>
+<!-- 基本信息 -->
+<div class="card">
+<div class="card-header">
+<div class="card-icon blue">📋</div>
+<div class="card-title">基本信息</div>
+</div>
+<div class="card-body">
+<div class="form-group">
+<label class="form-label">巡查时间 <span class="red">*</span></label>
+<input type="datetime-local" class="form-input" id="inspectionTime">
+</div>
+</div>
+</div>
 
-        <!-- 隐蔽验收 -->
-        <div id="hiddenInspections"></div>
+<!-- 安全文明巡查 -->
+<div class="card">
+<div class="card-header">
+<div class="card-icon yellow">⚠️</div>
+<div class="card-title">现场安全文明巡查</div>
+</div>
+<div class="card-body">
 
-        <!-- 现场巡检照片 -->
-        <div class="section">
-            <div class="section-header">
-                <div class="section-icon photo">📷</div>
-                <div>
-                    <div class="section-title">现场巡检照片</div>
-                    <div class="section-desc">验收情况拍照上传</div>
-                </div>
-            </div>
-            <div class="section-body">
-                <div class="upload-zone" id="inspectionPhotoZone">
-                    <input type="file" id="inspectionPhotoInput" accept="image/*" capture="environment" multiple style="display:none;" onchange="handlePhotoUpload(this, 'inspectionPhotoZone', 'inspectionPhotoGrid', 'inspectionPhotos')">
-                    <div class="upload-icon">
-                        <svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                    </div>
-                    <div class="upload-text">点击拍照上传</div>
-                    <div class="upload-hint">最多9张</div>
-                </div>
-                <div class="photo-grid" id="inspectionPhotoGrid"></div>
-            </div>
-        </div>
+<div class="safety-item">
+<div class="safety-title">临时用电</div>
+<div class="safety-options">
+<label class="safety-option" onclick="selectSafety(this,'1')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">无隐患</span></label>
+<label class="safety-option" onclick="selectSafety(this,'1')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">不涉及</span></label>
+<label class="safety-option warning" onclick="selectSafety(this,'1')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">存在问题</span></label>
+</div>
+<div class="safety-detail" id="safety1Detail">
+<div class="upload-box" onclick="document.getElementById('safety1Photos').click()">
+<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+<div class="upload-text">点击拍照</div>
+</div>
+<input type="file" id="safety1Photos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'safety1')">
+<div class="photo-list" id="safety1List"></div>
+<div class="form-group" style="margin-top:8px">
+<textarea class="form-input" id="safety1Desc" placeholder="请描述问题..." rows="2"></textarea>
+</div>
+</div>
+</div>
 
-        <!-- 墙地砖空鼓实测 -->
-        <div class="section">
-            <div class="section-header">
-                <div class="section-icon check">📐</div>
-                <div>
-                    <div class="section-title">墙地砖空鼓实测</div>
-                    <div class="section-desc">按实际数据填写</div>
-                </div>
-            </div>
-            <div class="section-body">
-                <div id="tileTestList"></div>
-            </div>
-        </div>
+<div class="safety-item">
+<div class="safety-title">临边防护</div>
+<div class="safety-options">
+<label class="safety-option" onclick="selectSafety(this,'2')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">无隐患</span></label>
+<label class="safety-option" onclick="selectSafety(this,'2')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">不涉及</span></label>
+<label class="safety-option warning" onclick="selectSafety(this,'2')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">存在问题</span></label>
+</div>
+<div class="safety-detail" id="safety2Detail">
+<div class="upload-box" onclick="document.getElementById('safety2Photos').click()">
+<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+<div class="upload-text">点击拍照</div>
+</div>
+<input type="file" id="safety2Photos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'safety2')">
+<div class="photo-list" id="safety2List"></div>
+<div class="form-group" style="margin-top:8px">
+<textarea class="form-input" id="safety2Desc" placeholder="请描述问题..." rows="2"></textarea>
+</div>
+</div>
+</div>
 
-        <!-- 腻子面实测 -->
-        <div class="section">
-            <div class="section-header">
-                <div class="section-icon check">🎨</div>
-                <div>
-                    <div class="section-title">腻子面实测合格率</div>
-                    <div class="section-desc">按合格率填写</div>
-                </div>
-            </div>
-            <div class="section-body">
-                <div id="puttyTestList"></div>
-            </div>
-        </div>
+<div class="safety-item">
+<div class="safety-title">灭火器</div>
+<div class="safety-options">
+<label class="safety-option" onclick="selectSafety(this,'3')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">无隐患</span></label>
+<label class="safety-option" onclick="selectSafety(this,'3')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">不涉及</span></label>
+<label class="safety-option warning" onclick="selectSafety(this,'3')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">存在问题</span></label>
+</div>
+<div class="safety-detail" id="safety3Detail">
+<div class="upload-box" onclick="document.getElementById('safety3Photos').click()">
+<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+<div class="upload-text">点击拍照</div>
+</div>
+<input type="file" id="safety3Photos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'safety3')">
+<div class="photo-list" id="safety3List"></div>
+<div class="form-group" style="margin-top:8px">
+<textarea class="form-input" id="safety3Desc" placeholder="请描述问题..." rows="2"></textarea>
+</div>
+</div>
+</div>
 
-        <!-- 卫生间蓄水验收 -->
-        <div class="section">
-            <div class="section-header">
-                <div class="section-icon warning">🚿</div>
-                <div>
-                    <div class="section-title">卫生间蓄水验收</div>
-                </div>
-            </div>
-            <div class="section-body">
-                <div class="field">
-                    <label class="label">验收人 <span class="required">*</span></label>
-                    <input type="text" class="input" id="bathroomInspector" placeholder="请输入验收人">
-                </div>
-                <div class="field">
-                    <label class="label">验收结论</label>
-                    <div class="check-list" id="bathroomResult">
-                        <div class="check-item" onclick="selectSingleCheck(this, 'bathroomResult')">
-                            <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
-                            <span class="check-text">合格</span>
-                        </div>
-                        <div class="check-item" onclick="selectSingleCheck(this, 'bathroomResult')">
-                            <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
-                            <span class="check-text">不合格</span>
-                        </div>
-                        <div class="check-item" onclick="selectSingleCheck(this, 'bathroomResult')">
-                            <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
-                            <span class="check-text">待整改</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="field" style="margin-top:12px;">
-                    <label class="label">验收照片</label>
-                    <div class="upload-zone" id="bathroomPhotoZone">
-                        <input type="file" id="bathroomPhotoInput" accept="image/*" capture="environment" multiple style="display:none;" onchange="handlePhotoUpload(this, 'bathroomPhotoZone', 'bathroomPhotoGrid', 'bathroomPhotos')">
-                        <div class="upload-icon" style="background:var(--success);">
-                            <svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        </div>
-                        <div class="upload-text">点击拍照上传</div>
-                    </div>
-                    <div class="photo-grid" id="bathroomPhotoGrid"></div>
-                </div>
-            </div>
-        </div>
+<div class="safety-item">
+<div class="safety-title">水枪水带</div>
+<div class="safety-options">
+<label class="safety-option" onclick="selectSafety(this,'4')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">无隐患</span></label>
+<label class="safety-option" onclick="selectSafety(this,'4')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">不涉及</span></label>
+<label class="safety-option warning" onclick="selectSafety(this,'4')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">存在问题</span></label>
+</div>
+<div class="safety-detail" id="safety4Detail">
+<div class="upload-box" onclick="document.getElementById('safety4Photos').click()">
+<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+<div class="upload-text">点击拍照</div>
+</div>
+<input type="file" id="safety4Photos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'safety4')">
+<div class="photo-list" id="safety4List"></div>
+<div class="form-group" style="margin-top:8px">
+<textarea class="form-input" id="safety4Desc" placeholder="请描述问题..." rows="2"></textarea>
+</div>
+</div>
+</div>
 
-        <!-- GitHub 配置 -->
-        <div class="section">
-            <div class="section-body">
-                <div class="config-box">
-                    <div class="config-toggle" onclick="document.getElementById('configContent').classList.toggle('show')">
-                        <span>⚙️ GitHub 配置</span>
-                        <span>▼</span>
-                    </div>
-                    <div class="config-content" id="configContent">
-                        <div class="field">
-                            <label class="label">仓库 Owner</label>
-                            <input type="text" class="input" id="configOwner" placeholder="GitHub 用户名">
-                        </div>
-                        <div class="field">
-                            <label class="label">仓库名称</label>
-                            <input type="text" class="input" id="configRepo" placeholder="仓库名">
-                        </div>
-                        <div class="field">
-                            <label class="label">GitHub Token</label>
-                            <input type="password" class="input" id="configToken" placeholder="ghp_xxx">
-                        </div>
-                        <button class="submit-btn" style="margin-top:8px;" onclick="saveConfig()">保存配置</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="safety-item">
+<div class="safety-title">登高作业</div>
+<div class="safety-options">
+<label class="safety-option" onclick="selectSafety(this,'5')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">无隐患</span></label>
+<label class="safety-option" onclick="selectSafety(this,'5')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">不涉及</span></label>
+<label class="safety-option warning" onclick="selectSafety(this,'5')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">存在问题</span></label>
+</div>
+<div class="safety-detail" id="safety5Detail">
+<div class="upload-box" onclick="document.getElementById('safety5Photos').click()">
+<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+<div class="upload-text">点击拍照</div>
+</div>
+<input type="file" id="safety5Photos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'safety5')">
+<div class="photo-list" id="safety5List"></div>
+<div class="form-group" style="margin-top:8px">
+<textarea class="form-input" id="safety5Desc" placeholder="请描述问题..." rows="2"></textarea>
+</div>
+</div>
+</div>
 
-    <div class="container" id="tab-records" style="display:none;">
-        <div class="section">
-            <div class="section-header">
-                <div class="section-icon info">📋</div>
-                <div class="section-title">历史巡检记录</div>
-            </div>
-            <div class="section-body" id="recordsList">
-                <div class="empty">暂无记录</div>
-            </div>
-        </div>
-    </div>
+<div class="safety-item">
+<div class="safety-title">动火作业</div>
+<div class="safety-options">
+<label class="safety-option" onclick="selectSafety(this,'6')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">无隐患</span></label>
+<label class="safety-option" onclick="selectSafety(this,'6')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">不涉及</span></label>
+<label class="safety-option warning" onclick="selectSafety(this,'6')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">存在问题</span></label>
+</div>
+<div class="safety-detail" id="safety6Detail">
+<div class="upload-box" onclick="document.getElementById('safety6Photos').click()">
+<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+<div class="upload-text">点击拍照</div>
+</div>
+<input type="file" id="safety6Photos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'safety6')">
+<div class="photo-list" id="safety6List"></div>
+<div class="form-group" style="margin-top:8px">
+<textarea class="form-input" id="safety6Desc" placeholder="请描述问题..." rows="2"></textarea>
+</div>
+</div>
+</div>
 
-    <div class="container" id="tab-qrcode" style="display:none;">
-        <div class="section">
-            <div class="section-header">
-                <div class="section-icon photo">📱</div>
-                <div class="section-title">活码生成</div>
-            </div>
-            <div class="section-body">
-                <div class="field qr-name-input">
-                    <label class="label">活码名称</label>
-                    <input type="text" class="input" id="qrName" placeholder="如：A栋巡检">
-                </div>
-                <div class="qr-section">
-                    <canvas id="qrCanvas" class="qr-canvas" width="180" height="180"></canvas>
-                </div>
-                <button class="download-btn" onclick="downloadQR()">下载二维码</button>
-            </div>
-        </div>
-    </div>
+<div class="safety-item">
+<div class="safety-title">卫生情况</div>
+<div class="safety-options">
+<label class="safety-option" onclick="selectSafety(this,'7')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">无隐患</span></label>
+<label class="safety-option" onclick="selectSafety(this,'7')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">不涉及</span></label>
+<label class="safety-option warning" onclick="selectSafety(this,'7')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">存在问题</span></label>
+</div>
+<div class="safety-detail" id="safety7Detail">
+<div class="upload-box" onclick="document.getElementById('safety7Photos').click()">
+<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+<div class="upload-text">点击拍照</div>
+</div>
+<input type="file" id="safety7Photos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'safety7')">
+<div class="photo-list" id="safety7List"></div>
+<div class="form-group" style="margin-top:8px">
+<textarea class="form-input" id="safety7Desc" placeholder="请描述问题..." rows="2"></textarea>
+</div>
+</div>
+</div>
 
-    <div class="submit-bar">
-        <button class="submit-btn" id="submitBtn" onclick="submitForm()">提交巡检记录</button>
-    </div>
+</div>
+</div>
 
-    <div class="toast" id="toast"></div>
-    <div class="loading" id="loading">
-        <div class="spinner"></div>
-        <div class="loading-text">正在提交...</div>
-    </div>
+<!-- 工序完成情况 -->
+<div class="card">
+<div class="card-header">
+<div class="card-icon green">✅</div>
+<div class="card-title">工序完成情况</div>
+</div>
+<div class="card-body">
+<div class="progress-list" id="progressList"></div>
+</div>
+</div>
 
-    <script>
-        const safetyItems = ['临时用电', '临边防护', '灭火器', '水枪水带', '登高作业', '动火作业', '卫生情况'];
-        
-        const progressItems = [
-            '轻钢龙骨', '石膏板封板', '防水施工', '地砖施工', '墙砖施工',
-            '一遍腻子', '二遍腻子', '腻子打磨', '涂料施工', '自流平',
-            '地板施工', '户内门施工', '墙布施工', '橱柜施工', '淋浴屏施工',
-            '台面施工', '五金洁具施工'
-        ];
-        
-        const hiddenInspections = [
-            { id: 'lightSteel', title: '轻钢龙骨隐蔽验收' },
-            { id: 'waterproof', title: '厨卫间防水切片验收' },
-            { id: 'waterStore', title: '厨卫间蓄水验收' },
-            { id: 'wallBase', title: '墙布基层验收' }
-        ];
-        
-        const tileItems = ['实测人', '实测时间', '墙地砖空鼓', '高低差', '垂直度', '平整度', '阴阳角'];
-        const puttyItems = ['实测人', '实测时间', '顶棚极差', '阴阳角', '垂直度', '平整度', '三边两线', '阴阳角直线度'];
+<!-- 隐蔽验收 1 -->
+<div class="card">
+<div class="card-header">
+<div class="card-icon green">🔍</div>
+<div class="card-title">轻钢龙骨隐蔽验收</div>
+</div>
+<div class="card-body">
+<div class="form-group">
+<label class="form-label">验收人 <span class="red">*</span></label>
+<input type="text" class="form-input" id="lightSteelInspector" placeholder="请输入验收人">
+</div>
+<div class="form-group">
+<label class="form-label">验收结论</label>
+<select class="form-input" id="lightSteelResult">
+<option value="">请选择</option>
+<option value="合格">合格</option>
+<option value="不合格">不合格</option>
+<option value="待整改">待整改</option>
+</select>
+</div>
+<div class="form-group" style="margin-top:12px">
+<label class="form-label">验收照片</label>
+<div class="upload-box" id="lightSteelUpload" onclick="document.getElementById('lightSteelPhotos').click()">
+<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+<div class="upload-text">点击拍照上传</div>
+</div>
+<input type="file" id="lightSteelPhotos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'lightSteel')">
+<div class="photo-list" id="lightSteelList"></div>
+<div class="form-group" style="margin-top:8px">
+<textarea class="form-input" id="lightSteelDesc" placeholder="请描述问题..." rows="2"></textarea>
+</div>
+</div>
+</div>
+</div>
 
-        let config = JSON.parse(localStorage.getItem('githubConfig') || '{}');
-        let records = JSON.parse(localStorage.getItem('inspectionRecords') || '[]');
-        let photos = { inspectionPhotos: [], bathroomPhotos: [], hidden: {} };
+<!-- 隐蔽验收 2 -->
+<div class="card">
+<div class="card-header">
+<div class="card-icon green">🔍</div>
+<div class="card-title">厨卫间防水切片验收</div>
+</div>
+<div class="card-body">
+<div class="form-group">
+<label class="form-label">验收人 <span class="red">*</span></label>
+<input type="text" class="form-input" id="waterproofInspector" placeholder="请输入验收人">
+</div>
+<div class="form-group">
+<label class="form-label">验收结论</label>
+<select class="form-input" id="waterproofResult">
+<option value="">请选择</option>
+<option value="合格">合格</option>
+<option value="不合格">不合格</option>
+<option value="待整改">待整改</option>
+</select>
+</div>
+<div class="form-group" style="margin-top:12px">
+<label class="form-label">验收照片</label>
+<div class="upload-box" id="waterproofUpload" onclick="document.getElementById('waterproofPhotos').click()">
+<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+<div class="upload-text">点击拍照上传</div>
+</div>
+<input type="file" id="waterproofPhotos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'waterproof')">
+<div class="photo-list" id="waterproofList"></div>
+<div class="form-group" style="margin-top:8px">
+<textarea class="form-input" id="waterproofDesc" placeholder="请描述问题..." rows="2"></textarea>
+</div>
+</div>
+</div>
+</div>
 
-        function init() {
-            document.getElementById('inspectionTime').value = new Date().toISOString().slice(0, 16);
-            
-            if (config.owner) document.getElementById('configOwner').value = config.owner;
-            if (config.repo) document.getElementById('configRepo').value = config.repo;
-            if (config.token) document.getElementById('configToken').value = config.token;
+<!-- 隐蔽验收 3 -->
+<div class="card">
+<div class="card-header">
+<div class="card-icon green">🔍</div>
+<div class="card-title">厨卫间蓄水验收</div>
+</div>
+<div class="card-body">
+<div class="form-group">
+<label class="form-label">验收人 <span class="red">*</span></label>
+<input type="text" class="form-input" id="waterStoreInspector" placeholder="请输入验收人">
+</div>
+<div class="form-group">
+<label class="form-label">验收结论</label>
+<select class="form-input" id="waterStoreResult">
+<option value="">请选择</option>
+<option value="合格">合格</option>
+<option value="不合格">不合格</option>
+<option value="待整改">待整改</option>
+</select>
+</div>
+<div class="form-group" style="margin-top:12px">
+<label class="form-label">验收照片</label>
+<div class="upload-box" id="waterStoreUpload" onclick="document.getElementById('waterStorePhotos').click()">
+<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+<div class="upload-text">点击拍照上传</div>
+</div>
+<input type="file" id="waterStorePhotos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'waterStore')">
+<div class="photo-list" id="waterStoreList"></div>
+<div class="form-group" style="margin-top:8px">
+<textarea class="form-input" id="waterStoreDesc" placeholder="请描述问题..." rows="2"></textarea>
+</div>
+</div>
+</div>
+</div>
 
-            renderSafetyList();
-            renderProgressGrid();
-            renderHiddenInspections();
-            renderTestLists();
-            
-            document.querySelectorAll('.upload-zone').forEach(zone => {
-                zone.addEventListener('click', function(e) {
-                    if (e.target.tagName !== 'INPUT') {
-                        const input = this.querySelector('input[type="file"]');
-                        if (input) input.click();
-                    }
-                });
-            });
-        }
+<!-- 隐蔽验收 4 -->
+<div class="card">
+<div class="card-header">
+<div class="card-icon green">🔍</div>
+<div class="card-title">墙布基层验收</div>
+</div>
+<div class="card-body">
+<div class="form-group">
+<label class="form-label">验收人 <span class="red">*</span></label>
+<input type="text" class="form-input" id="wallBaseInspector" placeholder="请输入验收人">
+</div>
+<div class="form-group">
+<label class="form-label">验收结论</label>
+<select class="form-input" id="wallBaseResult">
+<option value="">请选择</option>
+<option value="合格">合格</option>
+<option value="不合格">不合格</option>
+<option value="待整改">待整改</option>
+</select>
+</div>
+<div class="form-group" style="margin-top:12px">
+<label class="form-label">验收照片</label>
+<div class="upload-box" id="wallBaseUpload" onclick="document.getElementById('wallBasePhotos').click()">
+<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+<div class="upload-text">点击拍照上传</div>
+</div>
+<input type="file" id="wallBasePhotos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'wallBase')">
+<div class="photo-list" id="wallBaseList"></div>
+<div class="form-group" style="margin-top:8px">
+<textarea class="form-input" id="wallBaseDesc" placeholder="请描述问题..." rows="2"></textarea>
+</div>
+</div>
+</div>
+</div>
 
-        function renderSafetyList() {
-            const list = document.getElementById('safetyList');
-            list.innerHTML = safetyItems.map(item => `
-                <div class="check-item" onclick="toggleCheck(this)">
-                    <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
-                    <span class="check-text">${item}</span>
-                </div>
-            `).join('');
-        }
+<!-- 现场巡检照片 -->
+<div class="card">
+<div class="card-header">
+<div class="card-icon red">📷</div>
+<div class="card-title">现场巡检照片</div>
+</div>
+<div class="card-body">
+<div class="upload-box" id="inspectionUpload" onclick="document.getElementById('inspectionPhotos').click()">
+<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+<div class="upload-text">点击拍照上传</div>
+<div class="upload-hint">最多9张</div>
+</div>
+<input type="file" id="inspectionPhotos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'inspection')">
+<div class="photo-list" id="inspectionList"></div>
+<div class="form-group" style="margin-top:8px">
+<textarea class="form-input" id="inspectionDesc" placeholder="请描述问题..." rows="2"></textarea>
+</div>
+</div>
+</div>
 
-        function renderProgressGrid() {
-            const grid = document.getElementById('progressGrid');
-            grid.innerHTML = progressItems.map((item, idx) => `
-                <div class="progress-item">
-                    <div class="progress-label">${item}</div>
-                    <div class="progress-row">
-                        <input type="number" class="progress-input" id="progress${idx}" min="0" max="100" placeholder="0">
-                        <span class="progress-unit">%</span>
-                    </div>
-                </div>
-            `).join('');
-        }
+<!-- 墙地砖空鼓实测 -->
+<div class="card">
+<div class="card-header">
+<div class="card-icon green">📐</div>
+<div class="card-title">墙地砖空鼓实测</div>
+</div>
+<div class="card-body">
+<div class="input-list">
+<div class="input-row"><span class="input-label">实测人</span><input type="text" class="input-field" id="tilePerson" placeholder="请输入"></div>
+<div class="input-row"><span class="input-label">实测时间</span><input type="datetime-local" class="input-field" id="tileTime"></div>
+<div class="input-row"><span class="input-label">墙地砖空鼓</span><input type="text" class="input-field" id="tileHollow" placeholder="请填写"></div>
+<div class="input-row"><span class="input-label">高低差</span><input type="text" class="input-field" id="tileHeight" placeholder="请填写"></div>
+<div class="input-row"><span class="input-label">垂直度</span><input type="text" class="input-field" id="tileVertical" placeholder="请填写"></div>
+<div class="input-row"><span class="input-label">平整度</span><input type="text" class="input-field" id="tileFlatness" placeholder="请填写"></div>
+<div class="input-row"><span class="input-label">阴阳角</span><input type="text" class="input-field" id="tileCorner" placeholder="请填写"></div>
+</div>
+</div>
+</div>
 
-        function renderHiddenInspections() {
-            const container = document.getElementById('hiddenInspections');
-            container.innerHTML = hiddenInspections.map(ins => `
-                <div class="section">
-                    <div class="section-header">
-                        <div class="section-icon check">🔍</div>
-                        <div class="section-title">${ins.title}</div>
-                    </div>
-                    <div class="section-body">
-                        <div class="field">
-                            <label class="label">验收人 <span class="required">*</span></label>
-                            <input type="text" class="input" id="${ins.id}Inspector" placeholder="请输入验收人">
-                        </div>
-                        <div class="field">
-                            <label class="label">验收结论</label>
-                            <div class="check-list" id="${ins.id}Result">
-                                <div class="check-item" onclick="selectSingleCheck(this, '${ins.id}Result')">
-                                    <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
-                                    <span class="check-text">合格</span>
-                                </div>
-                                <div class="check-item" onclick="selectSingleCheck(this, '${ins.id}Result')">
-                                    <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
-                                    <span class="check-text">不合格</span>
-                                </div>
-                                <div class="check-item" onclick="selectSingleCheck(this, '${ins.id}Result')">
-                                    <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
-                                    <span class="check-text">待整改</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="field" style="margin-top:12px;">
-                            <label class="label">验收照片 <span class="required">*</span></label>
-                            <div class="upload-zone" id="${ins.id}PhotoZone">
-                                <input type="file" id="${ins.id}PhotoInput" accept="image/*" capture="environment" multiple style="display:none;" onchange="handlePhotoUpload(this, '${ins.id}PhotoZone', '${ins.id}PhotoGrid', 'hidden_${ins.id}')">
-                                <div class="upload-icon">
-                                    <svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                                </div>
-                                <div class="upload-text">现场拍照上传</div>
-                            </div>
-                            <div class="photo-grid" id="${ins.id}PhotoGrid"></div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
+<!-- 腻子面实测合格率 -->
+<div class="card">
+<div class="card-header">
+<div class="card-icon green">🎨</div>
+<div class="card-title">腻子面实测合格率</div>
+</div>
+<div class="card-body">
+<div class="input-list">
+<div class="input-row"><span class="input-label">实测人</span><input type="text" class="input-field" id="puttyPerson" placeholder="请输入"></div>
+<div class="input-row"><span class="input-label">实测时间</span><input type="datetime-local" class="input-field" id="puttyTime"></div>
+<div class="input-row"><span class="input-label">顶棚极差</span><input type="text" class="input-field" id="puttyCeiling" placeholder="请填写"></div>
+<div class="input-row"><span class="input-label">阴阳角</span><input type="text" class="input-field" id="puttyCorner" placeholder="请填写"></div>
+<div class="input-row"><span class="input-label">垂直度</span><input type="text" class="input-field" id="puttyVertical" placeholder="请填写"></div>
+<div class="input-row"><span class="input-label">平整度</span><input type="text" class="input-field" id="puttyFlatness" placeholder="请填写"></div>
+<div class="input-row"><span class="input-label">三边两线</span><input type="text" class="input-field" id="puttyLines" placeholder="请填写"></div>
+<div class="input-row"><span class="input-label">阴阳角直线度</span><input type="text" class="input-field" id="puttyStraightness" placeholder="请填写"></div>
+</div>
+</div>
+</div>
 
-        function renderTestLists() {
-            document.getElementById('tileTestList').innerHTML = tileItems.map(item => `
-                <div class="input-row">
-                    <span class="input-label">${item}</span>
-                    <input type="text" class="input-field" id="tile_${item}" placeholder="${item === '实测人' || item === '实测时间' ? '请输入' : '请填写'}">
-                </div>
-            `).join('');
-            
-            document.getElementById('puttyTestList').innerHTML = puttyItems.map(item => `
-                <div class="input-row">
-                    <span class="input-label">${item}</span>
-                    <input type="text" class="input-field" id="putty_${item}" placeholder="${item === '实测人' || item === '实测时间' ? '请输入' : '请填写'}">
-                </div>
-            `).join('');
-        }
+<!-- 卫生间蓄水验收 -->
+<div class="card">
+<div class="card-header">
+<div class="card-icon yellow">🚿</div>
+<div class="card-title">卫生间蓄水验收</div>
+</div>
+<div class="card-body">
+<div class="form-group">
+<label class="form-label">验收人 <span class="red">*</span></label>
+<input type="text" class="form-input" id="bathroomInspector" placeholder="请输入验收人">
+</div>
+<div class="form-group">
+<label class="form-label">验收结论</label>
+<select class="form-input" id="bathroomResult">
+<option value="">请选择</option>
+<option value="合格">合格</option>
+<option value="不合格">不合格</option>
+<option value="待整改">待整改</option>
+</select>
+</div>
+<div class="form-group" style="margin-top:12px">
+<label class="form-label">验收照片</label>
+<div class="upload-box" id="bathroomUpload" onclick="document.getElementById('bathroomPhotos').click()">
+<div class="upload-icon" style="background:#10b981"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+<div class="upload-text">点击拍照上传</div>
+</div>
+<input type="file" id="bathroomPhotos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'bathroom')">
+<div class="photo-list" id="bathroomList"></div>
+<div class="form-group" style="margin-top:8px">
+<textarea class="form-input" id="bathroomDesc" placeholder="请描述问题..." rows="2"></textarea>
+</div>
+</div>
+</div>
+</div>
 
-        function toggleCheck(el) {
-            el.classList.toggle('selected');
-        }
+<!-- GitHub 配置 -->
+<div class="config-section">
+<div class="config-title" onclick="document.getElementById('configContent').classList.toggle('show')">
+<span>⚙️ GitHub 配置</span>
+<span>▼</span>
+</div>
+<div class="config-content" id="configContent">
+<div class="form-group">
+<label class="form-label">仓库 Owner</label>
+<input type="text" class="form-input" id="configOwner" placeholder="GitHub 用户名">
+</div>
+<div class="form-group">
+<label class="form-label">仓库名称</label>
+<input type="text" class="form-input" id="configRepo" placeholder="仓库名">
+</div>
+<div class="form-group">
+<label class="form-label">GitHub Token</label>
+<input type="password" class="form-input" id="configToken" placeholder="ghp_xxx">
+</div>
+<button class="submit-btn" style="margin-top:8px" onclick="saveConfig()">保存配置</button>
+</div>
+</div>
 
-        function selectSingleCheck(el, groupId) {
-            document.querySelectorAll(`#${groupId} .check-item`).forEach(item => item.classList.remove('selected'));
-            el.classList.add('selected');
-        }
+</div>
 
-        function handlePhotoUpload(input, zoneId, gridId, key) {
-            const zone = document.getElementById(zoneId);
-            const grid = document.getElementById(gridId);
-            
-            photos[key] = photos[key] || [];
-            
-            Array.from(input.files).forEach(file => {
-                if (!file.type.startsWith('image/')) return;
-                photos[key].push(file);
-                
-                const reader = new FileReader();
-                reader.onload = e => {
-                    const div = document.createElement('div');
-                    div.className = 'photo-item';
-                    const idx = photos[key].length - 1;
-                    div.innerHTML = `<img src="${e.target.result}"><button class="photo-remove" onclick="removePhoto('${key}', ${idx})">×</button>`;
-                    grid.appendChild(div);
-                };
-                reader.readAsDataURL(file);
-            });
-            
-            if (photos[key].length > 0) zone.classList.add('has-photos');
-            input.value = '';
-        }
+<div class="container" id="tab-records" style="display:none">
+<div class="card">
+<div class="card-header">
+<div class="card-icon blue">📋</div>
+<div class="card-title">历史巡检记录</div>
+</div>
+<div class="card-body" id="recordsList">
+<div class="empty">暂无记录</div>
+</div>
+</div>
+</div>
 
-        function removePhoto(key, idx) {
-            photos[key].splice(idx, 1);
-            const grids = document.querySelectorAll('.photo-grid');
-            grids.forEach(grid => grid.innerHTML = '');
-            
-            Object.keys(photos).forEach(k => {
-                const gridId = k.startsWith('hidden_') ? k.replace('hidden_', '') + 'PhotoGrid' : 
-                               k === 'inspectionPhotos' ? 'inspectionPhotoGrid' : 'bathroomPhotoGrid';
-                const grid = document.getElementById(gridId);
-                if (!grid) return;
-                
-                photos[k].forEach((file, i) => {
-                    const reader = new FileReader();
-                    reader.onload = e => {
-                        const div = document.createElement('div');
-                        div.className = 'photo-item';
-                        div.innerHTML = `<img src="${e.target.result}"><button class="photo-remove" onclick="removePhoto('${k}', ${i})">×</button>`;
-                        grid.appendChild(div);
-                    };
-                    reader.readAsDataURL(file);
-                });
-            });
-            
-            const zones = document.querySelectorAll('.upload-zone');
-            zones.forEach(zone => {
-                const hasPhotos = zone.id.startsWith('inspection') ? photos.inspectionPhotos.length > 0 :
-                                 zone.id.startsWith('bathroom') ? photos.bathroomPhotos.length > 0 : false;
-                zone.classList.toggle('has-photos', hasPhotos);
-            });
-        }
+<div class="container" id="tab-qrcode" style="display:none">
+<div class="card">
+<div class="card-header">
+<div class="card-icon red">📱</div>
+<div class="card-title">活码生成</div>
+</div>
+<div class="card-body">
+<div class="form-group qr-name">
+<label class="form-label">活码名称</label>
+<input type="text" class="form-input" id="qrName" placeholder="如：A栋巡检">
+</div>
+<div class="qr-box">
+<canvas id="qrCanvas" width="150" height="150" style="border-radius:8px;background:white"></canvas>
+</div>
+<button class="download-btn" onclick="downloadQR()">下载二维码</button>
+</div>
+</div>
+</div>
 
-        function showTab(tab) {
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.container').forEach(c => c.style.display = 'none');
-            
-            document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
-            document.getElementById(`tab-${tab}`).style.display = 'block';
-            
-            if (tab === 'records') loadRecords();
-            if (tab === 'qrcode') generateQR();
-        }
+<div class="submit-bar">
+<button class="submit-btn" id="submitBtn" onclick="submitForm()">提交巡检记录</button>
+</div>
 
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.addEventListener('click', () => showTab(btn.dataset.tab));
-        });
+<div class="toast" id="toast"></div>
+<div class="loading" id="loading">
+<div class="spinner"></div>
+<div style="font-size:13px;color:#6b7280">正在提交...</div>
+</div>
 
-        function saveConfig() {
-            config = {
-                owner: document.getElementById('configOwner').value.trim(),
-                repo: document.getElementById('configRepo').value.trim(),
-                token: document.getElementById('configToken').value.trim()
-            };
-            localStorage.setItem('githubConfig', JSON.stringify(config));
-            showToast('配置已保存', 'success');
-        }
+<script>
+var safetyNames=['临时用电','临边防护','灭火器','水枪水带','登高作业','动火作业','卫生情况'];
+var progressItems=['轻钢龙骨','石膏板封板','防水施工','地砖施工','墙砖施工','一遍腻子','二遍腻子','腻子打磨','涂料施工','自流平','地板施工','户内门施工','墙布施工','橱柜施工','淋浴屏施工','台面施工','五金洁具施工'];
+var config=JSON.parse(localStorage.getItem('githubConfig')||'{}');
+var records=JSON.parse(localStorage.getItem('inspectionRecords')||'[]');
+var photoData={};
+var safetyData={};
 
-        function b64Encode(str) {
-            return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (m, p) => String.fromCharCode('0x' + p)));
-        }
+function init(){
+document.getElementById('inspectionTime').value=new Date().toISOString().slice(0,16);
+if(config.owner)document.getElementById('configOwner').value=config.owner;
+if(config.repo)document.getElementById('configRepo').value=config.repo;
+if(config.token)document.getElementById('configToken').value=config.token;
+if(localStorage.getItem('projectName'))document.getElementById('projectName').value=localStorage.getItem('projectName');
+renderProgress();
+drawQR();
+}
 
-        async function uploadToGitHub(path, content) {
-            const apiUrl = `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${path}`;
-            const body = {
-                message: `Add ${path}`,
-                content: typeof content === 'string' ? b64Encode(content) : content
-            };
-            
-            try {
-                const check = await fetch(apiUrl, { headers: { 'Authorization': `token ${config.token}` } });
-                if (check.ok) body.sha = (await check.json()).sha;
-            } catch (e) {}
+function selectSafety(el,id){
+var options=el.parentElement.querySelectorAll('.safety-option');
+for(var i=0;i<options.length;i++){
+options[i].classList.remove('checked');
+}
+el.classList.add('checked');
+var detail=document.getElementById('safety'+id+'Detail');
+if(el.classList.contains('warning')){
+detail.classList.add('show');
+}else{
+detail.classList.remove('show');
+}
+safetyData[id]=el.querySelector('.safety-label').textContent;
+}
 
-            const res = await fetch(apiUrl, {
-                method: 'PUT',
-                headers: { 'Authorization': `token ${config.token}`, 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
-            });
+function renderProgress(){
+var html='';
+for(var i=0;i<progressItems.length;i++){
+html+='<div class="progress-item"><div class="progress-label"><span>'+progressItems[i]+'</span><span class="progress-value" id="progress'+i+'Val">0%</span></div><input type="range" class="progress-slider" id="progress'+i+'" min="0" max="100" step="10" value="0" oninput="document.getElementById(\'progress'+i+'Val\').textContent=this.value+\'%\'"></div>';
+}
+document.getElementById('progressList').innerHTML=html;
+}
 
-            if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
-            return true;
-        }
+function switchTab(tab){
+var btns=document.querySelectorAll('.tab-btn');
+for(var i=0;i<btns.length;i++)btns[i].classList.remove('active');
+var containers=document.querySelectorAll('.container');
+for(var i=0;i<containers.length;i++)containers[i].style.display='none';
+document.querySelector('[onclick="switchTab(\''+tab+'\')"]').classList.add('active');
+document.getElementById('tab-'+tab).style.display='block';
+if(tab==='records')loadRecords();
+if(tab==='qrcode')drawQR();
+}
 
-        async function submitForm() {
-            if (!config.token) {
-                showToast('请先配置 GitHub 信息', 'error');
-                return;
-            }
+function addPhotos(input,key){
+var list=document.getElementById(key+'List');
+var upload=document.getElementById(key+'Upload');
+photoData[key]=photoData[key]||[];
+var files=input.files;
+for(var i=0;i<files.length;i++){
+var file=files[i];
+if(!file.type.startsWith('image/'))continue;
+var idx=photoData[key].length;
+photoData[key].push(file);
+var reader=new FileReader();
+reader.onload=(function(index){
+return function(e){
+var div=document.createElement('div');
+div.className='photo-thumb';
+div.innerHTML='<img src="'+e.target.result+'"><button onclick="removePhoto(\''+key+'\','+index+')">×</button>';
+list.appendChild(div);
+if(upload)upload.classList.add('active');
+};
+})(idx);
+reader.readAsDataURL(file);
+}
+input.value='';
+}
 
-            const building = document.getElementById('building').value.trim();
-            const room = document.getElementById('room').value.trim();
-            const inspectionTime = document.getElementById('inspectionTime').value;
+function removePhoto(key,idx){
+photoData[key].splice(idx,1);
+var list=document.getElementById(key+'List');
+var upload=document.getElementById(key+'Upload');
+list.innerHTML='';
+for(var i=0;i<photoData[key].length;i++){
+var reader=new FileReader();
+reader.onload=(function(index){
+return function(e){
+var div=document.createElement('div');
+div.className='photo-thumb';
+div.innerHTML='<img src="'+e.target.result+'"><button onclick="removePhoto(\''+key+'\','+index+')">×</button>';
+list.appendChild(div);
+};
+})(i);
+reader.readAsDataURL(photoData[key][i]);
+}
+if(photoData[key].length===0 && upload)upload.classList.remove('active');
+}
 
-            if (!building || !room) {
-                showToast('请填写楼号和房号', 'error');
-                return;
-            }
+function saveConfig(){
+config={
+owner:document.getElementById('configOwner').value.trim(),
+repo:document.getElementById('configRepo').value.trim(),
+token:document.getElementById('configToken').value.trim()
+};
+localStorage.setItem('githubConfig',JSON.stringify(config));
+var projectName=document.getElementById('projectName').value.trim();
+if(projectName)localStorage.setItem('projectName',projectName);
+showToast('配置已保存','success');
+}
 
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            document.getElementById('loading').classList.add('show');
+function b64Encode(str){
+return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,function(m,p){return String.fromCharCode(parseInt('0x'+p));}));
+}
 
-            try {
-                const recordId = `INS-${Date.now()}`;
-                const record = {
-                    id: recordId,
-                    building, room, inspectionTime,
-                    safetyItems: [],
-                    safetyNote: document.getElementById('safetyNote').value,
-                    progress: {},
-                    hiddenInspections: {},
-                    inspectionPhotos: [],
-                    tileTest: {},
-                    puttyTest: {},
-                    bathroomInspector: document.getElementById('bathroomInspector').value,
-                    bathroomResult: '',
-                    bathroomPhotos: [],
-                    createdAt: new Date().toLocaleString('zh-CN')
-                };
+function uploadToGitHub(path,content){
+return new Promise(function(resolve,reject){
+var apiUrl='https://api.github.com/repos/'+config.owner+'/'+config.repo+'/contents/'+path;
+var body={message:'Add '+path,content:typeof content==='string'?b64Encode(content):content};
+fetch(apiUrl,{headers:{'Authorization':'token '+config.token}}).then(function(check){
+if(check.ok)return check.json();
+}).then(function(data){
+if(data)body.sha=data.sha;
+return fetch(apiUrl,{method:'PUT',headers:{'Authorization':'token '+config.token,'Content-Type':'application/json'},body:JSON.stringify(body)});
+}).then(function(res){
+if(!res.ok)throw new Error('API error: '+res.status);
+resolve(true);
+}).catch(function(e){reject(e);});
+});
+}
 
-                document.querySelectorAll('#safetyList .check-item.selected').forEach(el => {
-                    record.safetyItems.push(el.querySelector('.check-text').textContent);
-                });
+async function submitForm(){
+if(!config.token){showToast('请先配置GitHub信息','error');return;}
+var projectName=document.getElementById('projectName').value.trim();
+var building=document.getElementById('building').value.trim();
+var room=document.getElementById('room').value.trim();
+if(!building||!room){showToast('请填写楼号和房号','error');return;}
+var btn=document.getElementById('submitBtn');
+btn.disabled=true;
+document.getElementById('loading').classList.add('show');
+try{
+var recordId='INS-'+Date.now();
+var record={
+id:recordId,
+projectName:projectName,
+building:building,
+room:room,
+inspectionTime:document.getElementById('inspectionTime').value,
+safety:[],
+progress:{},
+inspections:{
+lightSteel:{inspector:document.getElementById('lightSteelInspector').value,result:document.getElementById('lightSteelResult').value,photos:[]},
+waterproof:{inspector:document.getElementById('waterproofInspector').value,result:document.getElementById('waterproofResult').value,photos:[]},
+waterStore:{inspector:document.getElementById('waterStoreInspector').value,result:document.getElementById('waterStoreResult').value,photos:[]},
+wallBase:{inspector:document.getElementById('wallBaseInspector').value,result:document.getElementById('wallBaseResult').value,photos:[]}
+},
+inspectionPhotos:[],
+tile:{person:'',time:'',hollow:'',height:'',vertical:'',flatness:'',corner:''},
+putty:{person:'',time:'',ceiling:'',corner:'',vertical:'',flatness:'',lines:'',straightness:''},
+bathroom:{inspector:document.getElementById('bathroomInspector').value,result:document.getElementById('bathroomResult').value,photos:[]},
+createdAt:new Date().toLocaleString('zh-CN')
+};
+for(var i=1;i<=7;i++){
+var result=safetyData[i]||'';
+var photos=[];
+var desc='';
+if(photoData['safety'+i]){
+photos=photoData['safety'+i].map(function(f,j){
+return recordId+'_safety'+i+'_'+(j+1)+'.'+f.name.split('.').pop();
+});
+}
+if(document.getElementById('safety'+i+'Desc')){
+desc=document.getElementById('safety'+i+'Desc').value;
+}
+record.safety.push({name:safetyNames[i-1],result:result,photos:photos,description:desc});
+}
+for(var i=0;i<progressItems.length;i++){
+var v=document.getElementById('progress'+i).value;
+if(v)record.progress[progressItems[i]]=v;
+}
+var tileKeys=['Person','Time','Hollow','Height','Vertical','Flatness','Corner'];
+for(var i=0;i<tileKeys.length;i++){
+record.tile[tileKeys[i].toLowerCase()]=document.getElementById('tile'+tileKeys[i]).value;
+}
+var puttyKeys=['Person','Time','Ceiling','Corner','Vertical','Flatness','Lines','Straightness'];
+for(var i=0;i<puttyKeys.length;i++){
+record.putty[puttyKeys[i].toLowerCase()]=document.getElementById('putty'+puttyKeys[i]).value;
+}
+var photoKeys=['lightSteel','waterproof','waterStore','wallBase','inspection','bathroom'];
+for(var k=0;k<photoKeys.length;k++){
+var key=photoKeys[k];
+var photos=photoData[key]||[];
+for(var j=0;j<photos.length;j++){
+var file=photos[j];
+var ext=file.name.split('.').pop();
+var reader=new FileReader();
+var base64=await new Promise(function(r){reader.onload=function(){r(reader.result);};reader.readAsDataURL(file);});
+var imageName=recordId+'_'+key+'_'+(j+1)+'.'+ext;
+await uploadToGitHub('images/'+imageName,base64.split(',')[1]);
+if(key==='inspection')record.inspectionPhotos.push(imageName);
+else if(key==='bathroom')record.bathroom.photos.push(imageName);
+else record.inspections[key].photos.push(imageName);
+}
+}
+for(var i=1;i<=7;i++){
+var photos=photoData['safety'+i]||[];
+for(var j=0;j<photos.length;j++){
+var file=photos[j];
+var ext=file.name.split('.').pop();
+var reader=new FileReader();
+var base64=await new Promise(function(r){reader.onload=function(){r(reader.result);};reader.readAsDataURL(file);});
+var imageName=recordId+'_safety'+i+'_'+(j+1)+'.'+ext;
+await uploadToGitHub('images/'+imageName,base64.split(',')[1]);
+}
+}
+await uploadToGitHub('data/'+recordId+'.json',JSON.stringify(record,null,2));
+records.unshift(record);
+localStorage.setItem('inspectionRecords',JSON.stringify(records));
+showToast('提交成功！','success');
+setTimeout(function(){location.reload();},1500);
+}catch(error){
+console.error('Error:',error);
+showToast('提交失败:'+error.message,'error');
+}finally{
+btn.disabled=false;
+document.getElementById('loading').classList.remove('show');
+}
+}
 
-                progressItems.forEach((item, idx) => {
-                    const val = document.getElementById(`progress${idx}`).value;
-                    if (val) record.progress[item] = val + '%';
-                });
+function loadRecords(){
+var container=document.getElementById('recordsList');
+if(records.length===0){container.innerHTML='<div class="empty">暂无记录</div>';return;}
+var html='';
+for(var i=0;i<records.length;i++){
+var r=records[i];
+html+='<div class="record-item"><div class="record-title">'+(r.projectName?r.projectName+'-':'')+r.building+'-'+r.room+'</div><div class="record-time">'+r.inspectionTime+'</div></div>';
+}
+container.innerHTML=html;
+}
 
-                hiddenInspections.forEach(ins => {
-                    const inspector = document.getElementById(`${ins.id}Inspector`).value;
-                    const resultEl = document.querySelector(`#${ins.id}Result .check-item.selected`);
-                    const result = resultEl ? resultEl.querySelector('.check-text').textContent : '';
-                    record.hiddenInspections[ins.title] = { inspector, result, photos: [] };
-                });
+function drawQR(){
+var canvas=document.getElementById('qrCanvas');
+var ctx=canvas.getContext('2d');
+ctx.fillStyle='white';
+ctx.fillRect(0,0,150,150);
+ctx.fillStyle='#2563eb';
+ctx.fillRect(10,10,40,40);ctx.fillRect(100,10,40,40);ctx.fillRect(10,100,40,40);
+ctx.fillStyle='white';
+ctx.fillRect(17,17,26,26);ctx.fillRect(107,17,26,26);ctx.fillRect(17,107,26,26);
+ctx.fillStyle='#2563eb';
+ctx.fillRect(22,22,16,16);ctx.fillRect(112,22,16,16);ctx.fillRect(22,112,16,16);
+ctx.fillStyle='#2563eb';
+ctx.fillRect(55,55,40,40);
+}
 
-                for (let i = 0; i < (photos.inspectionPhotos || []).length; i++) {
-                    const file = photos.inspectionPhotos[i];
-                    const ext = file.name.split('.').pop();
-                    const reader = new FileReader();
-                    const base64 = await new Promise(r => { reader.onload = () => r(reader.result); reader.readAsDataURL(file); });
-                    const imageName = `${recordId}_inspection_${i + 1}.${ext}`;
-                    await uploadToGitHub(`images/${imageName}`, base64.split(',')[1]);
-                    record.inspectionPhotos.push(imageName);
-                }
+function downloadQR(){
+var canvas=document.getElementById('qrCanvas');
+var link=document.createElement('a');
+link.download=(document.getElementById('qrName').value||'巡检二维码')+'.png';
+link.href=canvas.toDataURL('image/png');
+link.click();
+showToast('下载成功','success');
+}
 
-                tileItems.forEach(item => {
-                    record.tileTest[item] = document.getElementById(`tile_${item}`).value;
-                });
+function showToast(msg,type){
+var toast=document.getElementById('toast');
+toast.textContent=msg;
+toast.className='toast '+type+' show';
+setTimeout(function(){toast.classList.remove('show');},3000);
+}
 
-                puttyItems.forEach(item => {
-                    record.puttyTest[item] = document.getElementById(`putty_${item}`).value;
-                });
-
-                const bathroomResultEl = document.querySelector('#bathroomResult .check-item.selected');
-                if (bathroomResultEl) record.bathroomResult = bathroomResultEl.querySelector('.check-text').textContent;
-
-                for (let i = 0; i < (photos.bathroomPhotos || []).length; i++) {
-                    const file = photos.bathroomPhotos[i];
-                    const ext = file.name.split('.').pop();
-                    const reader = new FileReader();
-                    const base64 = await new Promise(r => { reader.onload = () => r(reader.result); reader.readAsDataURL(file); });
-                    const imageName = `${recordId}_bathroom_${i + 1}.${ext}`;
-                    await uploadToGitHub(`images/${imageName}`, base64.split(',')[1]);
-                    record.bathroomPhotos.push(imageName);
-                }
-
-                hiddenInspections.forEach(ins => {
-                    const key = `hidden_${ins.id}`;
-                    for (let i = 0; i < (photos[key] || []).length; i++) {
-                        const file = photos[key][i];
-                        const ext = file.name.split('.').pop();
-                        const reader = new FileReader();
-                        const base64 = await new Promise(r => { reader.onload = () => r(reader.result); reader.readAsDataURL(file); });
-                        const imageName = `${recordId}_${ins.id}_${i + 1}.${ext}`;
-                        await uploadToGitHub(`images/${imageName}`, base64.split(',')[1]);
-                        record.hiddenInspections[ins.title].photos.push(imageName);
-                    }
-                });
-
-                await uploadToGitHub(`data/${recordId}.json`, JSON.stringify(record, null, 2));
-                records.unshift(record);
-                localStorage.setItem('inspectionRecords', JSON.stringify(records));
-
-                showToast('提交成功！', 'success');
-                setTimeout(() => location.reload(), 1500);
-
-            } catch (error) {
-                console.error('Error:', error);
-                showToast('提交失败: ' + error.message, 'error');
-            } finally {
-                btn.disabled = false;
-                document.getElementById('loading').classList.remove('show');
-            }
-        }
-
-        function loadRecords() {
-            const container = document.getElementById('recordsList');
-            if (records.length === 0) {
-                container.innerHTML = '<div class="empty">暂无记录</div>';
-                return;
-            }
-            container.innerHTML = records.map(r => `
-                <div class="record-item">
-                    <div class="record-title">${r.building}-${r.room}</div>
-                    <div class="record-time">${r.inspectionTime}</div>
-                </div>
-            `).join('');
-        }
-
-        function generateQR() {
-            const canvas = document.getElementById('qrCanvas');
-            const ctx = canvas.getContext('2d');
-            ctx.fillStyle = 'white';
-            ctx.fillRect(0, 0, 180, 180);
-            
-            const url = window.location.href.split('?')[0];
-            ctx.fillStyle = '#2563eb';
-            
-            ctx.fillRect(10, 10, 50, 50);
-            ctx.fillRect(120, 10, 50, 50);
-            ctx.fillRect(10, 120, 50, 50);
-            
-            ctx.fillStyle = 'white';
-            ctx.fillRect(20, 20, 30, 30);
-            ctx.fillRect(130, 20, 30, 30);
-            ctx.fillRect(20, 130, 30, 30);
-            
-            ctx.fillStyle = '#2563eb';
-            ctx.fillRect(25, 25, 20, 20);
-            ctx.fillRect(135, 25, 20, 20);
-            ctx.fillRect(25, 135, 20, 20);
-            
-            const data = url.split('').map(c => c.charCodeAt(0));
-            let idx = 0;
-            for (let y = 65; y < 115 && idx < data.length; y += 5) {
-                for (let x = 65; x < 115 && idx < data.length; x += 5) {
-                    if ((data[idx] + idx) % 3 === 0) {
-                        ctx.fillRect(x, y, 4, 4);
-                    }
-                    idx++;
-                }
-            }
-        }
-
-        function downloadQR() {
-            const canvas = document.getElementById('qrCanvas');
-            const link = document.createElement('a');
-            link.download = `${document.getElementById('qrName').value || '巡检二维码'}.png`;
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-            showToast('下载成功', 'success');
-        }
-
-        function showToast(msg, type) {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.className = `toast ${type} show`;
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
-        init();
-    </script>
+init();
+</script>
 </body>
 </html>
