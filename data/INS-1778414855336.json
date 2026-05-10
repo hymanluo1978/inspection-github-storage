@@ -1,0 +1,120 @@
+{
+  "id": "INS-1778414855336",
+  "projectName": "",
+  "building": "1",
+  "room": "101",
+  "inspectionTime": "2026-05-08T20:04",
+  "safety": [
+    {
+      "name": "临时用电",
+      "result": "无隐患",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "临边防护",
+      "result": "存在问题",
+      "photos": [
+        "INS-1778414855336_safety2_1.png"
+      ],
+      "description": "临边缺失"
+    },
+    {
+      "name": "灭火器",
+      "result": "无隐患",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "水枪水带",
+      "result": "无隐患",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "登高作业",
+      "result": "不涉及",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "动火作业",
+      "result": "不涉及",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "卫生情况",
+      "result": "无隐患",
+      "photos": [],
+      "description": ""
+    }
+  ],
+  "progress": {
+    "轻钢龙骨": "30",
+    "石膏板封板": "20",
+    "防水施工": "80",
+    "地砖施工": "40",
+    "墙砖施工": "30",
+    "一遍腻子": "50",
+    "二遍腻子": "30",
+    "腻子打磨": "10",
+    "涂料施工": "0",
+    "自流平": "100",
+    "地板施工": "0",
+    "户内门施工": "0",
+    "墙布施工": "0",
+    "橱柜施工": "0",
+    "淋浴屏施工": "0",
+    "台面施工": "0",
+    "五金洁具施工": "0"
+  },
+  "inspections": {
+    "lightSteel": {
+      "inspector": "罗钰弘",
+      "result": "合格",
+      "photos": []
+    },
+    "waterproof": {
+      "inspector": "罗钰弘",
+      "result": "合格",
+      "photos": []
+    },
+    "waterStore": {
+      "inspector": "罗钰弘",
+      "result": "",
+      "photos": []
+    },
+    "wallBase": {
+      "inspector": "",
+      "result": "",
+      "photos": []
+    }
+  },
+  "inspectionPhotos": [],
+  "tile": {
+    "person": "罗钰弘",
+    "time": "2026-05-10T20:06",
+    "hollow": "90%",
+    "height": "+3",
+    "vertical": "-4",
+    "flatness": "3",
+    "corner": "2"
+  },
+  "putty": {
+    "person": "罗钰弘",
+    "time": "2026-05-10T20:07",
+    "ceiling": "2",
+    "corner": "3",
+    "vertical": "2",
+    "flatness": "3",
+    "lines": "4",
+    "straightness": "2"
+  },
+  "bathroom": {
+    "inspector": "",
+    "result": "",
+    "photos": []
+  },
+  "createdAt": "2026/5/10 20:07:35"
+}
