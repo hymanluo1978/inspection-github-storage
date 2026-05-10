@@ -9,32 +9,18 @@
         :root {
             --primary: #2563eb;
             --primary-dark: #1d4ed8;
-            --primary-light: #3b82f6;
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-300: #d1d5db;
-            --gray-400: #9ca3af;
-            --gray-500: #6b7280;
-            --gray-600: #4b5563;
-            --gray-700: #374151;
-            --gray-800: #1f2937;
             --bg: #f5f6f8;
             --card-bg: #ffffff;
             --text: #111827;
-            --text-secondary: #6b7280;
+            --gray-500: #6b7280;
             --border: #e5e7eb;
-            --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
-            --shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
             --radius: 12px;
-            --radius-lg: 16px;
         }
         
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body {
             font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -42,44 +28,32 @@
             color: var(--text);
             line-height: 1.6;
             min-height: 100vh;
-            padding-bottom: 100px;
+            padding-bottom: 120px;
         }
         
         .header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
-            padding: 24px 20px;
+            padding: 20px 16px;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: var(--shadow-md);
         }
         
-        .header-content { max-width: 600px; margin: 0 auto; }
-        
-        .header h1 {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        
-        .header p {
-            font-size: 13px;
-            opacity: 0.9;
-        }
+        .header h1 { font-size: 18px; font-weight: 600; }
+        .header p { font-size: 12px; opacity: 0.8; margin-top: 2px; }
         
         .location-bar {
             display: flex;
             align-items: center;
             gap: 8px;
             margin-top: 12px;
-            padding: 10px 14px;
+            padding: 10px 12px;
             background: rgba(255,255,255,0.15);
             border-radius: 10px;
-            backdrop-filter: blur(10px);
         }
         
-        .location-bar input {
+        .location-input {
             flex: 1;
             background: transparent;
             border: none;
@@ -87,312 +61,188 @@
             font-size: 15px;
             font-weight: 500;
             font-family: inherit;
+            text-align: center;
         }
         
-        .location-bar input::placeholder {
-            color: rgba(255,255,255,0.7);
-        }
+        .location-input::placeholder { color: rgba(255,255,255,0.6); }
         
-        .location-sep {
-            color: rgba(255,255,255,0.5);
-            font-size: 18px;
-        }
+        .location-sep { font-size: 16px; opacity: 0.5; }
         
-        .container { max-width: 600px; margin: 0 auto; padding: 16px; }
+        .container { max-width: 600px; margin: 0 auto; padding: 12px; }
         
         .section {
             background: var(--card-bg);
-            border-radius: var(--radius-lg);
-            margin-bottom: 16px;
-            box-shadow: var(--shadow-sm);
-            overflow: hidden;
+            border-radius: var(--radius);
+            margin-bottom: 12px;
             border: 1px solid var(--border);
+            overflow: hidden;
         }
         
         .section-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--gray-100);
+            padding: 14px 16px;
+            border-bottom: 1px solid #f0f0f0;
             display: flex;
             align-items: center;
             gap: 12px;
         }
         
         .section-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 16px;
+            flex-shrink: 0;
         }
         
-        .section-icon.info { background: #dbeafe; color: var(--primary); }
-        .section-icon.warning { background: #fef3c7; color: var(--warning); }
-        .section-icon.check { background: #d1fae5; color: var(--success); }
-        .section-icon.photo { background: #fee2e2; color: var(--danger); }
+        .section-icon.info { background: #dbeafe; }
+        .section-icon.warning { background: #fef3c7; }
+        .section-icon.check { background: #d1fae5; }
+        .section-icon.photo { background: #fee2e2; }
         
-        .section-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--gray-800);
-        }
+        .section-title { font-size: 14px; font-weight: 600; }
+        .section-desc { font-size: 11px; color: var(--gray-500); margin-top: 1px; }
         
-        .section-desc {
+        .section-body { padding: 14px 16px; }
+        
+        .field { margin-bottom: 14px; }
+        .field:last-child { margin-bottom: 0; }
+        
+        .label {
             font-size: 12px;
             color: var(--gray-500);
-            margin-top: 2px;
+            margin-bottom: 6px;
+            display: block;
         }
         
-        .section-body { padding: 16px 20px; }
+        .label .required { color: var(--danger); margin-left: 2px; }
         
-        .field-group { margin-bottom: 20px; }
-        .field-group:last-child { margin-bottom: 0; }
-        
-        .field-label {
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--gray-700);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        
-        .field-label .required { color: var(--danger); }
-        
-        .field-input {
+        .input {
             width: 100%;
-            padding: 12px 14px;
-            font-size: 15px;
-            border: 1.5px solid var(--gray-200);
-            border-radius: var(--radius);
-            background: var(--gray-50);
+            padding: 12px;
+            font-size: 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            background: #fafafa;
             color: var(--text);
             font-family: inherit;
-            transition: all 0.2s;
         }
         
-        .field-input:focus {
+        .input:focus {
             outline: none;
             border-color: var(--primary);
             background: white;
-            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
         }
         
-        .field-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
+        .input::placeholder { color: #aaa; }
         
-        select.field-input {
-            cursor: pointer;
+        textarea.input { min-height: 70px; resize: vertical; }
+        
+        select.input {
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 12px center;
-            padding-right: 40px;
+            background-position: right 10px center;
+            padding-right: 36px;
         }
         
-        .checklist {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+        .check-list { display: flex; flex-direction: column; gap: 8px; }
         
         .check-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 14px;
-            background: var(--gray-50);
-            border-radius: var(--radius);
+            gap: 10px;
+            padding: 10px 12px;
+            background: #fafafa;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s;
             border: 1.5px solid transparent;
+            transition: all 0.2s;
         }
         
-        .check-item:hover {
-            background: var(--gray-100);
-        }
-        
-        .check-item.checked {
-            background: #ecfdf5;
-            border-color: var(--success);
-        }
-        
-        .check-item input {
-            display: none;
-        }
+        .check-item:hover { background: #f0f0f0; }
+        .check-item.selected { background: #ecfdf5; border-color: var(--success); }
         
         .check-box {
-            width: 22px;
-            height: 22px;
-            border: 2px solid var(--gray-300);
-            border-radius: 6px;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
             flex-shrink: 0;
+            transition: all 0.2s;
         }
         
-        .check-item.checked .check-box {
+        .check-item.selected .check-box {
             background: var(--success);
             border-color: var(--success);
         }
         
-        .check-box svg {
-            width: 14px;
-            height: 14px;
-            stroke: white;
-            stroke-width: 3;
-            opacity: 0;
-            transform: scale(0.5);
-            transition: all 0.2s;
-        }
+        .check-box svg { width: 12px; height: 12px; stroke: white; stroke-width: 3; opacity: 0; }
+        .check-item.selected .check-box svg { opacity: 1; }
         
-        .check-item.checked .check-box svg {
-            opacity: 1;
-            transform: scale(1);
-        }
+        .check-text { font-size: 13px; color: var(--text); }
         
-        .check-text {
-            flex: 1;
-            font-size: 14px;
-            color: var(--gray-700);
-        }
+        .progress-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
         
-        .check-result {
-            display: flex;
-            gap: 8px;
-        }
+        .progress-item { background: #fafafa; border-radius: 8px; padding: 10px; }
         
-        .result-btn {
-            padding: 6px 12px;
-            font-size: 12px;
-            border-radius: 6px;
-            border: 1.5px solid var(--gray-200);
-            background: white;
-            color: var(--gray-600);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
+        .progress-label { font-size: 11px; color: var(--gray-500); margin-bottom: 6px; }
         
-        .result-btn.active {
-            border-color: currentColor;
-            font-weight: 500;
-        }
+        .progress-row { display: flex; align-items: center; gap: 4px; }
         
-        .result-btn.pass { color: var(--success); }
-        .result-btn.pass.active { background: #ecfdf5; }
-        
-        .result-btn.warn { color: var(--warning); }
-        .result-btn.warn.active { background: #fffbeb; }
-        
-        .result-btn.fail { color: var(--danger); }
-        .result-btn.fail.active { background: #fef2f2; }
-        
-        .progress-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-        
-        .progress-item {
-            padding: 12px;
-            background: var(--gray-50);
-            border-radius: var(--radius);
-        }
-        
-        .progress-item-label {
-            font-size: 12px;
-            color: var(--gray-600);
-            margin-bottom: 6px;
-        }
-        
-        .progress-item-input {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        
-        .progress-item-input input {
-            width: 50px;
-            padding: 8px;
-            font-size: 14px;
-            text-align: center;
-            border: 1.5px solid var(--gray-200);
-            border-radius: 8px;
-            background: white;
-        }
-        
-        .progress-item-input input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-        
-        .progress-item-input span {
+        .progress-input {
+            width: 45px;
+            padding: 6px;
             font-size: 13px;
-            color: var(--gray-500);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: white;
         }
+        
+        .progress-input:focus { outline: none; border-color: var(--primary); }
+        
+        .progress-unit { font-size: 12px; color: var(--gray-500); }
         
         .upload-zone {
-            border: 2px dashed var(--gray-300);
-            border-radius: var(--radius);
-            padding: 32px 20px;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 24px;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s;
-            background: var(--gray-50);
+            background: #fafafa;
         }
         
-        .upload-zone:hover {
-            border-color: var(--primary);
-            background: #eff6ff;
-        }
-        
-        .upload-zone.has-photos {
-            border-style: solid;
-            border-color: var(--success);
-            background: #ecfdf5;
-        }
+        .upload-zone:hover { border-color: var(--primary); background: #f0f7ff; }
+        .upload-zone.has-photos { border-color: var(--success); background: #ecfdf5; }
         
         .upload-icon {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             background: var(--primary);
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 12px;
+            margin: 0 auto 10px;
         }
         
-        .upload-icon svg {
-            width: 24px;
-            height: 24px;
-            stroke: white;
-        }
+        .upload-icon svg { width: 22px; height: 22px; stroke: white; }
         
-        .upload-text {
-            font-size: 14px;
-            color: var(--gray-700);
-            font-weight: 500;
-        }
-        
-        .upload-hint {
-            font-size: 12px;
-            color: var(--gray-500);
-            margin-top: 4px;
-        }
+        .upload-text { font-size: 13px; color: var(--text); font-weight: 500; }
+        .upload-hint { font-size: 11px; color: var(--gray-500); margin-top: 4px; }
         
         .photo-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 8px;
-            margin-top: 12px;
+            margin-top: 10px;
         }
         
         .photo-item {
@@ -400,20 +250,17 @@
             border-radius: 8px;
             overflow: hidden;
             position: relative;
+            background: #f0f0f0;
         }
         
-        .photo-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .photo-item img { width: 100%; height: 100%; object-fit: cover; }
         
-        .photo-item .remove-btn {
+        .photo-remove {
             position: absolute;
             top: 4px;
             right: 4px;
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             background: rgba(0,0,0,0.6);
             border: none;
             border-radius: 50%;
@@ -425,119 +272,98 @@
             justify-content: center;
         }
         
-        .input-list {
+        .input-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+        .input-row:last-child { margin-bottom: 0; }
+        
+        .input-label { width: 65px; font-size: 12px; color: var(--gray-500); flex-shrink: 0; }
+        
+        .input-field {
+            flex: 1;
+            padding: 8px 10px;
+            font-size: 13px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: #fafafa;
+        }
+        
+        .input-field:focus { outline: none; border-color: var(--primary); background: white; }
+        
+        .nav-bar {
+            display: flex;
+            background: white;
+            border-top: 1px solid var(--border);
+            padding: 6px 12px;
+            position: fixed;
+            bottom: 70px;
+            left: 0;
+            right: 0;
+            z-index: 99;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            padding: 8px;
+            text-align: center;
+            font-size: 11px;
+            color: var(--gray-500);
+            background: none;
+            border: none;
+            cursor: pointer;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-        }
-        
-        .input-item {
-            display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 3px;
         }
         
-        .input-item-label {
-            width: 70px;
-            font-size: 13px;
-            color: var(--gray-600);
-            flex-shrink: 0;
-        }
+        .nav-btn.active { color: var(--primary); }
+        .nav-btn svg { width: 20px; height: 20px; }
         
-        .input-item input {
-            flex: 1;
-            padding: 10px 12px;
-            font-size: 14px;
-            border: 1.5px solid var(--gray-200);
-            border-radius: 8px;
-            background: var(--gray-50);
-        }
-        
-        .input-item input:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: white;
-        }
-        
-        .submit-btn {
+        .submit-bar {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 16px 20px;
+            padding: 12px 16px;
             background: white;
-            border-top: 1px solid var(--gray-200);
+            border-top: 1px solid var(--border);
             z-index: 100;
         }
         
-        .submit-btn-inner {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .submit-btn button {
+        .submit-btn {
             width: 100%;
-            padding: 16px;
-            font-size: 16px;
+            padding: 14px;
+            font-size: 15px;
             font-weight: 600;
             color: white;
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             border: none;
-            border-radius: var(--radius);
+            border-radius: 10px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 14px rgba(37,99,235,0.4);
-            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(37,99,235,0.3);
         }
         
-        .submit-btn button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(37,99,235,0.5);
-        }
-        
-        .submit-btn button:active {
-            transform: translateY(0);
-        }
-        
-        .submit-btn button:disabled {
-            background: var(--gray-400);
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-        
-        .submit-btn button svg {
-            width: 20px;
-            height: 20px;
-        }
+        .submit-btn:active { transform: scale(0.98); }
+        .submit-btn:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; }
         
         .toast {
             position: fixed;
-            top: 80px;
+            top: 70px;
             left: 50%;
             transform: translateX(-50%) translateY(-20px);
-            padding: 12px 24px;
-            border-radius: 10px;
+            padding: 10px 20px;
+            border-radius: 8px;
             color: white;
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 13px;
             z-index: 1000;
             opacity: 0;
             transition: all 0.3s;
-            box-shadow: var(--shadow-md);
         }
         
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-        
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
         .toast.success { background: var(--success); }
         .toast.error { background: var(--danger); }
         
-        .loading-overlay {
+        .loading {
             position: fixed;
             top: 0;
             left: 0;
@@ -549,66 +375,28 @@
             justify-content: center;
             z-index: 999;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
         }
         
-        .loading-overlay.show { display: flex; }
+        .loading.show { display: flex; }
         
         .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--gray-200);
+            width: 36px;
+            height: 36px;
+            border: 3px solid #eee;
             border-top-color: var(--primary);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
         
         @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-text { font-size: 13px; color: var(--gray-500); }
         
-        .loading-text {
-            font-size: 14px;
-            color: var(--gray-600);
-        }
-        
-        .nav-bar {
-            display: flex;
-            background: white;
-            border-top: 1px solid var(--gray-200);
-            padding: 8px 16px;
-            position: fixed;
-            bottom: 70px;
-            left: 0;
-            right: 0;
-            z-index: 99;
-        }
-        
-        .nav-btn {
-            flex: 1;
-            padding: 10px;
-            text-align: center;
-            font-size: 12px;
-            color: var(--gray-500);
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-        }
-        
-        .nav-btn.active { color: var(--primary); }
-        
-        .nav-btn svg {
-            width: 22px;
-            height: 22px;
-        }
-        
-        .config-section {
+        .config-box {
             margin-top: 12px;
             padding: 12px;
             background: #fffbeb;
-            border-radius: var(--radius);
+            border-radius: 8px;
             border: 1px dashed var(--warning);
         }
         
@@ -618,49 +406,66 @@
             align-items: center;
             cursor: pointer;
             font-size: 12px;
-            color: var(--gray-600);
+            color: var(--gray-500);
         }
         
-        .config-content {
-            display: none;
-            margin-top: 12px;
-        }
-        
+        .config-content { display: none; margin-top: 12px; }
         .config-content.show { display: block; }
         
-        .config-content .field-group { margin-bottom: 12px; }
+        .empty { text-align: center; padding: 40px; color: var(--gray-500); font-size: 13px; }
+        
+        .record-item { padding: 12px; border-bottom: 1px solid #f0f0f0; }
+        .record-item:last-child { border-bottom: none; }
+        .record-title { font-size: 14px; font-weight: 500; }
+        .record-time { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
+        
+        .qr-section { text-align: center; padding: 20px; }
+        .qr-canvas { border-radius: 12px; background: white; display: inline-block; }
+        
+        .download-btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: white;
+            background: linear-gradient(135deg, var(--warning) 0%, #d97706 100%);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .qr-name-input { margin-bottom: 16px; }
     </style>
 </head>
 <body>
     <header class="header">
-        <div class="header-content">
-            <h1>🏠 装修巡检验收系统</h1>
-            <p>现场填写 · 自动存档 · 永久可查</p>
-            <div class="location-bar">
-                <input type="text" id="building" placeholder="楼号">
-                <span class="location-sep">-</span>
-                <input type="text" id="room" placeholder="房号">
-            </div>
+        <h1>🏠 装修巡检验收系统</h1>
+        <p>现场填写 · 自动存档</p>
+        <div class="location-bar">
+            <input type="text" class="location-input" id="building" placeholder="楼号">
+            <span class="location-sep">-</span>
+            <input type="text" class="location-input" id="room" placeholder="房号">
         </div>
     </header>
 
-    <div class="nav-bar">
-        <button class="nav-btn active" onclick="showTab('form')">
+    <nav class="nav-bar">
+        <button class="nav-btn active" data-tab="form">
             <svg fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             填写表单
         </button>
-        <button class="nav-btn" onclick="showTab('records')">
+        <button class="nav-btn" data-tab="records">
             <svg fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
             历史记录
         </button>
-        <button class="nav-btn" onclick="showTab('qrcode')">
+        <button class="nav-btn" data-tab="qrcode">
             <svg fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h2M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
             二维码
         </button>
-    </div>
+    </nav>
 
     <div class="container" id="tab-form">
-        <!-- 第一组：基本信息 -->
+        <!-- 基本信息 -->
         <div class="section">
             <div class="section-header">
                 <div class="section-icon info">📋</div>
@@ -670,87 +475,49 @@
                 </div>
             </div>
             <div class="section-body">
-                <div class="field-group">
-                    <label class="field-label">巡查时间 <span class="required">*</span></label>
-                    <input type="datetime-local" id="inspectionTime" class="field-input">
+                <div class="field">
+                    <label class="label">巡查时间 <span class="required">*</span></label>
+                    <input type="datetime-local" class="input" id="inspectionTime">
                 </div>
             </div>
         </div>
 
-        <!-- 第二组：安全文明巡查 -->
+        <!-- 安全文明巡查 -->
         <div class="section">
             <div class="section-header">
                 <div class="section-icon warning">⚠️</div>
                 <div>
-                    <div class="section-title">现场安全文明巡查情况</div>
+                    <div class="section-title">现场安全文明巡查</div>
                     <div class="section-desc">有问题写问题，无问题写无</div>
                 </div>
             </div>
             <div class="section-body">
-                <div class="checklist" id="safetyChecklist">
-                    <div class="check-item" data-key="临时用电" onclick="toggleCheck(this)">
-                        <input type="checkbox">
-                        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
-                        <span class="check-text">临时用电</span>
-                    </div>
-                    <div class="check-item" data-key="临边防护" onclick="toggleCheck(this)">
-                        <input type="checkbox">
-                        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
-                        <span class="check-text">临边防护</span>
-                    </div>
-                    <div class="check-item" data-key="灭火器" onclick="toggleCheck(this)">
-                        <input type="checkbox">
-                        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
-                        <span class="check-text">灭火器</span>
-                    </div>
-                    <div class="check-item" data-key="水枪水带" onclick="toggleCheck(this)">
-                        <input type="checkbox">
-                        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
-                        <span class="check-text">水枪水带</span>
-                    </div>
-                    <div class="check-item" data-key="登高作业" onclick="toggleCheck(this)">
-                        <input type="checkbox">
-                        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
-                        <span class="check-text">登高作业</span>
-                    </div>
-                    <div class="check-item" data-key="动火作业" onclick="toggleCheck(this)">
-                        <input type="checkbox">
-                        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
-                        <span class="check-text">动火作业</span>
-                    </div>
-                    <div class="check-item" data-key="卫生情况" onclick="toggleCheck(this)">
-                        <input type="checkbox">
-                        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
-                        <span class="check-text">卫生情况</span>
-                    </div>
-                </div>
-                <div class="field-group" style="margin-top:16px;">
-                    <label class="field-label">巡查说明</label>
-                    <textarea id="safetyNote" class="field-input" rows="2" placeholder="有问题写问题，无问题写无"></textarea>
+                <div class="check-list" id="safetyList"></div>
+                <div class="field" style="margin-top:12px;">
+                    <label class="label">巡查说明</label>
+                    <textarea class="input" id="safetyNote" placeholder="有问题写问题，无问题写无"></textarea>
                 </div>
             </div>
         </div>
 
-        <!-- 第三组：工序完成情况 -->
+        <!-- 工序完成情况 -->
         <div class="section">
             <div class="section-header">
                 <div class="section-icon check">✅</div>
                 <div>
                     <div class="section-title">工序完成情况</div>
-                    <div class="section-desc">按百分比填写完成情况</div>
+                    <div class="section-desc">按百分比填写</div>
                 </div>
             </div>
             <div class="section-body">
-                <div class="progress-grid" id="progressGrid">
-                </div>
+                <div class="progress-grid" id="progressGrid"></div>
             </div>
         </div>
 
-        <!-- 第四组：隐蔽验收 -->
-        <div id="hiddenInspections">
-        </div>
+        <!-- 隐蔽验收 -->
+        <div id="hiddenInspections"></div>
 
-        <!-- 第五组：现场巡检照片 -->
+        <!-- 现场巡检照片 -->
         <div class="section">
             <div class="section-header">
                 <div class="section-icon photo">📷</div>
@@ -760,34 +527,33 @@
                 </div>
             </div>
             <div class="section-body">
-                <div class="upload-zone" id="inspectionPhotoZone" onclick="document.getElementById('inspectionPhotoInput').click()">
+                <div class="upload-zone" id="inspectionPhotoZone">
+                    <input type="file" id="inspectionPhotoInput" accept="image/*" capture="environment" multiple style="display:none;" onchange="handlePhotoUpload(this, 'inspectionPhotoZone', 'inspectionPhotoGrid', 'inspectionPhotos')">
                     <div class="upload-icon">
                         <svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     </div>
                     <div class="upload-text">点击拍照上传</div>
-                    <div class="upload-hint">现场拍照 · 最多9张</div>
+                    <div class="upload-hint">最多9张</div>
                 </div>
-                <input type="file" id="inspectionPhotoInput" accept="image/*" capture="environment" multiple hidden onchange="handlePhotos(this.files, 'inspectionPhotoZone', 'inspectionPhotos')">
-                <div class="photo-grid" id="inspectionPhotos"></div>
+                <div class="photo-grid" id="inspectionPhotoGrid"></div>
             </div>
         </div>
 
-        <!-- 第六组：墙地砖空鼓实测 -->
+        <!-- 墙地砖空鼓实测 -->
         <div class="section">
             <div class="section-header">
                 <div class="section-icon check">📐</div>
                 <div>
                     <div class="section-title">墙地砖空鼓实测</div>
-                    <div class="section-desc">按合格率填写</div>
+                    <div class="section-desc">按实际数据填写</div>
                 </div>
             </div>
             <div class="section-body">
-                <div class="input-list" id="tileTestList">
-                </div>
+                <div id="tileTestList"></div>
             </div>
         </div>
 
-        <!-- 第七组：腻子面实测 -->
+        <!-- 腻子面实测 -->
         <div class="section">
             <div class="section-header">
                 <div class="section-icon check">🎨</div>
@@ -797,52 +563,50 @@
                 </div>
             </div>
             <div class="section-body">
-                <div class="input-list" id="puttyTestList">
-                </div>
+                <div id="puttyTestList"></div>
             </div>
         </div>
 
-        <!-- 第八组：卫生间蓄水验收 -->
+        <!-- 卫生间蓄水验收 -->
         <div class="section">
             <div class="section-header">
                 <div class="section-icon warning">🚿</div>
                 <div>
-                    <div class="section-title">卫生间完成面蓄水验收</div>
-                    <div class="section-desc">检查防水效果</div>
+                    <div class="section-title">卫生间蓄水验收</div>
                 </div>
             </div>
             <div class="section-body">
-                <div class="field-group">
-                    <label class="field-label">验收人 <span class="required">*</span></label>
-                    <input type="text" id="bathroomInspector" class="field-input" placeholder="请输入验收人姓名">
+                <div class="field">
+                    <label class="label">验收人 <span class="required">*</span></label>
+                    <input type="text" class="input" id="bathroomInspector" placeholder="请输入验收人">
                 </div>
-                <div class="field-group">
-                    <label class="field-label">验收结论 <span class="required">*</span></label>
-                    <div class="checklist">
-                        <div class="check-item" onclick="setSingleResult(this, 'bathroomResult')">
+                <div class="field">
+                    <label class="label">验收结论</label>
+                    <div class="check-list" id="bathroomResult">
+                        <div class="check-item" onclick="selectSingleCheck(this, 'bathroomResult')">
                             <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
                             <span class="check-text">合格</span>
                         </div>
-                        <div class="check-item" onclick="setSingleResult(this, 'bathroomResult')">
+                        <div class="check-item" onclick="selectSingleCheck(this, 'bathroomResult')">
                             <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
                             <span class="check-text">不合格</span>
                         </div>
-                        <div class="check-item" onclick="setSingleResult(this, 'bathroomResult')">
+                        <div class="check-item" onclick="selectSingleCheck(this, 'bathroomResult')">
                             <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
                             <span class="check-text">待整改</span>
                         </div>
                     </div>
                 </div>
-                <div class="field-group" style="margin-top:16px;">
-                    <label class="field-label">验收照片</label>
-                    <div class="upload-zone" id="bathroomPhotoZone" onclick="document.getElementById('bathroomPhotoInput').click()">
+                <div class="field" style="margin-top:12px;">
+                    <label class="label">验收照片</label>
+                    <div class="upload-zone" id="bathroomPhotoZone">
+                        <input type="file" id="bathroomPhotoInput" accept="image/*" capture="environment" multiple style="display:none;" onchange="handlePhotoUpload(this, 'bathroomPhotoZone', 'bathroomPhotoGrid', 'bathroomPhotos')">
                         <div class="upload-icon" style="background:var(--success);">
                             <svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                         </div>
                         <div class="upload-text">点击拍照上传</div>
                     </div>
-                    <input type="file" id="bathroomPhotoInput" accept="image/*" capture="environment" multiple hidden onchange="handlePhotos(this.files, 'bathroomPhotoZone', 'bathroomPhotos')">
-                    <div class="photo-grid" id="bathroomPhotos"></div>
+                    <div class="photo-grid" id="bathroomPhotoGrid"></div>
                 </div>
             </div>
         </div>
@@ -850,27 +614,25 @@
         <!-- GitHub 配置 -->
         <div class="section">
             <div class="section-body">
-                <div class="config-section">
+                <div class="config-box">
                     <div class="config-toggle" onclick="document.getElementById('configContent').classList.toggle('show')">
-                        <span>⚙️ GitHub 配置（首次使用必填）</span>
+                        <span>⚙️ GitHub 配置</span>
                         <span>▼</span>
                     </div>
                     <div class="config-content" id="configContent">
-                        <div class="field-group">
-                            <label class="field-label">仓库 Owner</label>
-                            <input type="text" id="configOwner" class="field-input" placeholder="GitHub 用户名">
+                        <div class="field">
+                            <label class="label">仓库 Owner</label>
+                            <input type="text" class="input" id="configOwner" placeholder="GitHub 用户名">
                         </div>
-                        <div class="field-group">
-                            <label class="field-label">仓库名称</label>
-                            <input type="text" id="configRepo" class="field-input" placeholder="仓库名">
+                        <div class="field">
+                            <label class="label">仓库名称</label>
+                            <input type="text" class="input" id="configRepo" placeholder="仓库名">
                         </div>
-                        <div class="field-group">
-                            <label class="field-label">GitHub Token</label>
-                            <input type="password" id="configToken" class="field-input" placeholder="ghp_xxx">
+                        <div class="field">
+                            <label class="label">GitHub Token</label>
+                            <input type="password" class="input" id="configToken" placeholder="ghp_xxx">
                         </div>
-                        <button class="submit-btn" style="position:static;transform:none;width:100%;margin-top:8px;" onclick="saveConfig()">
-                            <span style="background:linear-gradient(135deg, var(--success) 0%, #059669 100%);padding:12px;border-radius:10px;">保存配置</span>
-                        </button>
+                        <button class="submit-btn" style="margin-top:8px;" onclick="saveConfig()">保存配置</button>
                     </div>
                 </div>
             </div>
@@ -881,12 +643,10 @@
         <div class="section">
             <div class="section-header">
                 <div class="section-icon info">📋</div>
-                <div>
-                    <div class="section-title">历史巡检记录</div>
-                </div>
+                <div class="section-title">历史巡检记录</div>
             </div>
             <div class="section-body" id="recordsList">
-                <div style="text-align:center;padding:40px;color:var(--gray-500);">暂无记录</div>
+                <div class="empty">暂无记录</div>
             </div>
         </div>
     </div>
@@ -895,65 +655,54 @@
         <div class="section">
             <div class="section-header">
                 <div class="section-icon photo">📱</div>
-                <div>
-                    <div class="section-title">活码生成</div>
-                </div>
+                <div class="section-title">活码生成</div>
             </div>
             <div class="section-body">
-                <div class="field-group">
-                    <label class="field-label">活码名称</label>
-                    <input type="text" id="qrName" class="field-input" placeholder="如：A栋巡检">
+                <div class="field qr-name-input">
+                    <label class="label">活码名称</label>
+                    <input type="text" class="input" id="qrName" placeholder="如：A栋巡检">
                 </div>
-                <div class="field-group">
-                    <label class="field-label">楼号</label>
-                    <input type="text" id="qrBuilding" class="field-input" placeholder="批量生码时留空">
+                <div class="qr-section">
+                    <canvas id="qrCanvas" class="qr-canvas" width="180" height="180"></canvas>
                 </div>
-                <div style="text-align:center;padding:20px;">
-                    <canvas id="qrcodeCanvas" width="200" height="200" style="border-radius:12px;"></canvas>
-                </div>
-                <button style="width:100%;padding:14px;background:linear-gradient(135deg, var(--warning) 0%, #d97706 100%);color:white;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;margin-top:16px;" onclick="downloadQRCode()">
-                    下载二维码
-                </button>
+                <button class="download-btn" onclick="downloadQR()">下载二维码</button>
             </div>
         </div>
     </div>
 
-    <div class="submit-btn">
-        <div class="submit-btn-inner">
-            <button id="submitBtn" onclick="submitForm()">
-                <svg fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
-                提交巡检记录
-            </button>
-        </div>
+    <div class="submit-bar">
+        <button class="submit-btn" id="submitBtn" onclick="submitForm()">提交巡检记录</button>
     </div>
 
     <div class="toast" id="toast"></div>
-    <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading" id="loading">
         <div class="spinner"></div>
-        <div class="loading-text">正在提交数据...</div>
+        <div class="loading-text">正在提交...</div>
     </div>
 
     <script>
+        const safetyItems = ['临时用电', '临边防护', '灭火器', '水枪水带', '登高作业', '动火作业', '卫生情况'];
+        
         const progressItems = [
             '轻钢龙骨', '石膏板封板', '防水施工', '地砖施工', '墙砖施工',
             '一遍腻子', '二遍腻子', '腻子打磨', '涂料施工', '自流平',
             '地板施工', '户内门施工', '墙布施工', '橱柜施工', '淋浴屏施工',
             '台面施工', '五金洁具施工'
         ];
-
+        
         const hiddenInspections = [
-            { title: '轻钢龙骨隐蔽验收', id: 'lightSteel' },
-            { title: '厨卫间防水切片验收', id: 'waterproof' },
-            { title: '厨卫间蓄水验收', id: 'waterStore' },
-            { title: '墙布基层验收', id: 'wallBase' }
+            { id: 'lightSteel', title: '轻钢龙骨隐蔽验收' },
+            { id: 'waterproof', title: '厨卫间防水切片验收' },
+            { id: 'waterStore', title: '厨卫间蓄水验收' },
+            { id: 'wallBase', title: '墙布基层验收' }
         ];
-
-        const tileTestItems = ['实测人', '实测时间', '墙地砖空鼓', '高低差', '垂直度', '平整度', '阴阳角'];
-        const puttyTestItems = ['实测人', '实测时间', '顶棚极差', '阴阳角', '垂直度', '平整度', '三边两线', '阴阳角直线度'];
+        
+        const tileItems = ['实测人', '实测时间', '墙地砖空鼓', '高低差', '垂直度', '平整度', '阴阳角'];
+        const puttyItems = ['实测人', '实测时间', '顶棚极差', '阴阳角', '垂直度', '平整度', '三边两线', '阴阳角直线度'];
 
         let config = JSON.parse(localStorage.getItem('githubConfig') || '{}');
-        let localRecords = JSON.parse(localStorage.getItem('inspectionRecords') || '[]');
-        let photoFiles = { inspectionPhotos: [], bathroomPhotos: {} };
+        let records = JSON.parse(localStorage.getItem('inspectionRecords') || '[]');
+        let photos = { inspectionPhotos: [], bathroomPhotos: [], hidden: {} };
 
         function init() {
             document.getElementById('inspectionTime').value = new Date().toISOString().slice(0, 16);
@@ -962,19 +711,39 @@
             if (config.repo) document.getElementById('configRepo').value = config.repo;
             if (config.token) document.getElementById('configToken').value = config.token;
 
+            renderSafetyList();
             renderProgressGrid();
             renderHiddenInspections();
             renderTestLists();
+            
+            document.querySelectorAll('.upload-zone').forEach(zone => {
+                zone.addEventListener('click', function(e) {
+                    if (e.target.tagName !== 'INPUT') {
+                        const input = this.querySelector('input[type="file"]');
+                        if (input) input.click();
+                    }
+                });
+            });
+        }
+
+        function renderSafetyList() {
+            const list = document.getElementById('safetyList');
+            list.innerHTML = safetyItems.map(item => `
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
+                    <span class="check-text">${item}</span>
+                </div>
+            `).join('');
         }
 
         function renderProgressGrid() {
             const grid = document.getElementById('progressGrid');
-            grid.innerHTML = progressItems.map(item => `
+            grid.innerHTML = progressItems.map((item, idx) => `
                 <div class="progress-item">
-                    <div class="progress-item-label">${item}</div>
-                    <div class="progress-item-input">
-                        <input type="number" id="progress_${item}" min="0" max="100" placeholder="0">
-                        <span>%</span>
+                    <div class="progress-label">${item}</div>
+                    <div class="progress-row">
+                        <input type="number" class="progress-input" id="progress${idx}" min="0" max="100" placeholder="0">
+                        <span class="progress-unit">%</span>
                     </div>
                 </div>
             `).join('');
@@ -986,42 +755,40 @@
                 <div class="section">
                     <div class="section-header">
                         <div class="section-icon check">🔍</div>
-                        <div>
-                            <div class="section-title">${ins.title}</div>
-                        </div>
+                        <div class="section-title">${ins.title}</div>
                     </div>
                     <div class="section-body">
-                        <div class="field-group">
-                            <label class="field-label">验收人 <span class="required">*</span></label>
-                            <input type="text" id="${ins.id}_inspector" class="field-input" placeholder="请输入验收人">
+                        <div class="field">
+                            <label class="label">验收人 <span class="required">*</span></label>
+                            <input type="text" class="input" id="${ins.id}Inspector" placeholder="请输入验收人">
                         </div>
-                        <div class="field-group">
-                            <label class="field-label">验收结论 <span class="required">*</span></label>
-                            <div class="checklist" id="${ins.id}_result">
-                                <div class="check-item" onclick="setResult(this, '${ins.id}_result')">
+                        <div class="field">
+                            <label class="label">验收结论</label>
+                            <div class="check-list" id="${ins.id}Result">
+                                <div class="check-item" onclick="selectSingleCheck(this, '${ins.id}Result')">
                                     <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
                                     <span class="check-text">合格</span>
                                 </div>
-                                <div class="check-item" onclick="setResult(this, '${ins.id}_result')">
+                                <div class="check-item" onclick="selectSingleCheck(this, '${ins.id}Result')">
                                     <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
                                     <span class="check-text">不合格</span>
                                 </div>
-                                <div class="check-item" onclick="setResult(this, '${ins.id}_result')">
+                                <div class="check-item" onclick="selectSingleCheck(this, '${ins.id}Result')">
                                     <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7"/></svg></div>
                                     <span class="check-text">待整改</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="field-group" style="margin-top:16px;">
-                            <label class="field-label">验收照片 <span class="required">*</span></label>
-                            <div class="upload-zone" id="${ins.id}_photoZone" onclick="document.getElementById('${ins.id}_photoInput').click()">
+                        <div class="field" style="margin-top:12px;">
+                            <label class="label">验收照片 <span class="required">*</span></label>
+                            <div class="upload-zone" id="${ins.id}PhotoZone">
+                                <input type="file" id="${ins.id}PhotoInput" accept="image/*" capture="environment" multiple style="display:none;" onchange="handlePhotoUpload(this, '${ins.id}PhotoZone', '${ins.id}PhotoGrid', 'hidden_${ins.id}')">
                                 <div class="upload-icon">
                                     <svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                                 </div>
                                 <div class="upload-text">现场拍照上传</div>
                             </div>
-                            <input type="file" id="${ins.id}_photoInput" accept="image/*" capture="environment" multiple hidden onchange="handlePhotos(this.files, '${ins.id}_photoZone', '${ins.id}_photos')">
-                            <div class="photo-grid" id="${ins.id}_photos"></div>
+                            <div class="photo-grid" id="${ins.id}PhotoGrid"></div>
                         </div>
                     </div>
                 </div>
@@ -1029,87 +796,100 @@
         }
 
         function renderTestLists() {
-            document.getElementById('tileTestList').innerHTML = tileTestItems.map(item => `
-                <div class="input-item">
-                    <span class="input-item-label">${item}</span>
-                    <input type="text" id="tile_${item}" placeholder="${item === '实测人' ? '请输入' : '请填写'}">
+            document.getElementById('tileTestList').innerHTML = tileItems.map(item => `
+                <div class="input-row">
+                    <span class="input-label">${item}</span>
+                    <input type="text" class="input-field" id="tile_${item}" placeholder="${item === '实测人' || item === '实测时间' ? '请输入' : '请填写'}">
                 </div>
             `).join('');
-
-            document.getElementById('puttyTestList').innerHTML = puttyTestItems.map(item => `
-                <div class="input-item">
-                    <span class="input-item-label">${item}</span>
-                    <input type="text" id="putty_${item}" placeholder="${item === '实测人' ? '请输入' : '请填写'}">
+            
+            document.getElementById('puttyTestList').innerHTML = puttyItems.map(item => `
+                <div class="input-row">
+                    <span class="input-label">${item}</span>
+                    <input type="text" class="input-field" id="putty_${item}" placeholder="${item === '实测人' || item === '实测时间' ? '请输入' : '请填写'}">
                 </div>
             `).join('');
         }
 
         function toggleCheck(el) {
-            el.classList.toggle('checked');
-            el.querySelector('input').checked = el.classList.contains('checked');
+            el.classList.toggle('selected');
         }
 
-        function setResult(el, groupId) {
-            document.querySelectorAll(`#${groupId} .check-item`).forEach(item => item.classList.remove('checked'));
-            el.classList.add('checked');
+        function selectSingleCheck(el, groupId) {
+            document.querySelectorAll(`#${groupId} .check-item`).forEach(item => item.classList.remove('selected'));
+            el.classList.add('selected');
         }
 
-        function setSingleResult(el, resultId) {
-            const group = el.parentElement;
-            group.querySelectorAll('.check-item').forEach(item => item.classList.remove('checked'));
-            el.classList.add('checked');
-        }
-
-        function handlePhotos(files, zoneId, gridId) {
+        function handlePhotoUpload(input, zoneId, gridId, key) {
             const zone = document.getElementById(zoneId);
             const grid = document.getElementById(gridId);
             
-            Array.from(files).forEach(file => {
+            photos[key] = photos[key] || [];
+            
+            Array.from(input.files).forEach(file => {
                 if (!file.type.startsWith('image/')) return;
-                photoFiles[gridId] = photoFiles[gridId] || [];
-                photoFiles[gridId].push(file);
-
+                photos[key].push(file);
+                
                 const reader = new FileReader();
                 reader.onload = e => {
                     const div = document.createElement('div');
                     div.className = 'photo-item';
-                    const idx = photoFiles[gridId].length - 1;
-                    div.innerHTML = `<img src="${e.target.result}"><button class="remove-btn" onclick="removePhoto('${gridId}', ${idx})">×</button>`;
+                    const idx = photos[key].length - 1;
+                    div.innerHTML = `<img src="${e.target.result}"><button class="photo-remove" onclick="removePhoto('${key}', ${idx})">×</button>`;
                     grid.appendChild(div);
                 };
                 reader.readAsDataURL(file);
             });
-
-            if (photoFiles[gridId] && photoFiles[gridId].length > 0) {
-                zone.classList.add('has-photos');
-            }
+            
+            if (photos[key].length > 0) zone.classList.add('has-photos');
+            input.value = '';
         }
 
-        function removePhoto(gridId, idx) {
-            photoFiles[gridId].splice(idx, 1);
-            const grid = document.getElementById(gridId);
-            grid.innerHTML = '';
-            photoFiles[gridId].forEach((file, i) => {
-                const reader = new FileReader();
-                reader.onload = e => {
-                    const div = document.createElement('div');
-                    div.className = 'photo-item';
-                    div.innerHTML = `<img src="${e.target.result}"><button class="remove-btn" onclick="removePhoto('${gridId}', ${i})">×</button>`;
-                    grid.appendChild(div);
-                };
-                reader.readAsDataURL(file);
+        function removePhoto(key, idx) {
+            photos[key].splice(idx, 1);
+            const grids = document.querySelectorAll('.photo-grid');
+            grids.forEach(grid => grid.innerHTML = '');
+            
+            Object.keys(photos).forEach(k => {
+                const gridId = k.startsWith('hidden_') ? k.replace('hidden_', '') + 'PhotoGrid' : 
+                               k === 'inspectionPhotos' ? 'inspectionPhotoGrid' : 'bathroomPhotoGrid';
+                const grid = document.getElementById(gridId);
+                if (!grid) return;
+                
+                photos[k].forEach((file, i) => {
+                    const reader = new FileReader();
+                    reader.onload = e => {
+                        const div = document.createElement('div');
+                        div.className = 'photo-item';
+                        div.innerHTML = `<img src="${e.target.result}"><button class="photo-remove" onclick="removePhoto('${k}', ${i})">×</button>`;
+                        grid.appendChild(div);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            });
+            
+            const zones = document.querySelectorAll('.upload-zone');
+            zones.forEach(zone => {
+                const hasPhotos = zone.id.startsWith('inspection') ? photos.inspectionPhotos.length > 0 :
+                                 zone.id.startsWith('bathroom') ? photos.bathroomPhotos.length > 0 : false;
+                zone.classList.toggle('has-photos', hasPhotos);
             });
         }
 
         function showTab(tab) {
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.querySelector(`[onclick="showTab('${tab}')"]`).classList.add('active');
             document.querySelectorAll('.container').forEach(c => c.style.display = 'none');
+            
+            document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
             document.getElementById(`tab-${tab}`).style.display = 'block';
             
             if (tab === 'records') loadRecords();
-            if (tab === 'qrcode') generateQRCode();
+            if (tab === 'qrcode') generateQR();
         }
+
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => showTab(btn.dataset.tab));
+        });
 
         function saveConfig() {
             config = {
@@ -1121,7 +901,7 @@
             showToast('配置已保存', 'success');
         }
 
-        function b64EncodeUnicode(str) {
+        function b64Encode(str) {
             return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (m, p) => String.fromCharCode('0x' + p)));
         }
 
@@ -1129,12 +909,12 @@
             const apiUrl = `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${path}`;
             const body = {
                 message: `Add ${path}`,
-                content: typeof content === 'string' ? b64EncodeUnicode(content) : content
+                content: typeof content === 'string' ? b64Encode(content) : content
             };
             
             try {
-                const checkRes = await fetch(apiUrl, { headers: { 'Authorization': `token ${config.token}` } });
-                if (checkRes.ok) body.sha = (await checkRes.json()).sha;
+                const check = await fetch(apiUrl, { headers: { 'Authorization': `token ${config.token}` } });
+                if (check.ok) body.sha = (await check.json()).sha;
             } catch (e) {}
 
             const res = await fetch(apiUrl, {
@@ -1162,16 +942,15 @@
                 return;
             }
 
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = true;
-            document.getElementById('loadingOverlay').classList.add('show');
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            document.getElementById('loading').classList.add('show');
 
             try {
                 const recordId = `INS-${Date.now()}`;
                 const record = {
                     id: recordId,
-                    building, room,
-                    inspectionTime,
+                    building, room, inspectionTime,
                     safetyItems: [],
                     safetyNote: document.getElementById('safetyNote').value,
                     progress: {},
@@ -1179,30 +958,30 @@
                     inspectionPhotos: [],
                     tileTest: {},
                     puttyTest: {},
-                    bathroomResult: '',
                     bathroomInspector: document.getElementById('bathroomInspector').value,
+                    bathroomResult: '',
                     bathroomPhotos: [],
                     createdAt: new Date().toLocaleString('zh-CN')
                 };
 
-                document.querySelectorAll('#safetyChecklist .check-item.checked').forEach(el => {
-                    record.safetyItems.push(el.dataset.key);
+                document.querySelectorAll('#safetyList .check-item.selected').forEach(el => {
+                    record.safetyItems.push(el.querySelector('.check-text').textContent);
                 });
 
-                progressItems.forEach(item => {
-                    const val = document.getElementById(`progress_${item}`).value;
+                progressItems.forEach((item, idx) => {
+                    const val = document.getElementById(`progress${idx}`).value;
                     if (val) record.progress[item] = val + '%';
                 });
 
                 hiddenInspections.forEach(ins => {
-                    const inspector = document.getElementById(`${ins.id}_inspector`).value;
-                    const resultEl = document.querySelector(`#${ins.id}_result .check-item.checked`);
+                    const inspector = document.getElementById(`${ins.id}Inspector`).value;
+                    const resultEl = document.querySelector(`#${ins.id}Result .check-item.selected`);
                     const result = resultEl ? resultEl.querySelector('.check-text').textContent : '';
-                    record.hiddenInspections[ins.title] = { inspector, result };
+                    record.hiddenInspections[ins.title] = { inspector, result, photos: [] };
                 });
 
-                for (let i = 0; i < (photoFiles.inspectionPhotos || []).length; i++) {
-                    const file = photoFiles.inspectionPhotos[i];
+                for (let i = 0; i < (photos.inspectionPhotos || []).length; i++) {
+                    const file = photos.inspectionPhotos[i];
                     const ext = file.name.split('.').pop();
                     const reader = new FileReader();
                     const base64 = await new Promise(r => { reader.onload = () => r(reader.result); reader.readAsDataURL(file); });
@@ -1211,19 +990,19 @@
                     record.inspectionPhotos.push(imageName);
                 }
 
-                tileTestItems.forEach(item => {
+                tileItems.forEach(item => {
                     record.tileTest[item] = document.getElementById(`tile_${item}`).value;
                 });
 
-                puttyTestItems.forEach(item => {
+                puttyItems.forEach(item => {
                     record.puttyTest[item] = document.getElementById(`putty_${item}`).value;
                 });
 
-                const bathroomResultEl = document.querySelector('#bathroomResult .check-item.checked');
+                const bathroomResultEl = document.querySelector('#bathroomResult .check-item.selected');
                 if (bathroomResultEl) record.bathroomResult = bathroomResultEl.querySelector('.check-text').textContent;
 
-                for (let i = 0; i < (photoFiles.bathroomPhotos || []).length; i++) {
-                    const file = photoFiles.bathroomPhotos[i];
+                for (let i = 0; i < (photos.bathroomPhotos || []).length; i++) {
+                    const file = photos.bathroomPhotos[i];
                     const ext = file.name.split('.').pop();
                     const reader = new FileReader();
                     const base64 = await new Promise(r => { reader.onload = () => r(reader.result); reader.readAsDataURL(file); });
@@ -1233,22 +1012,21 @@
                 }
 
                 hiddenInspections.forEach(ins => {
-                    const files = photoFiles[`${ins.id}_photos`] || [];
-                    for (let i = 0; i < files.length; i++) {
-                        const file = files[i];
+                    const key = `hidden_${ins.id}`;
+                    for (let i = 0; i < (photos[key] || []).length; i++) {
+                        const file = photos[key][i];
                         const ext = file.name.split('.').pop();
                         const reader = new FileReader();
                         const base64 = await new Promise(r => { reader.onload = () => r(reader.result); reader.readAsDataURL(file); });
                         const imageName = `${recordId}_${ins.id}_${i + 1}.${ext}`;
                         await uploadToGitHub(`images/${imageName}`, base64.split(',')[1]);
-                        record.hiddenInspections[ins.title].photos = record.hiddenInspections[ins.title].photos || [];
                         record.hiddenInspections[ins.title].photos.push(imageName);
                     }
                 });
 
                 await uploadToGitHub(`data/${recordId}.json`, JSON.stringify(record, null, 2));
-                localRecords.unshift(record);
-                localStorage.setItem('inspectionRecords', JSON.stringify(localRecords));
+                records.unshift(record);
+                localStorage.setItem('inspectionRecords', JSON.stringify(records));
 
                 showToast('提交成功！', 'success');
                 setTimeout(() => location.reload(), 1500);
@@ -1257,100 +1035,62 @@
                 console.error('Error:', error);
                 showToast('提交失败: ' + error.message, 'error');
             } finally {
-                submitBtn.disabled = false;
-                document.getElementById('loadingOverlay').classList.remove('show');
+                btn.disabled = false;
+                document.getElementById('loading').classList.remove('show');
             }
         }
 
         function loadRecords() {
             const container = document.getElementById('recordsList');
-            if (localRecords.length === 0) {
-                container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--gray-500);">暂无记录</div>';
+            if (records.length === 0) {
+                container.innerHTML = '<div class="empty">暂无记录</div>';
                 return;
             }
-            container.innerHTML = localRecords.map(r => `
-                <div style="padding:16px;border-bottom:1px solid var(--gray-100);">
-                    <div style="font-weight:600;color:var(--gray-800);">${r.building}-${r.room}</div>
-                    <div style="font-size:12px;color:var(--gray-500);margin-top:4px;">${r.inspectionTime}</div>
+            container.innerHTML = records.map(r => `
+                <div class="record-item">
+                    <div class="record-title">${r.building}-${r.room}</div>
+                    <div class="record-time">${r.inspectionTime}</div>
                 </div>
             `).join('');
         }
 
-        function generateQRCode() {
-            const canvas = document.getElementById('qrcodeCanvas');
+        function generateQR() {
+            const canvas = document.getElementById('qrCanvas');
             const ctx = canvas.getContext('2d');
             ctx.fillStyle = 'white';
-            ctx.fillRect(0, 0, 200, 200);
+            ctx.fillRect(0, 0, 180, 180);
             
             const url = window.location.href.split('?')[0];
-            const size = 180;
-            const offset = 10;
+            ctx.fillStyle = '#2563eb';
+            
+            ctx.fillRect(10, 10, 50, 50);
+            ctx.fillRect(120, 10, 50, 50);
+            ctx.fillRect(10, 120, 50, 50);
+            
+            ctx.fillStyle = 'white';
+            ctx.fillRect(20, 20, 30, 30);
+            ctx.fillRect(130, 20, 30, 30);
+            ctx.fillRect(20, 130, 30, 30);
             
             ctx.fillStyle = '#2563eb';
-            const modules = qrEncode(url);
-            const moduleSize = size / modules.length;
+            ctx.fillRect(25, 25, 20, 20);
+            ctx.fillRect(135, 25, 20, 20);
+            ctx.fillRect(25, 135, 20, 20);
             
-            modules.forEach((row, y) => {
-                row.forEach((cell, x) => {
-                    if (cell) ctx.fillRect(offset + x * moduleSize, offset + y * moduleSize, moduleSize, moduleSize);
-                });
-            });
-        }
-
-        function qrEncode(text) {
-            const size = 25;
-            const modules = Array(size).fill(null).map(() => Array(size).fill(false));
-            
-            for (let i = 0; i < 7; i++) {
-                for (let j = 0; j < 7; j++) {
-                    if (i === 0 || i === 6 || j === 0 || j === 6 || (i >= 2 && i <= 4 && j >= 2 && j <= 4)) modules[i][j] = true;
-                    if (i === 0 || i === 6 || j === 0 || j === 6) {
-                        if (!(i >= 1 && i <= 5 && j >= 1 && j <= 5)) modules[i][j] = false;
-                    }
-                }
-            }
-
-            for (let i = 0; i < 7; i++) {
-                for (let j = size - 7; j < size; j++) {
-                    if (i === 0 || i === 6 || j === size - 7 || j === size - 1) {
-                        if (i >= 1 && i <= 5 && j >= size - 6 && j <= size - 2) modules[i][j] = true;
-                        else modules[i][j] = false;
-                    }
-                }
-            }
-
-            for (let i = size - 7; i < size; i++) {
-                for (let j = 0; j < 7; j++) {
-                    if (i === size - 7 || i === size - 1 || j === 0 || j === 6) {
-                        if (i >= size - 6 && i <= size - 2 && j >= 1 && j <= 5) modules[i][j] = true;
-                        else modules[i][j] = false;
-                    }
-                }
-            }
-
-            const data = text.split('').map(c => c.charCodeAt(0));
+            const data = url.split('').map(c => c.charCodeAt(0));
             let idx = 0;
-            for (let y = 0; y < size && idx < data.length * 8; y++) {
-                for (let x = (y % 2 === 0 ? size - 1 : 0); (y % 2 === 0 ? x >= 0 : x < size) && idx < data.length * 8; y % 2 === 0 ? x-- : x++) {
-                    if (modules[y][x]) continue;
-                    modules[y][x] = (data[Math.floor(idx / 8)] >> (7 - idx % 8)) & 1;
+            for (let y = 65; y < 115 && idx < data.length; y += 5) {
+                for (let x = 65; x < 115 && idx < data.length; x += 5) {
+                    if ((data[idx] + idx) % 3 === 0) {
+                        ctx.fillRect(x, y, 4, 4);
+                    }
                     idx++;
                 }
             }
-
-            for (let i = 0; i < 7; i++) {
-                for (let j = 0; j < 7; j++) {
-                    if (i < 7 && j < 7) modules[i][j] = true;
-                    if (i < 7 && j >= size - 7) modules[i][j] = true;
-                    if (i >= size - 7 && j < 7) modules[i][j] = true;
-                }
-            }
-
-            return modules;
         }
 
-        function downloadQRCode() {
-            const canvas = document.getElementById('qrcodeCanvas');
+        function downloadQR() {
+            const canvas = document.getElementById('qrCanvas');
             const link = document.createElement('a');
             link.download = `${document.getElementById('qrName').value || '巡检二维码'}.png`;
             link.href = canvas.toDataURL('image/png');
