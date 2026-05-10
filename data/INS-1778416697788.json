@@ -1,0 +1,118 @@
+{
+  "id": "INS-1778416697788",
+  "projectName": "中能建装饰",
+  "building": "1",
+  "room": "201",
+  "inspectionTime": "2026-05-10T12:37",
+  "safety": [
+    {
+      "name": "临时用电",
+      "result": "无隐患",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "临边防护",
+      "result": "无隐患",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "灭火器",
+      "result": "无隐患",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "水枪水带",
+      "result": "无隐患",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "登高作业",
+      "result": "无隐患",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "动火作业",
+      "result": "无隐患",
+      "photos": [],
+      "description": ""
+    },
+    {
+      "name": "卫生情况",
+      "result": "无隐患",
+      "photos": [],
+      "description": ""
+    }
+  ],
+  "progress": {
+    "轻钢龙骨": "30",
+    "石膏板封板": "0",
+    "防水施工": "0",
+    "地砖施工": "0",
+    "墙砖施工": "0",
+    "一遍腻子": "0",
+    "二遍腻子": "0",
+    "腻子打磨": "0",
+    "涂料施工": "0",
+    "自流平": "0",
+    "地板施工": "40",
+    "户内门施工": "0",
+    "墙布施工": "0",
+    "橱柜施工": "0",
+    "淋浴屏施工": "0",
+    "台面施工": "0",
+    "五金洁具施工": "0"
+  },
+  "inspections": {
+    "lightSteel": {
+      "inspector": "罗钰弘",
+      "result": "合格",
+      "photos": []
+    },
+    "waterproof": {
+      "inspector": "罗钰弘",
+      "result": "",
+      "photos": []
+    },
+    "waterStore": {
+      "inspector": "罗钰弘",
+      "result": "",
+      "photos": []
+    },
+    "wallBase": {
+      "inspector": "",
+      "result": "",
+      "photos": []
+    }
+  },
+  "inspectionPhotos": [],
+  "tile": {
+    "person": "罗钰弘",
+    "time": "",
+    "hollow": "90%",
+    "height": "+3",
+    "vertical": "-4",
+    "flatness": "3",
+    "corner": "2"
+  },
+  "putty": {
+    "person": "罗钰弘",
+    "time": "",
+    "ceiling": "2",
+    "corner": "3",
+    "vertical": "2",
+    "flatness": "3",
+    "lines": "4",
+    "straightness": "2"
+  },
+  "bathroom": {
+    "inspector": "",
+    "result": "",
+    "photos": []
+  },
+  "createdAt": "2026/5/10 20:38:17"
+}
