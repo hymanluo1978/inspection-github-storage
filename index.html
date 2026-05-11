@@ -4,10 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>装修巡检验收系统</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Noto Sans SC',sans-serif;background:#f5f6f8;color:#111827;line-height:1.6;padding-bottom:80px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;background:#f5f6f8;color:#111827;line-height:1.6;padding-bottom:80px}
 .header{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:white;padding:16px}
 .header h1{font-size:18px;font-weight:600}
 .header p{font-size:12px;opacity:0.8;margin-top:2px}
@@ -31,7 +30,6 @@ body{font-family:'Noto Sans SC',sans-serif;background:#f5f6f8;color:#111827;line
 .form-input{width:100%;padding:10px 12px;font-size:14px;border:1.5px solid #e5e7eb;border-radius:8px;background:#fafafa;color:#111827;font-family:inherit}
 .form-input:focus{outline:none;border-color:#2563eb;background:white}
 .form-input::placeholder{color:#bbb}
-.form-textarea{min-height:60px;resize:vertical}
 .progress-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .progress-item{background:#fafafa;padding:10px;border-radius:8px}
 .progress-label{font-size:12px;color:#6b7280;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
@@ -41,8 +39,8 @@ body{font-family:'Noto Sans SC',sans-serif;background:#f5f6f8;color:#111827;line
 .progress-slider::-moz-range-thumb{width:18px;height:18px;background:#2563eb;border-radius:50%;cursor:pointer;border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,0.2)}
 .input-list{display:flex;flex-direction:column;gap:6px}
 .input-row{display:flex;align-items:center;gap:8px}
-.input-label{width:65px;font-size:12px;color:#6b7280;flex-shrink:0}
-.input-field{flex:1;padding:6px 8px;font-size:13px;border:1px solid #e5e7eb;border-radius:4px;background:#fafafa}
+.input-label{width:75px;font-size:12px;color:#6b7280;flex-shrink:0}
+.input-field{flex:1;padding:6px 8px;font-size:13px;border:1px solid #e5e7eb;border-radius:4px;background:#fafafa;font-family:inherit}
 .input-field:focus{outline:none;border-color:#2563eb;background:white}
 .upload-box{border:2px dashed #d1d5db;border-radius:8px;padding:16px;text-align:center;background:#fafafa;cursor:pointer}
 .upload-box:hover{border-color:#2563eb;background:#eff6ff}
@@ -62,7 +60,7 @@ body{font-family:'Noto Sans SC',sans-serif;background:#f5f6f8;color:#111827;line
 .submit-bar{position:fixed;bottom:0;left:0;right:0;padding:10px 16px;background:white;border-top:1px solid #e5e7eb;z-index:100}
 .submit-btn{width:100%;padding:12px;font-size:15px;font-weight:600;color:white;background:linear-gradient(135deg,#2563eb,#1d4ed8);border:none;border-radius:8px;cursor:pointer}
 .submit-btn:disabled{background:#9ca3af;cursor:not-allowed}
-.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-20px);padding:10px 20px;background:#374151;color:white;font-size:13px;border-radius:8px;opacity:0;transition:all 0.3s;z-index:1000}
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-20px);padding:10px 20px;background:#374151;color:white;font-size:13px;border-radius:8px;opacity:0;transition:all 0.3s;z-index:1000;pointer-events:none}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast.success{background:#10b981}
 .toast.error{background:#ef4444}
@@ -103,11 +101,11 @@ body{font-family:'Noto Sans SC',sans-serif;background:#f5f6f8;color:#111827;line
 <body>
 
 <header class="header">
-<h1>🏠 精装修巡检验收系统</h1>
+<h1>精装修巡检验收系统</h1>
 <p>项目名称: <input type="text" id="projectName" placeholder="请输入项目名称" style="background:transparent;border:none;color:white;font-size:13px;width:150px;font-family:inherit"></p>
 <div class="location-bar">
 <input type="text" id="building" placeholder="楼号">
-<span style="color:rgba(255, 255, 255, 0.5)">-</span>
+<span style="color:rgba(255,255,255,0.5)">-</span>
 <input type="text" id="room" placeholder="房号">
 </div>
 </header>
@@ -129,12 +127,8 @@ body{font-family:'Noto Sans SC',sans-serif;background:#f5f6f8;color:#111827;line
 
 <div class="container" id="tab-form">
 
-<!-- 基本信息 -->
 <div class="card">
-<div class="card-header">
-<div class="card-icon blue">📋</div>
-<div class="card-title">基本信息</div>
-</div>
+<div class="card-header"><div class="card-icon blue">📋</div><div class="card-title">基本信息</div></div>
 <div class="card-body">
 <div class="form-group">
 <label class="form-label">巡查时间 <span class="red">*</span></label>
@@ -143,334 +137,86 @@ body{font-family:'Noto Sans SC',sans-serif;background:#f5f6f8;color:#111827;line
 </div>
 </div>
 
-<!-- 安全文明巡查 -->
 <div class="card">
-<div class="card-header">
-<div class="card-icon yellow">⚠️</div>
-<div class="card-title">现场安全文明巡查</div>
-</div>
-<div class="card-body">
-
-<div class="safety-item">
-<div class="safety-title">临时用电</div>
-<div class="safety-options">
-<label class="safety-option" onclick="selectSafety(this,'1')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">无隐患</span></label>
-<label class="safety-option" onclick="selectSafety(this,'1')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">不涉及</span></label>
-<label class="safety-option warning" onclick="selectSafety(this,'1')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">存在问题</span></label>
-</div>
-<div class="safety-detail" id="safety1Detail">
-<div class="upload-box" onclick="document.getElementById('safety1Photos').click()">
-<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-<div class="upload-text">点击拍照</div>
-</div>
-<input type="file" id="safety1Photos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'safety1')">
-<div class="photo-list" id="safety1List"></div>
-<div class="form-group" style="margin-top:8px">
-<textarea class="form-input" id="safety1Desc" placeholder="请描述问题..." rows="2"></textarea>
-</div>
-</div>
+<div class="card-header"><div class="card-icon yellow">⚠️</div><div class="card-title">现场安全文明巡查</div></div>
+<div class="card-body" id="safetyList"></div>
 </div>
 
-<div class="safety-item">
-<div class="safety-title">临边防护</div>
-<div class="safety-options">
-<label class="safety-option" onclick="selectSafety(this,'2')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">无隐患</span></label>
-<label class="safety-option" onclick="selectSafety(this,'2')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">不涉及</span></label>
-<label class="safety-option warning" onclick="selectSafety(this,'2')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">存在问题</span></label>
-</div>
-<div class="safety-detail" id="safety2Detail">
-<div class="upload-box" onclick="document.getElementById('safety2Photos').click()">
-<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-<div class="upload-text">点击拍照</div>
-</div>
-<input type="file" id="safety2Photos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'safety2')">
-<div class="photo-list" id="safety2List"></div>
-<div class="form-group" style="margin-top:8px">
-<textarea class="form-input" id="safety2Desc" placeholder="请描述问题..." rows="2"></textarea>
-</div>
-</div>
-</div>
-
-<div class="safety-item">
-<div class="safety-title">灭火器</div>
-<div class="safety-options">
-<label class="safety-option" onclick="selectSafety(this,'3')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">无隐患</span></label>
-<label class="safety-option" onclick="selectSafety(this,'3')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">不涉及</span></label>
-<label class="safety-option warning" onclick="selectSafety(this,'3')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">存在问题</span></label>
-</div>
-<div class="safety-detail" id="safety3Detail">
-<div class="upload-box" onclick="document.getElementById('safety3Photos').click()">
-<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-<div class="upload-text">点击拍照</div>
-</div>
-<input type="file" id="safety3Photos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'safety3')">
-<div class="photo-list" id="safety3List"></div>
-<div class="form-group" style="margin-top:8px">
-<textarea class="form-input" id="safety3Desc" placeholder="请描述问题..." rows="2"></textarea>
-</div>
-</div>
-</div>
-
-<div class="safety-item">
-<div class="safety-title">水枪水带</div>
-<div class="safety-options">
-<label class="safety-option" onclick="selectSafety(this,'4')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">无隐患</span></label>
-<label class="safety-option" onclick="selectSafety(this,'4')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">不涉及</span></label>
-<label class="safety-option warning" onclick="selectSafety(this,'4')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">存在问题</span></label>
-</div>
-<div class="safety-detail" id="safety4Detail">
-<div class="upload-box" onclick="document.getElementById('safety4Photos').click()">
-<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-<div class="upload-text">点击拍照</div>
-</div>
-<input type="file" id="safety4Photos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'safety4')">
-<div class="photo-list" id="safety4List"></div>
-<div class="form-group" style="margin-top:8px">
-<textarea class="form-input" id="safety4Desc" placeholder="请描述问题..." rows="2"></textarea>
-</div>
-</div>
-</div>
-
-<div class="safety-item">
-<div class="safety-title">登高作业</div>
-<div class="safety-options">
-<label class="safety-option" onclick="selectSafety(this,'5')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">无隐患</span></label>
-<label class="safety-option" onclick="selectSafety(this,'5')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">不涉及</span></label>
-<label class="safety-option warning" onclick="selectSafety(this,'5')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">存在问题</span></label>
-</div>
-<div class="safety-detail" id="safety5Detail">
-<div class="upload-box" onclick="document.getElementById('safety5Photos').click()">
-<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-<div class="upload-text">点击拍照</div>
-</div>
-<input type="file" id="safety5Photos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'safety5')">
-<div class="photo-list" id="safety5List"></div>
-<div class="form-group" style="margin-top:8px">
-<textarea class="form-input" id="safety5Desc" placeholder="请描述问题..." rows="2"></textarea>
-</div>
-</div>
-</div>
-
-<div class="safety-item">
-<div class="safety-title">动火作业</div>
-<div class="safety-options">
-<label class="safety-option" onclick="selectSafety(this,'6')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">无隐患</span></label>
-<label class="safety-option" onclick="selectSafety(this,'6')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">不涉及</span></label>
-<label class="safety-option warning" onclick="selectSafety(this,'6')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">存在问题</span></label>
-</div>
-<div class="safety-detail" id="safety6Detail">
-<div class="upload-box" onclick="document.getElementById('safety6Photos').click()">
-<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-<div class="upload-text">点击拍照</div>
-</div>
-<input type="file" id="safety6Photos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'safety6')">
-<div class="photo-list" id="safety6List"></div>
-<div class="form-group" style="margin-top:8px">
-<textarea class="form-input" id="safety6Desc" placeholder="请描述问题..." rows="2"></textarea>
-</div>
-</div>
-</div>
-
-<div class="safety-item">
-<div class="safety-title">卫生情况</div>
-<div class="safety-options">
-<label class="safety-option" onclick="selectSafety(this,'7')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">无隐患</span></label>
-<label class="safety-option" onclick="selectSafety(this,'7')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">不涉及</span></label>
-<label class="safety-option warning" onclick="selectSafety(this,'7')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">存在问题</span></label>
-</div>
-<div class="safety-detail" id="safety7Detail">
-<div class="upload-box" onclick="document.getElementById('safety7Photos').click()">
-<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-<div class="upload-text">点击拍照</div>
-</div>
-<input type="file" id="safety7Photos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'safety7')">
-<div class="photo-list" id="safety7List"></div>
-<div class="form-group" style="margin-top:8px">
-<textarea class="form-input" id="safety7Desc" placeholder="请描述问题..." rows="2"></textarea>
-</div>
-</div>
-</div>
-
-</div>
-</div>
-
-<!-- 工序完成情况 -->
 <div class="card">
-<div class="card-header">
-<div class="card-icon green">✅</div>
-<div class="card-title">工序完成情况</div>
-</div>
+<div class="card-header"><div class="card-icon green">✅</div><div class="card-title">工序完成情况</div></div>
 <div class="card-body">
 <div class="progress-list" id="progressList"></div>
 </div>
 </div>
 
-<!-- 隐蔽验收 1 -->
 <div class="card">
-<div class="card-header">
-<div class="card-icon green">🔍</div>
-<div class="card-title">轻钢龙骨隐蔽验收</div>
-</div>
+<div class="card-header"><div class="card-icon green">🔍</div><div class="card-title">轻钢龙骨隐蔽验收</div></div>
 <div class="card-body">
-<div class="form-group">
-<label class="form-label">验收人 <span class="red">*</span></label>
-<input type="text" class="form-input" id="lightSteelInspector" placeholder="请输入验收人">
-</div>
-<div class="form-group">
-<label class="form-label">验收结论</label>
-<select class="form-input" id="lightSteelResult">
-<option value="">请选择</option>
-<option value="合格">合格</option>
-<option value="不合格">不合格</option>
-<option value="待整改">待整改</option>
-</select>
-</div>
-<div class="form-group" style="margin-top:12px">
-<label class="form-label">验收照片</label>
-<div class="upload-box" id="lightSteelUpload" onclick="document.getElementById('lightSteelPhotos').click()">
-<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-<div class="upload-text">点击拍照上传</div>
-</div>
+<div class="form-group"><label class="form-label">验收人 <span class="red">*</span></label><input type="text" class="form-input" id="lightSteelInspector" placeholder="请输入验收人"></div>
+<div class="form-group"><label class="form-label">验收结论</label><select class="form-input" id="lightSteelResult"><option value="">请选择</option><option value="合格">合格</option><option value="不合格">不合格</option><option value="待整改">待整改</option></select></div>
+<div class="form-group" style="margin-top:12px"><label class="form-label">验收照片</label>
+<div class="upload-box" id="lightSteelUpload" onclick="document.getElementById('lightSteelPhotos').click()"><div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div><div class="upload-text">点击拍照上传</div></div>
 <input type="file" id="lightSteelPhotos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'lightSteel')">
 <div class="photo-list" id="lightSteelList"></div>
-<div class="form-group" style="margin-top:8px">
-<textarea class="form-input" id="lightSteelDesc" placeholder="请描述问题..." rows="2"></textarea>
-</div>
+<textarea class="form-input" id="lightSteelDesc" placeholder="请描述问题..." rows="2" style="margin-top:8px"></textarea>
 </div>
 </div>
 </div>
 
-<!-- 隐蔽验收 2 -->
 <div class="card">
-<div class="card-header">
-<div class="card-icon green">🔍</div>
-<div class="card-title">厨卫间防水切片验收</div>
-</div>
+<div class="card-header"><div class="card-icon green">🔍</div><div class="card-title">厨卫间防水切片验收</div></div>
 <div class="card-body">
-<div class="form-group">
-<label class="form-label">验收人 <span class="red">*</span></label>
-<input type="text" class="form-input" id="waterproofInspector" placeholder="请输入验收人">
-</div>
-<div class="form-group">
-<label class="form-label">验收结论</label>
-<select class="form-input" id="waterproofResult">
-<option value="">请选择</option>
-<option value="合格">合格</option>
-<option value="不合格">不合格</option>
-<option value="待整改">待整改</option>
-</select>
-</div>
-<div class="form-group" style="margin-top:12px">
-<label class="form-label">验收照片</label>
-<div class="upload-box" id="waterproofUpload" onclick="document.getElementById('waterproofPhotos').click()">
-<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-<div class="upload-text">点击拍照上传</div>
-</div>
+<div class="form-group"><label class="form-label">验收人 <span class="red">*</span></label><input type="text" class="form-input" id="waterproofInspector" placeholder="请输入验收人"></div>
+<div class="form-group"><label class="form-label">验收结论</label><select class="form-input" id="waterproofResult"><option value="">请选择</option><option value="合格">合格</option><option value="不合格">不合格</option><option value="待整改">待整改</option></select></div>
+<div class="form-group" style="margin-top:12px"><label class="form-label">验收照片</label>
+<div class="upload-box" id="waterproofUpload" onclick="document.getElementById('waterproofPhotos').click()"><div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div><div class="upload-text">点击拍照上传</div></div>
 <input type="file" id="waterproofPhotos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'waterproof')">
 <div class="photo-list" id="waterproofList"></div>
-<div class="form-group" style="margin-top:8px">
-<textarea class="form-input" id="waterproofDesc" placeholder="请描述问题..." rows="2"></textarea>
-</div>
+<textarea class="form-input" id="waterproofDesc" placeholder="请描述问题..." rows="2" style="margin-top:8px"></textarea>
 </div>
 </div>
 </div>
 
-<!-- 隐蔽验收 3 -->
 <div class="card">
-<div class="card-header">
-<div class="card-icon green">🔍</div>
-<div class="card-title">厨卫间蓄水验收</div>
-</div>
+<div class="card-header"><div class="card-icon green">🔍</div><div class="card-title">厨卫间蓄水验收</div></div>
 <div class="card-body">
-<div class="form-group">
-<label class="form-label">验收人 <span class="red">*</span></label>
-<input type="text" class="form-input" id="waterStoreInspector" placeholder="请输入验收人">
-</div>
-<div class="form-group">
-<label class="form-label">验收结论</label>
-<select class="form-input" id="waterStoreResult">
-<option value="">请选择</option>
-<option value="合格">合格</option>
-<option value="不合格">不合格</option>
-<option value="待整改">待整改</option>
-</select>
-</div>
-<div class="form-group" style="margin-top:12px">
-<label class="form-label">验收照片</label>
-<div class="upload-box" id="waterStoreUpload" onclick="document.getElementById('waterStorePhotos').click()">
-<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-<div class="upload-text">点击拍照上传</div>
-</div>
+<div class="form-group"><label class="form-label">验收人 <span class="red">*</span></label><input type="text" class="form-input" id="waterStoreInspector" placeholder="请输入验收人"></div>
+<div class="form-group"><label class="form-label">验收结论</label><select class="form-input" id="waterStoreResult"><option value="">请选择</option><option value="合格">合格</option><option value="不合格">不合格</option><option value="待整改">待整改</option></select></div>
+<div class="form-group" style="margin-top:12px"><label class="form-label">验收照片</label>
+<div class="upload-box" id="waterStoreUpload" onclick="document.getElementById('waterStorePhotos').click()"><div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div><div class="upload-text">点击拍照上传</div></div>
 <input type="file" id="waterStorePhotos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'waterStore')">
 <div class="photo-list" id="waterStoreList"></div>
-<div class="form-group" style="margin-top:8px">
-<textarea class="form-input" id="waterStoreDesc" placeholder="请描述问题..." rows="2"></textarea>
-</div>
+<textarea class="form-input" id="waterStoreDesc" placeholder="请描述问题..." rows="2" style="margin-top:8px"></textarea>
 </div>
 </div>
 </div>
 
-<!-- 隐蔽验收 4 -->
 <div class="card">
-<div class="card-header">
-<div class="card-icon green">🔍</div>
-<div class="card-title">墙布基层验收</div>
-</div>
+<div class="card-header"><div class="card-icon green">🔍</div><div class="card-title">墙布基层验收</div></div>
 <div class="card-body">
-<div class="form-group">
-<label class="form-label">验收人 <span class="red">*</span></label>
-<input type="text" class="form-input" id="wallBaseInspector" placeholder="请输入验收人">
-</div>
-<div class="form-group">
-<label class="form-label">验收结论</label>
-<select class="form-input" id="wallBaseResult">
-<option value="">请选择</option>
-<option value="合格">合格</option>
-<option value="不合格">不合格</option>
-<option value="待整改">待整改</option>
-</select>
-</div>
-<div class="form-group" style="margin-top:12px">
-<label class="form-label">验收照片</label>
-<div class="upload-box" id="wallBaseUpload" onclick="document.getElementById('wallBasePhotos').click()">
-<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-<div class="upload-text">点击拍照上传</div>
-</div>
+<div class="form-group"><label class="form-label">验收人 <span class="red">*</span></label><input type="text" class="form-input" id="wallBaseInspector" placeholder="请输入验收人"></div>
+<div class="form-group"><label class="form-label">验收结论</label><select class="form-input" id="wallBaseResult"><option value="">请选择</option><option value="合格">合格</option><option value="不合格">不合格</option><option value="待整改">待整改</option></select></div>
+<div class="form-group" style="margin-top:12px"><label class="form-label">验收照片</label>
+<div class="upload-box" id="wallBaseUpload" onclick="document.getElementById('wallBasePhotos').click()"><div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div><div class="upload-text">点击拍照上传</div></div>
 <input type="file" id="wallBasePhotos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'wallBase')">
 <div class="photo-list" id="wallBaseList"></div>
-<div class="form-group" style="margin-top:8px">
-<textarea class="form-input" id="wallBaseDesc" placeholder="请描述问题..." rows="2"></textarea>
-</div>
+<textarea class="form-input" id="wallBaseDesc" placeholder="请描述问题..." rows="2" style="margin-top:8px"></textarea>
 </div>
 </div>
 </div>
 
-<!-- 现场巡检照片 -->
 <div class="card">
-<div class="card-header">
-<div class="card-icon red">📷</div>
-<div class="card-title">现场巡检照片</div>
-</div>
+<div class="card-header"><div class="card-icon red">📷</div><div class="card-title">现场巡检照片</div></div>
 <div class="card-body">
-<div class="upload-box" id="inspectionUpload" onclick="document.getElementById('inspectionPhotos').click()">
-<div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-<div class="upload-text">点击拍照上传</div>
-<div class="upload-hint">最多9张</div>
-</div>
+<div class="upload-box" id="inspectionUpload" onclick="document.getElementById('inspectionPhotos').click()"><div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div><div class="upload-text">点击拍照上传</div><div class="upload-hint">最多9张</div></div>
 <input type="file" id="inspectionPhotos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'inspection')">
 <div class="photo-list" id="inspectionList"></div>
-<div class="form-group" style="margin-top:8px">
-<textarea class="form-input" id="inspectionDesc" placeholder="请描述问题..." rows="2"></textarea>
-</div>
+<textarea class="form-input" id="inspectionDesc" placeholder="请描述问题..." rows="2" style="margin-top:8px"></textarea>
 </div>
 </div>
 
-<!-- 墙地砖空鼓实测 -->
 <div class="card">
-<div class="card-header">
-<div class="card-icon green">📐</div>
-<div class="card-title">墙地砖空鼓实测</div>
-</div>
+<div class="card-header"><div class="card-icon green">📐</div><div class="card-title">墙地砖空鼓实测</div></div>
 <div class="card-body">
 <div class="input-list">
 <div class="input-row"><span class="input-label">实测人</span><input type="text" class="input-field" id="tilePerson" placeholder="请输入"></div>
@@ -484,12 +230,8 @@ body{font-family:'Noto Sans SC',sans-serif;background:#f5f6f8;color:#111827;line
 </div>
 </div>
 
-<!-- 腻子面实测合格率 -->
 <div class="card">
-<div class="card-header">
-<div class="card-icon green">🎨</div>
-<div class="card-title">腻子面实测合格率</div>
-</div>
+<div class="card-header"><div class="card-icon green">🎨</div><div class="card-title">腻子面实测合格率</div></div>
 <div class="card-body">
 <div class="input-list">
 <div class="input-row"><span class="input-label">实测人</span><input type="text" class="input-field" id="puttyPerson" placeholder="请输入"></div>
@@ -504,60 +246,28 @@ body{font-family:'Noto Sans SC',sans-serif;background:#f5f6f8;color:#111827;line
 </div>
 </div>
 
-<!-- 卫生间蓄水验收 -->
 <div class="card">
-<div class="card-header">
-<div class="card-icon yellow">🚿</div>
-<div class="card-title">卫生间蓄水验收</div>
-</div>
+<div class="card-header"><div class="card-icon yellow">🚿</div><div class="card-title">卫生间蓄水验收</div></div>
 <div class="card-body">
-<div class="form-group">
-<label class="form-label">验收人 <span class="red">*</span></label>
-<input type="text" class="form-input" id="bathroomInspector" placeholder="请输入验收人">
-</div>
-<div class="form-group">
-<label class="form-label">验收结论</label>
-<select class="form-input" id="bathroomResult">
-<option value="">请选择</option>
-<option value="合格">合格</option>
-<option value="不合格">不合格</option>
-<option value="待整改">待整改</option>
-</select>
-</div>
-<div class="form-group" style="margin-top:12px">
-<label class="form-label">验收照片</label>
-<div class="upload-box" id="bathroomUpload" onclick="document.getElementById('bathroomPhotos').click()">
-<div class="upload-icon" style="background:#10b981"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-<div class="upload-text">点击拍照上传</div>
-</div>
+<div class="form-group"><label class="form-label">验收人 <span class="red">*</span></label><input type="text" class="form-input" id="bathroomInspector" placeholder="请输入验收人"></div>
+<div class="form-group"><label class="form-label">验收结论</label><select class="form-input" id="bathroomResult"><option value="">请选择</option><option value="合格">合格</option><option value="不合格">不合格</option><option value="待整改">待整改</option></select></div>
+<div class="form-group" style="margin-top:12px"><label class="form-label">验收照片</label>
+<div class="upload-box" id="bathroomUpload" onclick="document.getElementById('bathroomPhotos').click()"><div class="upload-icon" style="background:#10b981"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div><div class="upload-text">点击拍照上传</div></div>
 <input type="file" id="bathroomPhotos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,'bathroom')">
 <div class="photo-list" id="bathroomList"></div>
-<div class="form-group" style="margin-top:8px">
-<textarea class="form-input" id="bathroomDesc" placeholder="请描述问题..." rows="2"></textarea>
-</div>
+<textarea class="form-input" id="bathroomDesc" placeholder="请描述问题..." rows="2" style="margin-top:8px"></textarea>
 </div>
 </div>
 </div>
 
-<!-- GitHub 配置 -->
 <div class="config-section">
 <div class="config-title" onclick="document.getElementById('configContent').classList.toggle('show')">
-<span>⚙️ GitHub 配置</span>
-<span>▼</span>
+<span>⚙️ GitHub 配置</span><span>▼</span>
 </div>
 <div class="config-content" id="configContent">
-<div class="form-group">
-<label class="form-label">仓库 Owner</label>
-<input type="text" class="form-input" id="configOwner" placeholder="GitHub 用户名">
-</div>
-<div class="form-group">
-<label class="form-label">仓库名称</label>
-<input type="text" class="form-input" id="configRepo" placeholder="仓库名">
-</div>
-<div class="form-group">
-<label class="form-label">GitHub Token</label>
-<input type="password" class="form-input" id="configToken" placeholder="ghp_xxx">
-</div>
+<div class="form-group"><label class="form-label">仓库 Owner</label><input type="text" class="form-input" id="configOwner" placeholder="GitHub 用户名"></div>
+<div class="form-group"><label class="form-label">仓库名称</label><input type="text" class="form-input" id="configRepo" placeholder="仓库名"></div>
+<div class="form-group"><label class="form-label">GitHub Token</label><input type="password" class="form-input" id="configToken" placeholder="ghp_xxx"></div>
 <button class="submit-btn" style="margin-top:8px" onclick="saveConfig()">保存配置</button>
 </div>
 </div>
@@ -566,40 +276,21 @@ body{font-family:'Noto Sans SC',sans-serif;background:#f5f6f8;color:#111827;line
 
 <div class="container" id="tab-records" style="display:none">
 <div class="card">
-<div class="card-header">
-<div class="card-icon blue">📋</div>
-<div class="card-title">历史巡检记录</div>
-</div>
-<div class="card-body" id="recordsList">
-<div class="empty">暂无记录</div>
-</div>
+<div class="card-header"><div class="card-icon blue">📋</div><div class="card-title">历史巡检记录</div></div>
+<div class="card-body" id="recordsList"><div class="empty">暂无记录</div></div>
 </div>
 </div>
 
 <div class="container" id="tab-qrcode" style="display:none">
 <div class="card">
-<div class="card-header">
-<div class="card-icon red">📱</div>
-<div class="card-title">活码生成</div>
-</div>
+<div class="card-header"><div class="card-icon red">📱</div><div class="card-title">活码生成</div></div>
 <div class="card-body">
-<div class="form-group qr-name">
-<label class="form-label">活码名称</label>
-<input type="text" class="form-input" id="qrName" placeholder="如：A栋巡检">
-</div>
-<div class="form-group">
-<label class="form-label">网站地址（GitHub Pages）</label>
-<input type="text" class="form-input" id="qrUrl" placeholder="https://用户名.github.io/仓库名">
-</div>
-<div class="qr-box" id="qrbox">
-<div id="qrcode"></div>
-</div>
+<div class="form-group qr-name"><label class="form-label">活码名称</label><input type="text" class="form-input" id="qrName" placeholder="如：A栋巡检"></div>
+<div class="form-group"><label class="form-label">网站地址（GitHub Pages）</label><input type="text" class="form-input" id="qrUrl" placeholder="https://用户名.github.io/仓库名" oninput="drawQR()"></div>
+<div class="qr-box"><canvas id="qrCanvas" width="220" height="220" style="border-radius:8px"></canvas></div>
 <button class="download-btn" onclick="downloadQR()">下载二维码</button>
 <div style="margin-top:12px;padding:10px;background:#f0f9ff;border-radius:6px;font-size:12px;color:#0369a1">
-<strong>使用说明：</strong><br>
-1. 将网站部署到 GitHub Pages<br>
-2. 打印二维码贴在巡查点<br>
-3. 巡查人员扫码即可填写表单
+<strong>使用说明：</strong><br>1. 将网站部署到 GitHub Pages<br>2. 输入网址后自动生成二维码<br>3. 下载二维码打印贴在巡查点<br>4. 巡查人员扫码即可填写表单
 </div>
 </div>
 </div>
@@ -629,22 +320,39 @@ if(config.owner)document.getElementById('configOwner').value=config.owner;
 if(config.repo)document.getElementById('configRepo').value=config.repo;
 if(config.token)document.getElementById('configToken').value=config.token;
 if(localStorage.getItem('projectName'))document.getElementById('projectName').value=localStorage.getItem('projectName');
+renderSafety();
 renderProgress();
 drawQR();
 }
 
+function renderSafety(){
+var html='';
+for(var i=0;i<safetyNames.length;i++){
+var id=i+1;
+html+='<div class="safety-item">';
+html+='<div class="safety-title">'+safetyNames[i]+'</div>';
+html+='<div class="safety-options">';
+html+='<label class="safety-option" onclick="selectSafety(this,'+id+')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">无隐患</span></label>';
+html+='<label class="safety-option" onclick="selectSafety(this,'+id+')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">不涉及</span></label>';
+html+='<label class="safety-option warning" onclick="selectSafety(this,'+id+')"><input type="checkbox"><div class="safety-checkbox"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="safety-label">存在问题</span></label>';
+html+='</div>';
+html+='<div class="safety-detail" id="safety'+id+'Detail">';
+html+='<div class="upload-box" onclick="document.getElementById(\'safety'+id+'Photos\').click()"><div class="upload-icon"><svg fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div><div class="upload-text">点击拍照</div></div>';
+html+='<input type="file" id="safety'+id+'Photos" accept="image/*" capture="environment" multiple hidden onchange="addPhotos(this,\'safety'+id+'\')">';
+html+='<div class="photo-list" id="safety'+id+'List"></div>';
+html+='<textarea class="form-input" id="safety'+id+'Desc" placeholder="请描述问题..." rows="2" style="margin-top:8px"></textarea>';
+html+='</div></div>';
+}
+document.getElementById('safetyList').innerHTML=html;
+}
+
 function selectSafety(el,id){
 var options=el.parentElement.querySelectorAll('.safety-option');
-for(var i=0;i<options.length;i++){
-options[i].classList.remove('checked');
-}
+for(var i=0;i<options.length;i++)options[i].classList.remove('checked');
 el.classList.add('checked');
 var detail=document.getElementById('safety'+id+'Detail');
-if(el.classList.contains('warning')){
-detail.classList.add('show');
-}else{
-detail.classList.remove('show');
-}
+if(el.classList.contains('warning')){detail.classList.add('show');}
+else{detail.classList.remove('show');}
 safetyData[id]=el.querySelector('.safety-label').textContent;
 }
 
@@ -709,18 +417,14 @@ list.appendChild(div);
 })(i);
 reader.readAsDataURL(photoData[key][i]);
 }
-if(photoData[key].length===0 && upload)upload.classList.remove('active');
+if(photoData[key].length===0&&upload)upload.classList.remove('active');
 }
 
 function saveConfig(){
-config={
-owner:document.getElementById('configOwner').value.trim(),
-repo:document.getElementById('configRepo').value.trim(),
-token:document.getElementById('configToken').value.trim()
-};
+config={owner:document.getElementById('configOwner').value.trim(),repo:document.getElementById('configRepo').value.trim(),token:document.getElementById('configToken').value.trim()};
 localStorage.setItem('githubConfig',JSON.stringify(config));
-var projectName=document.getElementById('projectName').value.trim();
-if(projectName)localStorage.setItem('projectName',projectName);
+var pn=document.getElementById('projectName').value.trim();
+if(pn)localStorage.setItem('projectName',pn);
 showToast('配置已保存','success');
 }
 
@@ -734,8 +438,9 @@ var apiUrl='https://api.github.com/repos/'+config.owner+'/'+config.repo+'/conten
 var body={message:'Add '+path,content:typeof content==='string'?b64Encode(content):content};
 fetch(apiUrl,{headers:{'Authorization':'token '+config.token}}).then(function(check){
 if(check.ok)return check.json();
+return null;
 }).then(function(data){
-if(data)body.sha=data.sha;
+if(data&&data.sha)body.sha=data.sha;
 return fetch(apiUrl,{method:'PUT',headers:{'Authorization':'token '+config.token,'Content-Type':'application/json'},body:JSON.stringify(body)});
 }).then(function(res){
 if(!res.ok)throw new Error('API error: '+res.status);
@@ -756,50 +461,33 @@ document.getElementById('loading').classList.add('show');
 try{
 var recordId='INS-'+Date.now();
 var record={
-id:recordId,
-projectName:projectName,
-building:building,
-room:room,
+id:recordId,projectName:projectName,building:building,room:room,
 inspectionTime:document.getElementById('inspectionTime').value,
-safety:[],
-progress:{},
+safety:[],progress:{},
 inspections:{
-lightSteel:{inspector:document.getElementById('lightSteelInspector').value,result:document.getElementById('lightSteelResult').value,photos:[]},
-waterproof:{inspector:document.getElementById('waterproofInspector').value,result:document.getElementById('waterproofResult').value,photos:[]},
-waterStore:{inspector:document.getElementById('waterStoreInspector').value,result:document.getElementById('waterStoreResult').value,photos:[]},
-wallBase:{inspector:document.getElementById('wallBaseInspector').value,result:document.getElementById('wallBaseResult').value,photos:[]}
+lightSteel:{inspector:document.getElementById('lightSteelInspector').value,result:document.getElementById('lightSteelResult').value,photos:[],description:document.getElementById('lightSteelDesc').value},
+waterproof:{inspector:document.getElementById('waterproofInspector').value,result:document.getElementById('waterproofResult').value,photos:[],description:document.getElementById('waterproofDesc').value},
+waterStore:{inspector:document.getElementById('waterStoreInspector').value,result:document.getElementById('waterStoreResult').value,photos:[],description:document.getElementById('waterStoreDesc').value},
+wallBase:{inspector:document.getElementById('wallBaseInspector').value,result:document.getElementById('wallBaseResult').value,photos:[],description:document.getElementById('wallBaseDesc').value}
 },
 inspectionPhotos:[],
-tile:{person:'',time:'',hollow:'',height:'',vertical:'',flatness:'',corner:''},
-putty:{person:'',time:'',ceiling:'',corner:'',vertical:'',flatness:'',lines:'',straightness:''},
-bathroom:{inspector:document.getElementById('bathroomInspector').value,result:document.getElementById('bathroomResult').value,photos:[]},
+tile:{person:document.getElementById('tilePerson').value,time:document.getElementById('tileTime').value,hollow:document.getElementById('tileHollow').value,height:document.getElementById('tileHeight').value,vertical:document.getElementById('tileVertical').value,flatness:document.getElementById('tileFlatness').value,corner:document.getElementById('tileCorner').value},
+putty:{person:document.getElementById('puttyPerson').value,time:document.getElementById('puttyTime').value,ceiling:document.getElementById('puttyCeiling').value,corner:document.getElementById('puttyCorner').value,vertical:document.getElementById('puttyVertical').value,flatness:document.getElementById('puttyFlatness').value,lines:document.getElementById('puttyLines').value,straightness:document.getElementById('puttyStraightness').value},
+bathroom:{inspector:document.getElementById('bathroomInspector').value,result:document.getElementById('bathroomResult').value,photos:[],description:document.getElementById('bathroomDesc').value},
 createdAt:new Date().toLocaleString('zh-CN')
 };
 for(var i=1;i<=7;i++){
 var result=safetyData[i]||'';
 var photos=[];
+if(photoData['safety'+i]){photos=photoData['safety'+i].map(function(f,j){return recordId+'_safety'+i+'_'+(j+1)+'.'+f.name.split('.').pop();});}
 var desc='';
-if(photoData['safety'+i]){
-photos=photoData['safety'+i].map(function(f,j){
-return recordId+'_safety'+i+'_'+(j+1)+'.'+f.name.split('.').pop();
-});
-}
-if(document.getElementById('safety'+i+'Desc')){
-desc=document.getElementById('safety'+i+'Desc').value;
-}
+var descEl=document.getElementById('safety'+i+'Desc');
+if(descEl)desc=descEl.value;
 record.safety.push({name:safetyNames[i-1],result:result,photos:photos,description:desc});
 }
 for(var i=0;i<progressItems.length;i++){
 var v=document.getElementById('progress'+i).value;
 if(v)record.progress[progressItems[i]]=v;
-}
-var tileKeys=['Person','Time','Hollow','Height','Vertical','Flatness','Corner'];
-for(var i=0;i<tileKeys.length;i++){
-record.tile[tileKeys[i].toLowerCase()]=document.getElementById('tile'+tileKeys[i]).value;
-}
-var puttyKeys=['Person','Time','Ceiling','Corner','Vertical','Flatness','Lines','Straightness'];
-for(var i=0;i<puttyKeys.length;i++){
-record.putty[puttyKeys[i].toLowerCase()]=document.getElementById('putty'+puttyKeys[i]).value;
 }
 var photoKeys=['lightSteel','waterproof','waterStore','wallBase','inspection','bathroom'];
 for(var k=0;k<photoKeys.length;k++){
@@ -854,539 +542,273 @@ container.innerHTML=html;
 }
 
 function drawQR(){
+var canvas=document.getElementById('qrCanvas');
+var ctx=canvas.getContext('2d');
 var qrUrl=document.getElementById('qrUrl').value.trim();
+ctx.fillStyle='white';
+ctx.fillRect(0,0,220,220);
 if(!qrUrl){
-document.getElementById('qrcode').innerHTML='<div style="padding:40px;text-align:center;color:#9ca3af;font-size:13px">请输入网站地址<br>生成二维码</div>';
+ctx.fillStyle='#9ca3af';
+ctx.font='13px sans-serif';
+ctx.textAlign='center';
+ctx.fillText('请输入网站地址',110,105);
+ctx.fillText('生成二维码',110,125);
 return;
 }
-var canvas=document.createElement('canvas');
-canvas.width=200;
-canvas.height=200;
-var ctx=canvas.getContext('2d');
-ctx.fillStyle='white';
-ctx.fillRect(0,0,200,200);
 try{
-var qr=generateQR(qrUrl,4);
-var size=200;
-var moduleCount=qr.moduleCount;
-var tileSize=size/moduleCount;
+var qr=qr_encode(qrUrl);
+if(!qr){ctx.fillStyle='#ef4444';ctx.font='12px sans-serif';ctx.textAlign='center';ctx.fillText('生成失败',110,110);return;}
+var size=qr.length;
+var margin=10;
+var tileSize=(220-margin*2)/size;
 ctx.fillStyle='#2563eb';
-for(var row=0;row<moduleCount;row++){
-for(var col=0;col<moduleCount;col++){
-if(qr.modules[row][col]){
-ctx.fillRect(col*tileSize,row*tileSize,tileSize,tileSize);
+for(var row=0;row<size;row++){
+for(var col=0;col<size;col++){
+if(qr[row][col]){
+ctx.fillRect(margin+col*tileSize,margin+row*tileSize,tileSize,tileSize);
 }
 }
 }
-document.getElementById('qrcode').innerHTML='';
-document.getElementById('qrcode').appendChild(canvas);
 }catch(e){
-document.getElementById('qrcode').innerHTML='<div style="padding:20px;text-align:center;color:#ef4444;font-size:12px">生成失败<br>'+qrUrl+'</div>';
+ctx.fillStyle='#ef4444';
+ctx.font='12px sans-serif';
+ctx.textAlign='center';
+ctx.fillText('生成失败',110,110);
 }
-}
-
-function generateQR(text,errorLevel){
-var EC_LEVEL={'L':1,'M':0,'Q':3,'H':2};
-var PAD0=0xEC,PAD1=0x11;
-var _typeNumber=1,_modules=null,_modules2=null,_dataCache=null,_data=null;
-function QRCode(typeNumber,errorCorrectionLevel){
-_typeNumber=typeNumber;
-_modules2=_modules=[];
-for(var row=0;row<typeNumber*4+17;row++){
-_modules[row]=[];
-_modules2[row]=[];
-for(var col=0;col<typeNumber*4+17;col++){
-_modules[row][col]=null;
-_modules2[row][col]=false;
-}
-}
-}
-function QR8bitByte(data){
-return function(){
-var bytes=[];
-for(var i=0;i<data.length;i++){
-var byte=data.charCodeAt(i);
-var bytes_=[];
-if(byte>>7==0){
-bytes_.push(byte);
-}else if(byte>>5==6){
-bytes_.push(((byte>>6)&7)+192);
-bytes_.push((byte&63)+128);
-}else if(byte>>4==14){
-bytes_.push(((byte>>12)&15)+224);
-bytes_.push(((byte>>6)&63)+128);
-bytes_.push((byte&63)+128);
-}else{
-bytes_.push(((byte>>18)&7)+240);
-bytes_.push(((byte>>12)&63)+128);
-bytes_.push(((byte>>6)&63)+128);
-bytes_.push((byte&63)+128);
-}
-for(var j=0;j<bytes_.length;j++)bytes.push(bytes_[j]);
-}
-return bytes;
-}();
-}
-function createData(typeNumber,errorCorrectionLevel,data){
-var rsBlocks=QRRSBlock.getRSBlocks(typeNumber,errorCorrectionLevel);
-var buffer=QRBitBuffer();
-buffer.put(4,4);
-buffer.put(data.length,QRMath.getLengthInBits(4,typeNumber));
-for(var i=0;i<data.length;i++){
-buffer.put(data[i],QRMath.getLengthInBits(4,typeNumber));
-}
-var totalDataCount=0;
-for(var i=0;i<rsBlocks.length;i++){
-totalDataCount+=rsBlocks[i].dataCount;
-}
-if(buffer.getLengthInBits()>totalDataCount*8){
-throw new Error('code length overflow. ('+buffer.getLengthInBits()+'>'+totalDataCount*8+')');
-}
-if(buffer.getLengthInBits()+4<=totalDataCount*8){
-buffer.put(0,4);
-}
-while(buffer.getLengthInBits()%8!=0){
-buffer.putBit(false);
-}
-while(true){
-if(buffer.getLengthInBits()>=totalDataCount*8)break;
-buffer.put(PAD0,8);
-if(buffer.getLengthInBits()>=totalDataCount*8)break;
-buffer.put(PAD1,8);
-}
-return createBytes(buffer,rsBlocks);
-}
-function createBytes(buffer,rsBlocks){
-var offset=0;
-var maxDcCount=0;
-var maxEcCount=0;
-var dcdata=new Array(rsBlocks.length);
-var ecdata=new Array(rsBlocks.length);
-for(var r=0;r<rsBlocks.length;r++){
-var dcCount=rsBlocks[r].dataCount;
-var ecCount=rsBlocks[r].totalCount-dcCount;
-maxDcCount=Math.max(maxDcCount,dcCount);
-maxEcCount=Math.max(maxEcCount,ecCount);
-dcdata[r]=new Array(dcCount);
-for(var i=0;i<dcdata[r].length;i++){
-dcdata[r][i]=0xff&buffer.getBuffer()[i+offset];
-}
-offset+=dcCount;
-var rsPoly=QRMath.getErrorCorrectPolynomial(ecCount);
-var rawPoly=QRPolynomial(dcdata[r],rsPoly.getLength()-1);
-var modPoly=rawPoly.mod(rsPoly);
-ecdata[r]=new Array(rsPoly.getLength()-1);
-for(var i=0;i<ecdata[r].length;i++){
-var modIndex=i+modPoly.getLength()-ecdata[r].length;
-ecdata[r][i]=(modIndex>=0)?modPoly.getAt(modIndex):0;
-}
-}
-var totalCodeCount=0;
-for(var i=0;i<rsBlocks.length;i++){
-totalCodeCount+=rsBlocks[i].totalCount;
-}
-var data=new Array(totalCodeCount);
-var index=0;
-for(var i=0;i<maxDcCount;i++){
-for(var r=0;r<rsBlocks.length;r++){
-if(i<dcdata[r].length){
-data[index]=dcdata[r][i];
-index++;
-}
-}
-}
-for(var i=0;i<maxEcCount;i++){
-for(var r=0;r<rsBlocks.length;r++){
-if(i<ecdata[r].length){
-data[index]=ecdata[r][i];
-index++;
-}
-}
-}
-return data;
-}
-QRCode.prototype.addData=function(data){
-_data=QR8bitByte(data).toString().split(',').map(function(n){return parseInt(n,10);});
-};
-QRCode.prototype.make=function(){
-QRCode.prototype.makeImpl(false,getBestMaskPattern());
-};
-QRCode.prototype.moduleCount=function(){return _typeNumber*4+17;};
-QRCode.prototype.modules=function(row,col){
-if(row<0||_typeNumber*4+17<=row||col<0||_typeNumber*4+17<=col)throw new Error(row+','+col);
-return _modules[row][col];
-};
-QRCode.prototype.createSvgTag=function(cellSize,margin){
-cellSize=cellSize||4;
-margin=(margin==null)?cellSize*4:margin;
-var size=(_typeNumber*4+17)*cellSize+margin*2;
-var c,mc,r,mr,mq,z='',svg='';
-svg+='<svg width="'+size+'px" height="'+size+'px" viewBox="0 0 '+size+' '+size+'" xmlns="http://www.w3.org/2000/svg">';
-svg+='<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>';
-for(r=0;r<_typeNumber*4+17;r++){
-mr=r*cellSize+margin;
-for(c=0;c<_typeNumber*4+17;c++){
-mq=c*cellSize+margin;
-z+=(_modules[r][c]?'<rect width="'+cellSize+'" height="'+cellSize+'" x="'+mq+'" y="'+mr+'" fill="black"/>':'');
-}
-}
-svg+=z+'<\/svg>';
-return svg;
-};
-function getBestMaskPattern(){
-var minLostPoint=0,pattern=0;
-for(var i=0;i<8;i++){
-makeImpl(true,i);
-var lostPoint=QRUtil.getLostPoint(_modules2);
-if(i==0||minLostPoint>lostPoint){
-minLostPoint=lostPoint;
-pattern=i;
-}
-}
-return pattern;
-}
-function makeImpl(test,maskPattern){
-_typeNumber*4+17;
-_setupPositionProbePattern(0,0);
-_setupPositionProbePattern(_typeNumber*4+6,0);
-_setupPositionProbePattern(0,_typeNumber*4+6);
-_setupPositionAdjustPattern();
-_setupTimingPattern();
-_setupTypeInfo(test,maskPattern);
-if(_typeNumber>=7){
-_setupTypeNumber(test);
-}
-if(_dataCache==null){
-_dataCache=createData(_typeNumber,errorCorrectionLevel,QR8bitByte(text));
-}
-setupData(_dataCache);
-}
-function setupPositionProbePattern(row,col){
-for(var r=-1;r<=7;r++){
-if(row+r<=-1||_typeNumber*4+17<=row+r)continue;
-for(var c=-1;c<=7;c++){
-if(col+c<=-1||_typeNumber*4+17<=col+c)continue;
-if((0<=r&&r<=6&&(c==0||c==6))||(0<=c&&c<=6&&(r==0||r==6))||(2<=r&&r<=4&&2<=c&&c<=4)){
-_modules[row+r][col+c]=true;
-}else{
-_modules[row+r][col+c]=false;
-}
-}
-}
-}
-function QRMath(){
-var EXP_TABLE=new Array(256);
-var LOG_TABLE=new Array(256);
-for(var i=0;i<8;i++)EXP_TABLE[i]=1<<i;
-for(var i=8;i<256;i++)EXP_TABLE[i]=EXP_TABLE[i-4]^EXP_TABLE[i-5]^EXP_TABLE[i-6]^EXP_TABLE[i-8];
-for(var i=0;i<255;i++)LOG_TABLE[EXP_TABLE[i]]=i;
-return{glog:function(n){if(n<1)throw new Error('glog('+n+')');return LOG_TABLE[n];},gexp:function(n){while(n<0)n+=255;while(n>=256)n-=255;return EXP_TABLE[n];},};
-}
-var QRMath=new QRMath();
-function QRPolynomial(num,shift){
-if(num.length==undefined)throw new Error(num.length+'/'+shift);
-var offset=0;
-while(offset<num.length&&num[offset]==0)offset++;
-this.num=new Array(num.length-offset+shift);
-for(var i=0;i<num.length-offset;i++)this.num[i]=num[i+offset];
-}
-QRPolynomial.prototype.getAt=function(index){
-return this.num[index];
-};
-QRPolynomial.prototype.getLength=function(){
-return this.num.length;
-};
-QRPolynomial.prototype.multiply=function(e){
-var num=new Array(this.getLength()+e.getLength()-1);
-for(var i=0;i<this.getLength();i++){
-for(var j=0;j<e.getLength();j++){
-num[i+j]^=QRMath.gexp(QRMath.glog(this.getAt(i))+QRMath.glog(e.getAt(j)));
-}
-}
-return new QRPolynomial(num,0);
-};
-QRPolynomial.prototype.mod=function(e){
-if(this.getLength()-e.getLength()<0)return this;
-var ratio=QRMath.glog(this.getAt(0))-QRMath.glog(e.getAt(0));
-var num=new Array(this.getLength());
-for(var i=0;i<this.getLength();i++)num[i]=this.getAt(i);
-for(var i=0;i<e.getLength();i++)num[i]^=QRMath.gexp(QRMath.glog(e.getAt(i))+ratio);
-return new QRPolynomial(num,0).mod(e);
-};
-function QRUtil(){
-var PATTERN_POSITION_TABLE=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]];
-var G15=(1<<10)|(1<<8)|(1<<5)|(1<<4)|(1<<2)|(1<<1)|(1<<0);
-var G18=(1<<12)|(1<<11)|(1<<10)|(1<<9)|(1<<8)|(1<<5)|(1<<2)|(1<<0);
-var G15_MASK=(1<<14)|(1<<12)|(1<<10)|(1<<4)|(1<<1);
-return{getPatternPosition:function(typeNumber){return PATTERN_POSITION_TABLE[typeNumber-1];},getSchema:function(errorCorrectionLevel,typeNumber){var schema;if(typeNumber>=1&&typeNumber<10)schema=QRUtil.VERSION_QR_COMM;else if(typeNumber<27)schema=QRUtil.VERSION_QR_COMM;else if(typeNumber<41)schema=QRUtil.VERSION_QR_COMM;return schema;},getErrorCorrectPolynomial:function(errorCorrectLength){var a=new QRPolynomial([1],0);for(var i=0;i<errorCorrectLength;i++){a=a.multiply(new QRPolynomial([1,QRMath.gexp(i)],0));}return a;},getLengthInBits:function(mode,type){if(1<=type&&type<10){if(mode==MODE_NUMBER)return 10;if(mode==MODE_ALPHA_NUM)return 9;if(mode==MODE_8BIT_BYTE)return 8;if(mode==MODE_KANJI)return 8;}else if(type<27){if(mode==MODE_NUMBER)return 12;if(mode==MODE_ALPHA_NUM)return 11;if(mode==MODE_8BIT_BYTE)return 16;if(mode==MODE_KANJI)return 10;}else if(type<41){if(mode==MODE_NUMBER)return 14;if(mode==MODE_ALPHA_NUM)return 13;if(mode==MODE_8BIT_BYTE)return 16;if(mode==MODE_KANJI)return 12;}else{throw new Error('typeNumber:'+typeNumber);}
-},getLostPoint:function/modules(){
-var lostPoint=0;
-for(var row=0;row<_typeNumber*4+17;row++){
-for(var col=0;col<_typeNumber*4+17;col++){
-var sameCount=0;
-var dark=_modules[row][col];
-for(var r=-1;r<=1;r++){
-if(row+r<0||_typeNumber*4+17<=row+r)continue;
-for(var c=-1;c<=1;c++){
-if(col+c<0||_typeNumber*4+17<=col+c)continue;
-if(r==0&&c==0)continue;
-if(dark==_modules[row+r][col+c])sameCount++;
-}
-}
-if(sameCount>5)lostPoint+=(3+sameCount-5);
-}
-}
-for(var row=0;row<_typeNumber*4+17;row++){
-for(var col=0;col<_typeNumber*4+16;col++){
-var count=0;
-for(var i=0;i<6;i++){
-if(_modules[row][col+i]!=false)count++;
-}
-if(count==6)lostPoint+=3;
-}
-}
-for(var col=0;col<_typeNumber*4+17;col++){
-for(var row=0;row<_typeNumber*4+16;row++){
-var count=0;
-for(var i=0;i<6;i++){
-if(_modules[row+i][col]!=false)count++;
-}
-if(count==6)lostPoint+=3;
-}
-}
-for(var row=0;row<_typeNumber*4+17;row++){
-for(var col=0;col<_typeNumber*4+17;col++){
-var count=0;
-if(_modules[row][col])count++;
-if(col+1<=_typeNumber*4+17&&_modules[row][col+1])count++;
-if(row+1<=_typeNumber*4+17&&_modules[row+1][col])count++;
-if(row+1<=_typeNumber*4+17&&col+1<=_typeNumber*4+17&&_modules[row+1][col+1])count++;
-if((count==0)||(count==2)||(count==4)){
-lostPoint+=3;
-}else if(count==1||count==3||count==5){
-lostPoint+=1;
-}
-}
-}
-return lostPoint;
-},};
-}
-function QRBitBuffer(){
-var buffer=[];
-var length=0;
-return{
-getBuffer:function(){return buffer;},getAt:function(index){var bufIndex=Math.floor(index/8);return((buffer[bufIndex]>>(7-index%8))&1)==1;},put:function(num,length){for(var i=0;i<length;i++){this.putBit(((num>>>(length-i-1))&1)==1);}},getLengthInBits:function(){return length;},putBit:function(bit){var bufIndex=Math.floor(length/8);if(buffer.length<=bufIndex){buffer.push(0);}
-if(bit){buffer[bufIndex]|=(0x80>>>(length%8));}
-length++;
-}};
-}
-var MODE_NUMBER='1',MODE_ALPHA_NUM='2',MODE_8BIT_BYTE='4',MODE_KANJI='8';
-var errorCorrectionLevel=EC_LEVEL['M'];
-function setupPositionProbePattern(row,col){
-for(var r=-1;r<=1;r++){
-for(var c=-1;c<=1;c++){
-var rowR=row+r;
-var colC=col+c;
-if(0<=rowR&&rowR<_typeNumber*4+17&&0<=colC&&colC<_typeNumber*4+17){
-if((0<=r&&r<=6&&(c==0||c==6))||(0<=c&&c<=6&&(r==0||r==6))||(2<=r&&r<=4&&2<=c&&c<=4)){
-_modules[rowR][colC]=true;
-}else{
-_modules[rowR][colC]=false;
-}
-}
-}
-}
-}
-function setupPositionProbePattern_(row,col){
-for(var r=-1;r<=7;r++){
-for(var c=-1;c<=7;c++){
-if(row+r<=-1||_typeNumber*4+17<=row+r||col+c<=-1||_typeNumber*4+17<=col+c)continue;
-if((0<=r&&r<=6&&(c==0||c==6))||(0<=c&&c<=6&&(r==0||r==6))||(2<=r&&r<=4&&2<=c&&c<=4)){
-_modules[row+r][col+c]=true;
-}else{
-_modules[row+r][col+c]=false;
-}
-}
-}
-}
-function setupPositionAdjustPattern(){
-var pos=QRUtil.getPatternPosition(_typeNumber);
-for(var i=0;i<pos.length;i++){
-for(var j=0;j<pos.length;j++){
-var row=pos[i];
-var col=pos[j];
-if(_modules[row][col]!=null)continue;
-for(var r=-2;r<=2;r++){
-for(var c=-2;c<=2;c++){
-if(r==-2||r==2||c==-2||c==2||(r==0&&c==0)){
-_modules[row+r][col+c]=true;
-}else{
-_modules[row+r][col+c]=false;
-}
-}
-}
-}
-}
-function setupPositionAdjustPattern_(){
-var pos=QRUtil.getPatternPosition(_typeNumber);
-for(var i=0;i<pos.length;i++){
-for(var j=0;j<pos.length;j++){
-var row=pos[i];
-var col=pos[j];
-if(_modules[row][col]!=null)continue;
-for(var r=-2;r<=2;r++){
-for(var c=-2;c<=2;c++){
-if(r==-2||r==2||c==-2||c==2||(r==0&&c==0)){
-_modules[row+r][col+c]=true;
-}else{
-_modules[row+r][col+c]=false;
-}
-}
-}
-}
-}
-function setupTimingPattern(){
-for(var r=8;r<_typeNumber*4+17-8;r++){
-if(_modules[r][6]!=null)continue;
-_modules[r][6]=(r%2==0);
-}
-for(var c=8;c<_typeNumber*4+17-8;c++){
-if(_modules[6][c]!=null)continue;
-_modules[6][c]=(c%2==0);
-}
-}
-function setupTimingPattern_(){
-for(var r=8;r<_typeNumber*4+17-8;r++){
-if(_modules[r][6]!=null)continue;
-_modules[r][6]=(r%2==0);
-}
-for(var c=8;c<_typeNumber*4+17-8;c++){
-if(_modules[6][c]!=null)continue;
-_modules[6][c]=(c%2==0);
-}
-}
-function setupTypeInfo(test,maskPattern){
-var data=(errorCorrectionLevel<<3)|maskPattern;
-var bits=QRUtil.getBCHTypeInfo(data);
-for(var i=0;i<15;i++){
-var mod=(!test&&((bits>>i)&1)==1);
-if(i<6){
-_modules[i][8]=mod;
-}else if(i<8){
-_modules[i+1][8]=mod;
-}else{
-_modules[_typeNumber*4+17-i][8]=mod;
-}
-}
-for(var i=0;i<15;i++){
-var mod=(!test&&((bits>>i)&1)==1);
-if(i<8){
-_modules[8][_typeNumber*4+17-i-1]=mod;
-}else if(i<9){
-_modules[8][15-i-1+1]=mod;
-}else{
-_modules[8][15-i-1]=mod;
-}
-}
-_modules[_typeNumber*4+17][8]=(!test);
-}
-function setupTypeNumber(test){
-var bits=QRUtil.getBCHTypeNumber(_typeNumber);
-for(var i=0;i<18;i++){
-var mod=(!test&&((bits>>i)&1)==1);
-_modules[Math.floor(i/3)][i%3+_typeNumber*4+13]=mod;
-}
-for(var i=0;i<18;i++){
-var mod=(!test&&((bits>>i)&1)==1);
-_modules[i%3+_typeNumber*4+13][Math.floor(i/3)]=mod;
-}
-}
-function setupData(data){
-for(var i=0;i<_typeNumber*4+17;i++){
-_modules2[i]=[];
-for(var j=0;j<_typeNumber*4+17;j++){
-_modules2[i][j]=false;
-}
-}
-for(var i=0;i<_typeNumber*4+17;i++){
-_modules2[i]=[];
-for(var j=0;j<_typeNumber*4+17;j++){
-_modules2[i][j]=null;
-}
-}
-setupData2(data);
-}
-function setupData2(data){
-var inc=-1;
-var row=_typeNumber*4+17-1;
-var col=row;
-for(var i=0;i<_typeNumber*4+17;_modules2[i]=[],i++);
-for(var i=0;i<_typeNumber*4+17;_modules2[i][col]=false,i++);
-for(var i=0;i<_typeNumber*4+17;i++)_modules2[i][col]=null;
-var maskFunc=null;
-for(var i=0;i<data.length;i++){
-var byte=data[i];
-for(var bit=7;bit>=0;bit--){
-var colR=(~col)&1;
-_modules2[row][col]=((byte>>bit)&1)==1;
-if(_modules2[row][col]!=null){
-_modules2[row][col]=false;
-}
-col+=colR==0?1:-1;
-if(col<0||_typeNumber*4+17<=col){
-col-=colR==0?1:-1;
-row+=inc;
-inc=-inc;
-if(row<0||_typeNumber*4+17<=row){
-break;
-}
-}
-}
-}
-}
-function QRUtil_(){
-var PATTERN_POSITION_TABLE=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]];
-var G15=(1<<10)|(1<<8)|(1<<5)|(1<<4)|(1<<2)|(1<<1)|(1<<0);
-var G18=(1<<12)|(1<<11)|(1<<10)|(1<<9)|(1<<8)|(1<<5)|(1<<2)|(1<<0);
-var G15_MASK=(1<<14)|(1<<12)|(1<<10)|(1<<4)|(1<<1);
-return{getPatternPosition:function(typeNumber){return PATTERN_POSITION_TABLE[typeNumber-1];},getBCHTypeInfo:function(data){var d=data;while(d.length!=10){d^=(d>>>1);d=(d.length==10)?d:d;}return(data<<10)|d;},getBCHTypeNumber:function(data){var d=data;while(d.length!=12){d^=(d>>>1);d=(d.length==12)?d:d;}return(data<<12)|d;},getErrorCorrectPolynomial:function(errorCorrectLength){var a=new QRPolynomial([1],0);for(var i=0;i<errorCorrectLength;i++){a=a.multiply(new QRPolynomial([1,QRMath.gexp(i)],0));}return a;},getLengthInBits:function(mode,type){if(1<=type&&type<10){if(mode==MODE_NUMBER)return 10;if(mode==MODE_ALPHA_NUM)return 9;if(mode==MODE_8BIT_BYTE)return 8;if(mode==MODE_KANJI)return 8;}else if(type<27){if(mode==MODE_NUMBER)return 12;if(mode==MODE_ALPHA_NUM)return 11;if(mode==MODE_8BIT_BYTE)return 16;if(mode==MODE_KANJI)return 10;}else if(type<41){if(mode==MODE_NUMBER)return 14;if(mode==MODE_ALPHA_NUM)return 13;if(mode==MODE_8BIT_BYTE)return 16;if(mode==MODE_KANJI)return 12;}else{throw new Error('typeNumber:'+typeNumber);}},getLostPoint:function(){var lostPoint=0;for(var row=0;row<_typeNumber*4+17;row++){for(var col=0;col<_typeNumber*4+17;col++){var sameCount=0;var dark=_modules[row][col];for(var r=-1;r<=1;r++){if(row+r<0||_typeNumber*4+17<=row+r)continue;for(var c=-1;c<=1;c++){if(col+c<0||_typeNumber*4+17<=col+c)continue;if(r==0&&c==0)continue;if(dark==_modules[row+r][col+c])sameCount++;}}if(sameCount>5)lostPoint+=(3+sameCount-5);}}for(var row=0;row<_typeNumber*4+17;row++){for(var col=0;col<_typeNumber*4+16;col++){var count=0;for(var i=0;i<6;i++){if(_modules[row][col+i]!=false)count++;}if(count==6)lostPoint+=3;}}for(var col=0;col<_typeNumber*4+17;col++){for(var row=0;row<_typeNumber*4+16;row++){var count=0;for(var i=0;i<6;i++){if(_modules[row+i][col]!=false)count++;}if(count==6)lostPoint+=3;}}for(var row=0;row<_typeNumber*4+17;row++){for(var col=0;col<_typeNumber*4+17;col++){var count=0;if(_modules[row][col])count++;if(col+1<=_typeNumber*4+17&&_modules[row][col+1])count++;if(row+1<=_typeNumber*4+17&&_modules[row+1][col])count++;if(row+1<=_typeNumber*4+17&&col+1<=_typeNumber*4+17&&_modules[row+1][col+1])count++;if((count==0)||(count==2)||(count==4)){lostPoint+=3;}else if(count==1||count==3||count==5){lostPoint+=1;}}}return lostPoint;},};
-}
-var QRRSBlock=function(){
-var RS_BLOCK_TABLE=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,137,111,1,138,112],[9,54,27,4,55,28],[15,43,15,10,44,16],[2,144,116,2,145,117],[2,67,41,14,68,42],[4,46,20,14,47,21],[6,45,15,14,46,16],[6,107,89,4,108,90],[6,54,28,6,55,29],[11,46,20,4,47,21],[3,45,15,23,46,16],[7,118,98,4,119,99],[3,48,22,21,49,23],[4,42,14,23,43,15],[3,139,111,4,140,112],[3,56,28,11,57,29],[17,44,20,6,45,21],[4,65,27,10,66,28],[2,47,14,28,48,15],[2,121,97,7,122,98],[4,64,40,5,65,41],[6,36,16,8,37,17],[4,52,22,8,53,23],[2,46,14,26,47,15],[4,133,107,5,134,108],[3,58,28,13,59,29],[4,46,20,12,47,21],[11,44,20,7,45,21],[6,117,97,4,118,98],[7,58,30,4,59,31],[3,40,16,22,41,17],[4,50,22,3,51,23],[10,68,40,2,69,41],[4,75,47,3,76,48],[2,43,15,29,44,16],[2,67,39,13,68,40],[4,54,27,12,55,28],[6,36,16,4,37,17],[3,52,22,4,53,23],[4,72,40,1,73,41],[6,45,20,2,46,21],[3,68,40,3,69,41],[6,56,30,4,57,31],[7,44,20,4,45,21],[7,50,22,3,51,23],[6,50,22,4,51,23],[3,51,22,5,52,23],[5,36,16,7,37,17],[3,50,22,7,51,23],[4,50,22,5,51,23],[5,46,18,5,47,19],[5,48,20,7,49,21],[2,54,24,7,55,25]];
-var qrRSBlock=function(totalCount,dataCount){var _this={};_this.totalCount=totalCount;_this.dataCount=dataCount;return _this;};
-var qrRSBlock_=function(totalCount,dataCount){var _this={};_this.totalCount=totalCount;_this.dataCount=dataCount;return _this;};
-var qrRSBlocks=function(){var list=[];for(var i=0;i<RS_BLOCK_TABLE.length;i++){var rsBlock=RS_BLOCK_TABLE[i];list.push(qrRSBlock(rsBlock[1],rsBlock[0]));}return list;};
-return{getRSBlocks:function(typeNumber,errorCorrectionLevel){var rsBlock;var length;if(typeof errorCorrectionLevel==='number'){errorCorrectionLevel={'L':1,'M':0,'Q':3,'H':2}[errorCorrectionLevel];}
-if(typeNumber<1||typeNumber>40){throw new Error('typeNumber:'+typeNumber);}else if(errorCorrectionLevel<0||errorCorrectionLevel>3){throw new Error('mecure:'+errorCorrectionLevel);}else{length=RS_BLOCK_TABLE.length-4;while(length>=0){var count=0;for(var i=0;i<RS_BLOCK_TABLE.length;i++){if(RS_BLOCK_TABLE[i][0]<=typeNumber){count++;}}if(count>length){break;}length--;}rsBlock=RS_BLOCK_TABLE[length];}
-return qrRSBlocks();
-}};
-return new qrRSBlock();
-}();
-function setupData_(data){
-for(var i=0;i<_typeNumber*4+17;i++){_modules2[i]=[];for(var j=0;j<_typeNumber*4+17;j++){_modules2[i][j]=false;}}for(var i=0;i<_typeNumber*4+17;i++){_modules2[i]=[];for(var j=0;j<_typeNumber*4+17;j++){_modules2[i][j]=null;}}var i=0,j=0;for(var col=_typeNumber*4+17-1;col>=1;col-=2){if(col==6)col--;while(true){for(var c=0;c<2;c++){if(_modules2[i][col-c]==null){var dark=false;if(i<data.length*8){dark=((data[Math.floor(i/8)]>>>(7-i%8))&1)==1;}var mask=(function(row,col){switch(maskPattern){case 0:return(row+col)%2==0;case 1:return row%2==0;case 2:return col%3==0;case 3:return(row+col)%3==0;case 4:return(Math.floor(row/2)+Math.floor(col/3))%2==0;case 5:return((row*col)%2+(row*col)%3)==0;case 6:return((row*col)%2+(row*col)%3)%2==0;case 7:return((row*col)%3+(row+col)%2)%2==0;default:throw new Error('bad maskPattern:'+maskPattern);}})(i,col-c);if(mask)dark=!dark;_modules2[i][col-c]=dark;i++;}}i--;}i++;for(var col=_typeNumber*4+17-2;col>=1;col-=2){if(col==6)col--;while(true){for(var c=0;c<2;c++){if(_modules2[i][col-c]==null){var dark=false;if(i<data.length*8){dark=((data[Math.floor(i/8)]>>>(7-i%8))&1)==1;}var mask=(function(row,col){switch(maskPattern){case 0:return(row+col)%2==0;case 1:return row%2==0;case 2:return col%3==0;case 3:return(row+col)%3==0;case 4:return(Math.floor(row/2)+Math.floor(col/3))%2==0;case 5:return((row*col)%2+(row*col)%3)==0;case 6:return((row*col)%2+(row*col)%3)%2==0;case 7:return((row*col)%3+(row+col)%2)%2==0;default:throw new Error('bad maskPattern:'+maskPattern);}})(i,col-c);if(mask)dark=!dark;_modules2[i][col-c]=dark;i++;}}i--;}i++;}for(var row=0;row<_typeNumber*4+17;row++){for(var col=0;col<_typeNumber*4+17;col++){if(_modules2[row][col]!=null){_modules[row][col]=_modules2[row][col];}}}
-}
-var qr=new QRCode(_typeNumber,errorCorrectionLevel);
-qr.addData(text);
-qr.make();
-return qr;
 }
 
 function downloadQR(){
-var qrUrl=document.getElementById('qrUrl').value.trim();
-if(!qrUrl){
-showToast('请先输入网站地址','error');
-return;
-}
-var canvas=document.querySelector('#qrcode canvas');
-if(!canvas){
-showToast('请先生成二维码','error');
-return;
-}
+var canvas=document.getElementById('qrCanvas');
 var link=document.createElement('a');
 link.download=(document.getElementById('qrName').value||'巡检二维码')+'.png';
 link.href=canvas.toDataURL('image/png');
 link.click();
 showToast('下载成功','success');
+}
+
+function qr_encode(text){
+var segs=[{mode:4,data:text}];
+var version=1;
+var ecLevel=1;
+var versionCaps=[0,17,32,53,78,106,134,154,192,230,271,321,367,425,458,520,586,644,718,792,858];
+while(version<=40){
+var cap=versionCaps[version]*8;
+var bits=4+getCharCountBits(4,version)+text.length*8;
+if(bits<=cap)break;
+version++;
+}
+if(version>40)return null;
+var size=version*4+17;
+var modules=[];
+var isFunction=[];
+for(var r=0;r<size;r++){modules[r]=[];isFunction[r]=[];for(var c=0;c<size;c++){modules[r][c]=false;isFunction[r][c]=false;}}
+drawFinderPattern(modules,isFunction,0,0);
+drawFinderPattern(modules,isFunction,size-7,0);
+drawFinderPattern(modules,isFunction,0,size-7);
+drawAlignmentPattern(modules,isFunction,version);
+for(var i=8;i<size-8;i++){if(!isFunction[6][i])modules[6][i]=(i%2==0);isFunction[6][i]=true;if(!isFunction[i][6])modules[i][6]=(i%2==0);isFunction[i][6]=true;}
+modules[size-8][8]=true;isFunction[size-8][8]=true;
+var formatBits=(function(){
+var data=ecLevel<<3;
+var rem=data;
+for(var i=0;i<10;i++)rem=(rem<<1)^((rem>>9)*0x537);
+var bits=(data<<10|rem)^0x5412;
+return bits;
+})();
+for(var i=0;i<=5;i++){modules[8][i]=((bits>>i)&1)==1;isFunction[8][i]=true;}
+modules[8][7]=((bits>>6)&1)==1;isFunction[8][7]=true;
+modules[8][8]=((bits>>7)&1)==1;isFunction[8][8]=true;
+modules[7][8]=((bits>>8)&1)==1;isFunction[7][8]=true;
+for(var i=9;i<15;i++){modules[14-i][8]=((bits>>i)&1)==1;isFunction[14-i][8]=true;}
+for(var i=0;i<8;i++){modules[size-1-i][8]=((bits>>i)&1)==1;isFunction[size-1-i][8]=true;}
+for(var i=8;i<15;i++){modules[8][size-15+i]=((bits>>i)&1)==1;isFunction[8][size-15+i]=true;}
+var dataBits=[];
+dataBits.push(4,4);
+var ccLen=getCharCountBits(4,version);
+for(var i=ccLen-1;i>=0;i--)dataBits.push((text.length>>i)&1);
+for(var c=0;c<text.length;c++){
+var ch=text.charCodeAt(c);
+if(ch<0x80){for(var i=7;i>=0;i--)dataBits.push((ch>>i)&1);}
+else if(ch<0x800){for(var i=7;i>=0;i--)dataBits.push(((ch>>6|0xC0)>>i)&1);for(var i=7;i>=0;i--)dataBits.push(((ch&0x3F|0x80)>>i)&1);}
+else{for(var i=7;i>=0;i--)dataBits.push(((ch>>12|0xE0)>>i)&1);for(var i=7;i>=0;i--)dataBits.push(((ch>>6&0x3F|0x80)>>i)&1);for(var i=7;i>=0;i--)dataBits.push(((ch&0x3F|0x80)>>i)&1);}
+}
+var totalCap=versionCaps[version]*8;
+dataBits.push(0,0,0,0);
+while(dataBits.length%8!==0)dataBits.push(0);
+for(var i=0;dataBits.length<totalCap&&i<2;i++){
+var pad=i==0?0xEC:0x11;
+for(var b=7;b>=0;b--)dataBits.push((pad>>b)&1);
+}
+var dataBytes=[];
+for(var i=0;i<dataBits.length;i+=8){
+var byte=0;
+for(var j=0;j<8;j++)byte=(byte<<1)|(dataBits[i+j]||0);
+dataBytes.push(byte);
+}
+var numEcCodewords=[0,7,10,15,20,26,18,20,24,30,18,20,24,26,30,22,24,28,30,28,28];
+var ecCodewords=numEcCodewords[version]||30;
+var ecBytes=reedSolomonComputeRemainder(dataBytes,ecCodewords);
+var allBytes=dataBytes.concat(ecBytes);
+var bitIdx=0;
+for(var right=size-1;right>=1;right-=2){
+if(right==6)right=5;
+for(var vert=0;vert<size;vert++){
+for(var j=0;j<2;j++){
+var x=right-j;
+var upward=((right+1)&2)==0;
+var y=upward?size-1-vert:vert;
+if(!isFunction[y][x]&&bitIdx<allBytes.length*8){
+modules[y][x]=((allBytes[bitIdx>>3]>>(7-(bitIdx&7)))&1)==1;
+bitIdx++;
+}
+}
+}
+}
+var bestMask=0,bestPenalty=Infinity;
+for(var mask=0;mask<8;mask++){
+var dup=[];
+for(var r=0;r<size;r++){dup[r]=[];for(var c=0;c<size;c++)dup[r][c]=modules[r][c];}
+for(var r=0;r<size;r++){for(var c=0;c<size;c++){if(!isFunction[r][c]){
+switch(mask){
+case 0:dup[r][c]=dup[r][c]^((r+c)%2==0);break;
+case 1:dup[r][c]=dup[r][c]^(r%2==0);break;
+case 2:dup[r][c]=dup[r][c]^(c%3==0);break;
+case 3:dup[r][c]=dup[r][c]^((r+c)%3==0);break;
+case 4:dup[r][c]=dup[r][c]^((Math.floor(r/2)+Math.floor(c/3))%2==0);break;
+case 5:dup[r][c]=dup[r][c]^(r*c%2+r*c%3==0);break;
+case 6:dup[r][c]=dup[r][c]^((r*c%2+r*c%3)%2==0);break;
+case 7:dup[r][c]=dup[r][c]^((r*c%3+(r+c)%2)%2==0);break;
+}
+}}}
+var penalty=getPenaltyScore(dup,size);
+if(penalty<bestPenalty){bestPenalty=penalty;bestMask=mask;}
+}
+for(var r=0;r<size;r++){for(var c=0;c<size;c++){if(!isFunction[r][c]){
+switch(bestMask){
+case 0:modules[r][c]=modules[r][c]^((r+c)%2==0);break;
+case 1:modules[r][c]=modules[r][c]^(r%2==0);break;
+case 2:modules[r][c]=modules[r][c]^(c%3==0);break;
+case 3:modules[r][c]=modules[r][c]^((r+c)%3==0);break;
+case 4:modules[r][c]=modules[r][c]^((Math.floor(r/2)+Math.floor(c/3))%2==0);break;
+case 5:modules[r][c]=modules[r][c]^(r*c%2+r*c%3==0);break;
+case 6:modules[r][c]=modules[r][c]^((r*c%2+r*c%3)%2==0);break;
+case 7:modules[r][c]=modules[r][c]^((r*c%3+(r+c)%2)%2==0);break;
+}
+}}}
+return modules;
+}
+
+function getCharCountBits(mode,ver){
+if(ver>=1&&ver<=9)return 8;
+if(ver>=10&&ver<=26)return 16;
+return 16;
+}
+
+function drawFinderPattern(modules,isFunction,row,col){
+var size=modules.length;
+for(var r=-1;r<=7;r++){
+for(var c=-1;c<=7;c++){
+var rr=row+r,cc=col+c;
+if(rr<0||rr>=size||cc<0||cc>=size)continue;
+isFunction[rr][cc]=true;
+if(r>=0&&r<=6&&(c==0||c==6))modules[rr][cc]=true;
+else if(c>=0&&c<=6&&(r==0||r==6))modules[rr][cc]=true;
+else if(r>=2&&r<=4&&c>=2&&c<=4)modules[rr][cc]=true;
+else modules[rr][cc]=false;
+}
+}
+}
+
+function drawAlignmentPattern(modules,isFunction,version){
+var alignPos=getAlignmentPositions(version);
+for(var i=0;i<alignPos.length;i++){
+for(var j=0;j<alignPos.length;j++){
+var r=alignPos[i],c=alignPos[j];
+if(isFunction[r][c])continue;
+for(var dr=-2;dr<=2;dr++){
+for(var dc=-2;dc<=2;dc++){
+isFunction[r+dr][c+dc]=true;
+if(Math.abs(dr)==2||Math.abs(dc)==2||(dr==0&&dc==0))modules[r+dr][c+dc]=true;
+else modules[r+dr][c+dc]=false;
+}
+}
+}
+}
+}
+
+function getAlignmentPositions(version){
+if(version==1)return[];
+var positions=[6];
+var lastPos=version*4+10;
+var numAlign=Math.floor(version/7)+2;
+var step=Math.ceil((lastPos-6)/(numAlign-1));
+if(step%2!=0)step++;
+for(var pos=lastPos;pos>6;pos-=step)positions.unshift(pos);
+positions.sort(function(a,b){return a-b;});
+return positions;
+}
+
+function reedSolomonComputeRemainder(data,degree){
+var gen=reedSolomonGeneratePolynomial(degree);
+var result=[];
+for(var i=0;i<degree;i++)result.push(0);
+for(var i=0;i<data.length;i++){
+var factor=data[i]^result.shift();
+result.push(0);
+for(var j=0;j<gen.length;j++)result[j]^=gfMul(gen[j],factor);
+}
+return result;
+}
+
+function reedSolomonGeneratePolynomial(degree){
+var coeffs=[1];
+for(var i=0;i<degree;i++){
+var newCoeffs=[];
+for(var j=0;j<=coeffs.length;j++)newCoeffs.push(0);
+for(var j=0;j<coeffs.length;j++){
+newCoeffs[j]^=coeffs[j];
+newCoeffs[j+1]^=gfMul(coeffs[j],gfExp(i+j));
+}
+coeffs=newCoeffs;
+}
+return coeffs;
+}
+
+var gfExpTable=[];
+var gfLogTable=[];
+(function(){
+var x=1;
+for(var i=0;i<255;i++){
+gfExpTable[i]=x;
+gfLogTable[x]=i;
+x<<=1;
+if(x>=256)x^=0x11D;
+}
+gfExpTable[255]=gfExpTable[0];
+})();
+
+function gfExp(n){return gfExpTable[((n%255)+255)%255];}
+function gfMul(a,b){if(a==0||b==0)return 0;return gfExpTable[(gfLogTable[a]+gfLogTable[b])%255];}
+
+function getPenaltyScore(modules,size){
+var penalty=0;
+for(var r=0;r<size;r++){
+var runColor=modules[r][0],runLen=1;
+for(var c=1;c<size;c++){
+if(modules[r][c]==runColor)runLen++;
+else{if(runLen>=5)penalty+=runLen-2;runColor=modules[r][c];runLen=1;}
+}
+if(runLen>=5)penalty+=runLen-2;
+}
+for(var c=0;c<size;c++){
+var runColor=modules[0][c],runLen=1;
+for(var r=1;r<size;r++){
+if(modules[r][c]==runColor)runLen++;
+else{if(runLen>=5)penalty+=runLen-2;runColor=modules[r][c];runLen=1;}
+}
+if(runLen>=5)penalty+=runLen-2;
+}
+return penalty;
 }
 
 function showToast(msg,type){
